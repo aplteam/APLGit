@@ -1,0 +1,9 @@
+ {r}←Init
+ r←⍬
+ A←##.A←##.##.APLTreeUtils
+ F←##.F←##.##.FilesAndDirs
+ ##.Stash.A←##.##.APLTreeUtils
+ ##.Stash.F←##.##.FilesAndDirs
+ ##.Stash.U←##.U
+ ##.∆TestFlag←0
+⍝Done

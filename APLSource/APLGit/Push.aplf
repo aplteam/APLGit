@@ -1,0 +1,17 @@
+ {r}←Push y;project;branchName;folder
+⍝ Pushes all committed changes to GitHub.\\
+⍝ The user will be prompted.\\
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ r←⍬
+ :If 0=≢project←1 EstablishProject y
+     'Not an acre project'⎕SIGNAL 6
+ :Else
+     folder←2⊃project
+     branchName←GetCurrentBranch folder
+     :If 0=U.YesOrNo'You are on branch <',branchName,'> in ',folder,' - carry on?'
+         ∆TestFlag U.Show'No action taken'
+         :Return
+     :EndIf
+     ∆TestFlag U.Show folder U.RunGitCommand'push origin ',branchName
+ :EndIf
+⍝Done

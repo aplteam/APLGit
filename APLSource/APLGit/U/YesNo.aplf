@@ -1,0 +1,32 @@
+ bool←{default}YesNo question;answer;flag
+⍝ Asks user "question" and accepts only one of "yYNn" as input.
+⍝ Returns 1 for "y" and "Y" and 0 for "n" and "N".
+⍝ In case `default` is defined it must be one of "YyNn".
+⍝ That defines the default, meaning that if the user just presses <enter>
+⍝ without entering anything at all the default will take place.
+ default←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'default'
+ :If 0≠≢default
+     'Invalid left argument ("default")'⎕SIGNAL 11/⍨~(⊂default)∊'YyNn'
+ :EndIf
+ flag←0
+ :Repeat
+     :If 1=≢default
+         :If default∊'Yy'
+             ⎕←question,' (Y/n) '
+         :Else
+             ⎕←question,' (y/N) '
+         :EndIf
+     :Else
+         ⎕←question,' (y/n) '
+     :EndIf
+     answer←¯1↑⍞
+     :If answer∊'YyNn'
+         bool←answer∊'Yy'
+         flag←1
+     :ElseIf 0≠≢default
+         bool←default∊'Yy'
+         flag←1
+     :Else
+         ⎕←'Invalid input; try again'
+     :EndIf
+ :Until flag

@@ -1,0 +1,10 @@
+ R←Test_Bash_21(stopFlag batchFlag);⎕TRAP;list
+⍝ Exercise the function `ListBranches`.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ list←B.ListBranches ∆Folder1
+ →PassesIf(,⊂'* master')≡list
+
+ R←∆OK
+⍝Done

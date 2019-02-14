@@ -1,0 +1,11 @@
+ r←{x}Show(stashID full);project;cmd;folder
+⍝  Shows summary of the stash diffs. If `stashID` is empty it defaults to the latest one.\\
+⍝ `full` is a Boolean that defaults to 0.
+⍝ `x` can be a folder, empty (the current dir rules) or a space (starting with `#`).
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ project←EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ cmd←'stash show ',stashID,' ',full/'-p'
+ r←folder U.RunGitCommand cmd
+⍝Done

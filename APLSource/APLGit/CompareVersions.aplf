@@ -1,0 +1,20 @@
+ {r}←{x}CompareVersions name;project;folder;space;log;n
+⍝ Takes the name of an APL object and displayes a GUI with all commits that object was changed by.
+⍝ The user may then compare any two of them as many times as she likes.
+⍝ For what `x` can actually be see `EstablishProject`.\\
+⍝ Returns always `⍬`.\\
+ r←⍬
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ project←EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ (space folder)←2↑project
+ 'Object not found'⎕SIGNAL 6/⍨0=⎕NC name
+ :If 0=≢log←folder ChangeLog name
+     ⎕←'No changes found for ',name
+ :Else
+     log←'n/a' 'n/a' 'n/a' '--- The workspace version ---',[1]log
+     n←GUI_CompareVersions.Create name log
+     n.∆Folder←folder
+     ⎕DQ n.∆Form
+ :EndIf
+⍝Done

@@ -1,0 +1,48 @@
+ {r}←{x}ShowAllChangesinBranch branches;branch1;branch2;project;folder;allHashes;compareWith;firstBranchHash;list;modified;thisObj;name;header;now;tfn1;tfn2
+⍝ Allows the inspection of all changes in the `branchName` compared with `master` since the start of development.
+⍝ For this the user command ]CompareFiles is used.\\
+⍝ If `branchName` is empty the current branch is assumed. Of course the current branch **must not** be "master".\\
+⍝ In case `branches` is empty it defaults to "master" and "dev".
+⍝ If it is not empty it must be a two-element vector with two branch names.\\
+⍝ For what `x` can actually be see `EstablishProject`.\\
+⍝ Returns always `⍬`.\\
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ r←⍬
+ tfn1←tfn2←''
+ project←EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ :If 0=≢branches
+     (branch1 branch2)←'master' 'dev'
+ :Else
+     (branch1 branch2)←branches
+ :EndIf
+ 'This function MUST NOT be performed on "master"'⎕SIGNAL 11/⍨'master'≡branch2
+ firstBranchHash←⊃¯1↑folder LogForBranch branch2
+ allHashes←,1↑[2]Log folder
+ compareWith←(1+allHashes⍳⊂firstBranchHash)⊃allHashes
+ list←folder DiffBetweenBranches branch1 branch2
+ :If 0=+/modified←list[;1]≡¨⊂,'M'
+     ∆TestFlag U.Show'No changes found'
+     :Return
+ :EndIf
+ tfn1←'txt'F.GetTempFilename2''
+ tfn2←'txt'F.GetTempFilename2''
+ :For thisObj :In modified⌿list[;2]
+     name←⊃⎕SE.acreAPI.itemname thisObj
+     header←{↓⍵,[0.5]'='⍴⍨⍴⍵}name
+     :If (⎕NC name)∊3 4 9           ⍝ 2    : Vars not (yet?!) supported
+         :If 3 4∊⍨⎕NC name
+             now←header,⎕NR name
+         :ElseIf 9=⎕NC name
+             now←header,⎕SRC⍎name
+         :ElseIf 2=⎕NC name
+             ⍝TODO⍝ For the time being variables are ignored.
+         :EndIf
+         'append'A.WriteUtf8File tfn1(header,folder U.RunGitCommand'show ',compareWith,':',thisObj)
+         'append'A.WriteUtf8File tfn2 now
+     :EndIf
+ :EndFor
+ {}⎕SE.UCMD'CompareFiles "',tfn1,'" "',tfn2,'" -ro1=1 -ro2=1'
+ F.DeleteFile¨tfn1 tfn2
+⍝Done

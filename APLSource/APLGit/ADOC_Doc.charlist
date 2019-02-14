@@ -1,0 +1,84 @@
+# APLGit
+
+## Philosophy
+
+All commands an APL programmer usually needs in order to work on a project by following the
+[OneFlow](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow) workflow are offered by GitBash.
+
+The purpose is to hide the enormous complexity of Git by offering just the commands needed to work according to this
+workflow. Same for the options.
+
+
+## Overview
+
+This workspace comes with a wide range of functions supporting the APL programmer when dealing with both acre and Git.
+
+
+## Assumptions / preconditions
+
+First of all it assumes that you are using GitHub, and that the Git Bash is installed and available on your PC.
+
+All commands that refer to a project assume that the programmer refers to a default project if none is specified. 
+For example, `GetAllBranches` prints a list of all branches, local and remote ones, to the session. If no project is 
+specified then the current directory rules.
+
+Note that if you do not set the current directory to where your project lives, or in case you have opened more than one
+project and you don't want the Git command to be issued on the one that is associated with the current directory, then
+naturally you have to specify the directory or the space of the project you are interested in.
+
+So by specifying a path as right argument `GetAllBranches` will investigate and report on that project. 
+
+However, instead of passing a folder you can also pass a space. This is recognized by `#` being the first character.
+
+Another option is to specify `'?'` instead of a folder/space: it will then present all currently opened acre projects 
+that are Git-managed and allow the user to select one of them.    
+
+For installation and usage see the document `Install.html`.
+           
+
+## Stashes
+
+Stashing allows you to take any yet uncommitted changes (and as an option also all untracked files) away from the 
+working directory and save them somewhere you don't need to worry about with a name you caneasily connect to what
+you've done / worked on / changed in the working directory.
+
+Since stashes do not really belong to the aformentioned work flow the are separated. That means that in the workspace 
+they are to be found in the sub-namespace `Stash`. This namespace has its own `Public` function.
+
+
+## Examples
+
+This is a typical sequence:
+
+```
+]acre.CreateProject /somewhere/myproject #.MyProject    ⍝ Opens #.MyProject
+G←⎕SE.APLGit
+G.SetCurrentDir #.MyProject                             ⍝ Force the current dir to be the project's path
+G.Initialize                                            ⍝ Make it also a Git repository
+G.CreateBranch 'develop'                                ⍝ Create a branch "develop" for the project #.MyProject
+]acre.OpenProject /somewhere/OtherProject               ⍝ Opens #.OtherProject.
+G.GetAllBranches #.OtherProject                         ⍝ Check all branches of #.OtherProject
+]git.Checkout 'develop'                                 ⍝ Make "develop" the current branch of #.MyProject; must already exist
+⍝ do some work                                          ⍝ ...
+G.Commit 'Issue #134 fixed'                             ⍝ Commit the changes in #.MyProject
+G.Stash.save 'try_1' /somewhere/Otherproject            ⍝ Stash away stuff in the working dir of #.Otherproject
+G.Push                                                  ⍝ Push the changes made on #.MyProject to GitHub
+⍝ G.CreateRelease                                       ⍝ Not available yet; one day...
+```
+
+
+## Misc
+
+* If you are in need for doing something that is not supported by APLGit then you can use `U.RunGitCommand` which allows
+  you to do literally anything you want. However, use with care: you must know what you are doing.  
+  
+  The same holds true when you start a Git Bash in the current directory with `APLGit.Bash` of course.
+  
+  
+## How to start
+
+
+  
+----
+
+This project lives on <https://github.com/aplteam/APLGit>. It was created by Kai Jaeger in 2019.

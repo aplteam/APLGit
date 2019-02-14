@@ -1,0 +1,28 @@
+ {r}←MergeWithMaster y;project;folder;currentBranch;noOf;gitMsg;space
+⍝ Merge `currentBranch` (which **must not** be "master") with the master.\\
+⍝ Allows user to squash as many commits as she wants, and asks for a message in the rpocess.\\
+⍝ Note that `currentBranch` must not be dirty.\\
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ 'You MUST provide a meaningful message'⎕SIGNAL 11/⍨0=≢msg
+ project←EstablishProject x
+ 'No open acre projects'⎕SIGNAL 6/⍨0=≢project
+ (space folder)←project[1 2]
+ currentBranch←GetCurrentBranch folder
+ 'This command MUST NOT be executed in the "master" currentBranch'⎕SIGNAL 11/⍨'master'≡currentBranch
+ ('Branch "',currentBranch,'" is dirty!')⎕SIGNAL 11/⍨IsDirty folder
+ noOf←Squash folder
+ (⍕noOf),' commit',((1≠noOf)/'s'),' squashed'
+ ⎕←⊃folder U.RunGitCommand'fetch origin master:master'
+ :If ~IsRebased folder
+     11 ⎕SIGNAL⍨'Not merged! ("',currentBranch,'" not rebased to master)'
+ :EndIf
+ ⎕←⊃folder U.RunGitCommand'checkout master'
+ gitMsg←⊃folder U.RunGitCommand'merge --ff-only ',currentBranch
+ 'Fast-forward merge impossible, settle for ordinary merge!'⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}gitMsg
+ ⎕←⊃folder DeleteBranch currentBranch
+ ⎕←⊃Push folder
+ ⎕SE.UCMD'acre.Close ',space
+ #.⎕EX space
+ ⎕SE.UCMD'acre.OpenProject ',folder,' ',space
+⍝Done

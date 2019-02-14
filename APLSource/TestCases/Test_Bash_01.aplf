@@ -1,0 +1,16 @@
+ R←Test_Bash_01(stopFlag batchFlag);⎕TRAP;proj_1;proj_2
+⍝ Check whether the two acre projects we are going to deal with are opened and are Git repositories.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ →PassesIf F.IsDir ∆Folder1
+ →PassesIf F.IsDir ∆Folder2
+
+ →PassesIf F.IsDir ∆Folder1,'/.acre'
+ →PassesIf F.IsDir ∆Folder2,'/.acre'
+
+ →PassesIf F.IsDir ∆Folder1,'/.git'
+ →PassesIf F.IsDir ∆Folder2,'/.git'
+
+ R←∆OK
+⍝Done

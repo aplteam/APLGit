@@ -1,0 +1,29 @@
+ {r}←{x}CheckOut branchName;project;folder;space;allBranches;ind;buff
+⍝ Close the acre project, overwrites the working directory with `branchName` and then
+⍝ re-opens the acre project.\\
+⍝ Note that branch names are case insensitive.\\
+⍝ Throws an error in case the working directory is dirty.\\
+⍝ For what `x` can actually be see `EstablishProject`.\\
+ r←⍬
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ '"branchName" must not be empty'⎕SIGNAL 11/⍨0=≢branchName
+ :If 0≠≢project←EstablishProject x
+     'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+     (space folder)←project[1 2]
+     'Uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
+     allBranches←1 ListBranches folder
+     :If '?'≡branchName
+         →(0=≢ind←U.Select 2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches)/0
+         branchName←ind⊃2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches
+     :Else
+         'Branch does not exist'⎕SIGNAL 6/⍨~(⊂branchName)∊2↓¨allBranches
+     :EndIf
+     ⎕←'Closing acre project ',space,'...'
+     {}⎕SE.UCMD'acre.Close ',space
+     ⎕←'Checking out "',branchName,'"...'
+     buff←folder U.RunGitCommand'checkout ',branchName
+     r←∆TestFlag U.Show buff
+     #.⎕EX space
+     ⎕←⎕SE.UCMD'acre.OpenProject ',folder
+ :EndIf
+⍝Done

@@ -1,0 +1,9 @@
+ R←Test_Bash_22(stopFlag batchFlag);⎕TRAP;list
+⍝ Exercise the function `ListChanges`.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ list←B.ListChanges ∆Folder1
+
+ R←∆OK
+⍝Done

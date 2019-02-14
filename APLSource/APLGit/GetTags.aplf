@@ -1,0 +1,15 @@
+ r←GetTags y;project;folder
+⍝ Returns a matrix with 0 to many rows and three columns:
+⍝ 1. The tags as such
+⍝ 2. Numeric three-element vector per tag (version number)
+⍝ 3. Character representation of the numeric version number\\
+⍝ The matrix is sorted from latest to oldest.\\
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     r←folder U.RunGitCommand'tag'
+     r←r,[1.5]U.FormatVersion¨r
+     r,←U.FormatVersion¨r[;2]
+     r←r[⍒↑r[;2];]
+ :EndIf
+⍝Done

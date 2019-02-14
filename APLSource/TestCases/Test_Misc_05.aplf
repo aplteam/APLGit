@@ -1,0 +1,21 @@
+ R←Test_Misc_05(stopFlag batchFlag);⎕TRAP;r;was;filename
+⍝ Check whether setting the default dir has the desired effect.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ was←##.GitBash.∆DefaultDir
+ ##.GitBash.⎕EX'∆DefaultDir'
+ r←B.StatusShort''
+ r←B.SetDefaultDirectory ∆Folder1
+ →GoToTidyUp r≢∆Folder1
+ filename←∆Folder1,'/file4.txt'
+ A.WriteUtf8File filename('r←Hello2' 'r←''Milkyway''')
+ r←B.StatusShort''
+ F.DeleteFile filename filename
+ →GoToTidyUp(,⊂'?? file4.txt')≢,r
+
+ R←∆OK
+
+∆TidyUp:
+ ##.GitBash.∆DefaultDir←was
+⍝Done

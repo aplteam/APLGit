@@ -1,0 +1,12 @@
+ {r}←{x}Save msg;project;cmd;folder;id;msg
+⍝ `msg` might be empty or a simple character vector: a message attached to that stash.
+⍝ `x` can be a folder, empty (the current dir rules) or a space (starting with `#`).
+ 'Invalid: "msg"'⎕SIGNAL 11/⍨1≠≡,msg
+ project←##.EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ cmd←'stash save'
+ cmd,←(0<≢msg)/' -message ',msg
+ cmd,←' --include-untracked'
+ r←folder U.RunGitCommand cmd
+⍝Done

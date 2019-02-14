@@ -1,0 +1,14 @@
+ r←{x}Apply stashID;project;cmd;folder
+⍝ Applies `stashID` to the current branch. In case `stashID` is empty the last stash is taken.\\
+⍝ Note that in case the working directory is clean this brings you back to exactly the same position
+⍝ you originally issued the `push` command, meaning that what was staged before will be staged again.
+⍝ In other words, it restores what was saved under `stashID`.\\
+⍝ `Apply` leaves the stash untouched; see `Pop` for doing what `Apply` does plus deleting the stash.\\
+⍝ `x` can be a folder, empty (the current dir rules) or a space (starting with `#`).
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ project←##.EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ cmd←'stash apply --index ',stashID
+ r←folder U.RunGitCommand cmd
+⍝Done

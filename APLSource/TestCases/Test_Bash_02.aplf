@@ -1,0 +1,27 @@
+ R←Test_Bash_02(stopFlag batchFlag);⎕TRAP;url_1;url_2;r
+⍝ Exercise these functions: `GetCurrentBranch`, `ListBranches`, `CreateBranch`, `DeleteBranch`, `Checkout`
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ r←#.Proj_1 B.CheckOut'master'
+ →PassesIf 0=≢r
+ {}#.Proj_1 B.DeleteBranch'dev'  ⍝ Just in case
+ #.Proj_1 B.CreateBranch'dev'
+ →PassesIf'dev'≡B.GetCurrentBranch #.Proj_1
+ #.Proj_1 B.CreateBranch'to_be_deleted'
+ →PassesIf'to_be_deleted'≡B.GetCurrentBranch #.Proj_1
+ →PassesIf 3=≢B.ListBranches #.Proj_1
+ r←#.Proj_1 B.DeleteBranch'to_be_deleted'
+ →PassesIf'error: Cannot delete branch'{⍺≡(⍴⍺)↑⍵}∊r
+ r←#.Proj_1 B.CheckOut'dev'
+ →PassesIf 0=≢r
+ r←#.Proj_1 B.DeleteBranch'to_be_deleted'
+ →PassesIf'Deleted branch to_be_deleted'{⍺≡(⍴⍺)⍴⍵}⊃r
+ →PassesIf 2=≢B.ListBranches #.Proj_1
+ r←#.Proj_1 B.CheckOut'master'
+ →PassesIf 0=≢r
+ r←#.Proj_1 B.DeleteBranch'dev'
+ →PassesIf∨/'Deleted branch dev'⍷∊r
+
+ R←∆OK
+⍝Done

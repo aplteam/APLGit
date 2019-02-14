@@ -1,0 +1,25 @@
+ R←Test_ZZZ_900(stopFlag batchFlag);⎕TRAP;list;bodies;hits;covered;uncovered;pattern
+⍝ Check whether all functions in GitBash and GitBash.Stash are covered by test functions.
+⍝ If there are any that are not then they are reported to the session.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ list←{⍵↑⍨¯1+⍵⍳' '}¨##.APLTreeUtils.dlb↓L''
+ bodies←⎕NR¨list
+ ⍝ In this case the function names are preceded bei "B." or "S." followed by an uppercase letter followed by letters:
+ pattern←'\b[BS]\.[A-Z][A-Za-z.]*'
+ hits←{pattern ⎕S 2 0 1⊣'''[^'']*' '⍝[^$]*'⎕R'' ''⊣⍵}¨1↓¨bodies
+ (bodies hits)←(0<≢¨hits)∘⌿¨bodies hits
+ covered←2↓¨∪⊃,/hits{⍵∘{⍵[3]↑⍵[2]↓(1+⍵[1])⊃⍺}¨⍺}¨1↓¨bodies
+ uncovered←(B.Public,B.Stash.Public)~covered,⊂'Init'
+ :If 0=≢uncovered
+     R←∆OK
+ :Else
+     ⎕←'Functions not covered by any test cases:'
+     ⎕←'----------------------------------------'
+     ⎕←' ',⍪uncovered
+     →FailsIf 1
+ :EndIf
+
+ R←∆OK
+⍝Done

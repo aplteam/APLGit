@@ -1,0 +1,7 @@
+ GetProjectFromPath←{
+ ⍝ Takes the path of an opened acre project and returns its name.
+     l←⎕SE.UCMD'acre.Projects'
+     row←(F.NormalizePath l[;2])⍳⊂F.NormalizePath ⍵,(~(¯1↑⍵)∊'/\')/'/'
+     row>≢l:'Path does not point to any opened acre project'⎕SIGNAL 11
+     1⊃l[row;]
+ }

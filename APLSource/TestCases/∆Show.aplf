@@ -1,0 +1,5 @@
+ {r}←∆Show msg
+ r←⍬
+ ⎕←⍪⍣(~0 1∊⍨≡msg)⊣msg
+ {}⍞,⍞←'(Press <enter> when ready)'
+⍝Done

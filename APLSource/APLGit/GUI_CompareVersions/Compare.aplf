@@ -1,0 +1,53 @@
+ {r}←Compare n;r1;r2;tempfile1;tempfile2;hash1;hash2;body1;body2;row1;row2;bool;parent
+ r←0
+ (r1 r2)←↓⍉n.Grid.Values[;1 2]
+ :If (0=+/r1)∨(0=+/r2)
+     'Error: cannot compare'##.GUI_Show.ErrMsg'Select one row in column 1 and one row in column 2!'
+ :ElseIf =/{⊃⍵/⍳,⍴⍵}¨r1 r2
+     'Error: cannot compare'##.GUI_Show.ErrMsg'Select different rows!'
+ :Else
+     tempfile1←##.F.GetTempFilename2''
+     tempfile2←##.F.GetTempFilename2''
+     (row1 row2)←{⊃⍵/⍳⍴,⍵}¨↓⍉n.Grid.Values[;1 2]
+     :If 1=row1
+         body1←{9=⎕NC ⍵:⎕SRC⍎⍵ ⋄ ⎕NR ⍵}n.∆Name
+     :Else
+         hash1←⊃n.Grid.Values[row1;3]
+         :Trap 11
+             body1←n.∆Folder ##.GetRevision n.∆Name hash1
+         :Else
+             'Failure to get revision'##.GUI_Show.ErrMsg('Getting the revision for "',hash1,'" failed!')'Details:'(1⊃⎕DM)
+             ##.F.DeleteFile tempfile1 tempfile2
+             :Return
+         :EndTrap
+     :EndIf
+     :If 1=row2
+         body2←{9=⎕NC ⍵:⎕SRC⍎⍵ ⋄ ⎕NR ⍵}n.∆Name
+     :Else
+         hash2←⊃n.Grid.Values[row2;3]
+         :Trap 11
+             body2←n.∆Folder ##.GetRevision n.∆Name hash2
+         :Else
+             'Failure to get revision'##.GUI_Show.ErrMsg('Getting the revision for "',hash2,'" failed!')'Details:'(1⊃⎕DM)
+             ##.F.DeleteFile tempfile1 tempfile2
+             :Return
+         :EndTrap
+     :EndIf
+     ##.A.WriteUtf8File tempfile1 body1
+     ##.A.WriteUtf8File tempfile2 body2
+     bool←⎕SE.UCMD'CompareFiles ''',tempfile1,''' ''',tempfile2,''' -ro1=',(⍕row1≠1),' -ro2=',(⍕row2≠1)
+     :If 1∊row1,row2
+     :AndIf 0<+/bool
+     :AndIf 'Save changes'##.GUI_Show.YesOrNo'You''ve changed the workspace version - fix and tell acre?'
+         (body1 body2)←{##.A.ReadUtf8File ⍵}¨tempfile1 tempfile2
+         parent←⍎{⍵↓⍨-'.'⍳⍨⌽⍵}n.∆Name
+         :If 9=⎕NC n.∆Name
+             parent.⎕FIX({⍵/⍳⍴,⍵}bool)⊃body1 body2
+         :Else
+             parent.⎕FX({⍵/⍳⍴,⍵}bool)⊃body1 body2
+         :EndIf
+         {}⎕SE.UCMD'acre.SetChanged ',n.∆Name
+     :EndIf
+     ##.F.DeleteFile tempfile1 tempfile2
+ :EndIf
+⍝Done

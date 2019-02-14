@@ -1,0 +1,27 @@
+ r←{short}Log y;project;folder;buff
+⍝ Returns a two-item vector. Each items contains a (possibly empty) matrix, the first item
+⍝ with commit hashes and the second one with the associated messages.\\
+⍝ By default r is a matrix with four columns:
+⍝ 1. Hash of the commit
+⍝ 2. User ID
+⍝ 3. Timestamp
+⍝ 4. Message\\
+⍝ By specifyingmthe optionsal command
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     short←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'short'
+     :If short
+         r←↑folder U.RunGitCommand'log --oneline'
+         r←(1,1↓∧⌿' '=r)⊂r
+     :Else
+         buff←folder U.RunGitCommand'log --pretty=format:"',U.GetLogFormat,'"'
+         (1⊃buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+         :If 0=≢buff
+             r←0 4⍴''
+         :Else
+             r←↑U.FormatLog buff
+         :EndIf
+     :EndIf
+ :EndIf
+⍝Done

@@ -1,0 +1,22 @@
+ R←Test_Bash_04(stopFlag batchFlag);⎕TRAP;proj_1;proj_2;r;folders
+⍝ Exercise the `Bash` function
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+
+ :If batchFlag
+
+     R←∆NoBatchTest
+
+ :Else
+
+     R←∆Failed
+     ∆Show'This test will attempt to open four Bash shells, two on #.Proj_1 & two on #.Proj_1.'
+     folders←2⊃¨B.EstablishProject¨#.Proj_1 #.Proj_2
+     r←B.Bash¨#.Proj_1 #.Proj_2,folders
+     →PassesIf 1 ∆YesOrNo'Can you confirm that?'
+
+     R←∆OK
+
+∆TidyUp:
+
+ :EndIf
+⍝Done

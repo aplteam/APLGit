@@ -1,0 +1,7 @@
+ r←ListDeleted y;project;folder
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     r←⍪folder U.RunGitCommand'ls-files -d'
+ :EndIf
+⍝Done

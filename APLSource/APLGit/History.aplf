@@ -1,0 +1,7 @@
+ History
+⍝ * 0.3.0\\
+⍝   * `Init` moved into `U`.
+⍝ * 0.2.0\\
+⍝   * `EstablishProject` now returns a useful result for a non-acre folder.
+⍝ * 0.1.0\\
+⍝   First release used for real work!

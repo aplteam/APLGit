@@ -1,0 +1,11 @@
+ {r}←{x}DeleteBranch branchName;folder;project
+⍝ Deletes branch `branchName`.\\
+⍝ Note that branch names are case insensitive.\\
+⍝ For what `x` can actually be see `EstablishProject`.\\
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ project←EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ 'You must specify a branch name'⎕SIGNAL 6/⍨0=≢branchName
+ r←folder U.RunGitCommand'branch -D ',branchName
+⍝Done

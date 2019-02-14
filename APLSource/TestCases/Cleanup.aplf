@@ -1,0 +1,11 @@
+ Cleanup
+ B.∆TestFlag←0
+ :If 0<⎕NC'∆Folder1'
+     F.RmDir¨∆Folder1 ∆Folder2
+ :EndIf
+ ⎕EX¨'AF'
+ ⎕EX¨'∆Folder1' '∆Folder2'
+ #.⎕EX¨'Proj_1' 'Proj_2'
+ B.⎕EX'∆DefaultDir'
+ Initial
+⍝Done

@@ -1,0 +1,10 @@
+ {r}←Fetch y;folder;project
+⍝ Fetch latest changes from GitHub
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ r←⍬
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     ∆TestFlag U.Show folder U.RunGitCommand'fetch origin'
+     ∆TestFlag U.Show⊃folder U.RunGitCommand'diff --name-status master origin/master'
+ :EndIf
+⍝Done

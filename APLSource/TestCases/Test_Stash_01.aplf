@@ -1,0 +1,69 @@
+ R←Test_Stash_01(stopFlag batchFlag);⎕TRAP;proj_1;proj_2;r;folders;project;folder;S
+⍝ Exercise the Stash functions: `Save`, `List`, `Apply`, `Pop`
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+
+ R←∆Failed
+
+ S←##.GitBash.Stash
+ project←B.EstablishProject #.Proj_1
+ folder←2⊃project
+ :Trap 6
+     {}folder B.CheckOut'dev'
+     →FailsIf 1
+ :Else
+     →PassesIf'Branch does not exist'≡⊃⎕DMX.DM
+ :EndTrap
+ r←folder B.CreateBranch'dev'
+ →GoToTidyUp 0≠≢r
+ →GoToTidyUp'dev'≢B.GetCurrentBranch folder
+ →GoToTidyUp 0≠B.IsDirty folder
+ #.APLTreeUtils.WriteUtf8File(folder,'file1.txt')'Hello world'
+ #.APLTreeUtils.WriteUtf8File(folder,'file2.txt')'42'
+ folder B.Add folder,'file2.txt'    ⍝ Make sure this one is tracked
+ →GoToTidyUp 1≠B.IsDirty folder
+ →GoToTidyUp 0≠≢S.List folder
+ r←folder S.Save'Foo'
+ →GoToTidyUp 0≠B.IsDirty folder
+ →GoToTidyUp 0≠≢B.StatusShort folder
+
+ r←folder B.CreateBranch'dev_2'
+ →GoToTidyUp 0≠≢r
+ →GoToTidyUp 0≠B.IsDirty folder
+ r←folder S.Apply''
+ →GoToTidyUp 1≠B.IsDirty folder
+ →GoToTidyUp(2 2⍴'A ??')≢2↑[2]↑,B.StatusShort folder
+ →GoToTidyUp 1≠≢S.List folder
+ r←folder S.Save''
+ →GoToTidyUp 0≠B.IsDirty folder
+ →GoToTidyUp 0≠≢B.StatusShort folder
+ →GoToTidyUp 2≠≢S.List folder
+ r←B.CheckOut'dev'
+ →GoToTidyUp 0≠B.IsDirty folder
+ →GoToTidyUp 0≠≢B.StatusShort folder
+ r←folder S.Pop'stash@{1}'
+ →GoToTidyUp'On branch dev_2'≢1⊃r
+ →GoToTidyUp 1≠B.IsDirty folder
+ →GoToTidyUp(2 2⍴'A ??')≢2↑[2]↑,B.StatusShort folder
+ →PassesIf 1=≢S.List folder
+ #.APLTreeUtils.WriteUtf8File(folder,'file3.txt')'Hello universe'
+ r←folder S.Save'Start new branch'
+ →GoToTidyUp 0≠B.IsDirty folder
+ r←folder S.Branch'Poo' 'stash@{0}'
+ →GoToTidyUp'Switched to a new branch ''Poo'''≢1⊃r
+ →GoToTidyUp(3 2⍴'A ????')≢2↑[2]↑,B.StatusShort folder
+ →GoToTidyUp~∧/F.IsFile folder∘,¨'file1' 'file2' 'file3',¨⊂'.txt'
+ r←folder S.Save'Goo'
+ →GoToTidyUp 2≠≢S.List folder
+ r←folder S.Drop''
+ →GoToTidyUp 1≠≢S.List folder
+ r←1 S.Clear folder
+ →GoToTidyUp 0≠≢S.List folder
+
+ R←∆OK
+
+∆TidyUp:
+ {}folder B.CheckOut'master'
+ {}folder B.DeleteBranch'dev'
+ {}folder B.DeleteBranch'dev_2'
+ {}1 S.Clear folder
+⍝Done

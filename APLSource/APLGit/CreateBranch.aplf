@@ -1,0 +1,19 @@
+ {r}←{x}CreateBranch branchName;project;folder
+⍝ Creates a new branch.\\
+⍝ Note that branch names are case insensitive.\\
+⍝ Overwrites the working directory, so it forces you to either commit or stage first by throwing
+⍝ an error in case the working directory is dirty.\\
+⍝ Blanks in `branchName` are replaced by hyphens.\\
+⍝ For what `x` can actually be see `EstablishProject`.\\
+ r←⍬
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ :If 0≠≢project←EstablishProject x
+     folder←2⊃project
+     'You must specify a branch name'⎕SIGNAL 6/⍨0=≢branchName
+     'There are uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
+     ((' '=branchName)/branchName)←'-'
+     'Branch already exists'⎕SIGNAL 11/⍨(⊂branchName)∊2↓¨1 ListBranches folder
+     r←∆TestFlag U.Show↑folder U.RunGitCommand'checkout -b ',branchName,' master'
+     ∆TestFlag U.Show acre.RefreshProject folder
+ :EndIf
+⍝Done

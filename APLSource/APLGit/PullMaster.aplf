@@ -1,0 +1,19 @@
+ {r}←PullMaster y;project;folder;currentBranch;buff
+⍝ Get latest changes in "master" from remote repository no matter what the current branch is.
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ r←⍬
+ project←EstablishProject y
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ 'Uncommitted changes.'⎕SIGNAL 11/⍨IsDirty folder
+ currentBranch←GetCurrentBranch folder
+ :If currentBranch≢'master'
+     r,←⊂folder U.RunGitCommand'fetch origin master:master'
+ :Else
+     r,←⊂buff←⊃folder U.RunGitCommand'fetch origin'
+     ∆TestFlag U.Show buff
+     r,←⊂buff←folder U.RunGitCommand'merge --ff-only origin/master'
+     ∆TestFlag U.Show buff
+ :EndIf
+ r←⍪r
+⍝Doe

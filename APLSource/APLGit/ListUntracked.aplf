@@ -1,0 +1,8 @@
+ r←ListUntracked y;folder;project;res
+⍝ Returns a matrix with n rows and 1 column with all untracked files.\\
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     r←⍪folder U.RunGitCommand'ls-files -o --exclude-standard'
+ :EndIf
+⍝Done

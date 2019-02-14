@@ -1,0 +1,10 @@
+ r←{x}Drop stashID;project;cmd;folder
+⍝ Deletes the specified or (if empty) the latest stash. There is no Undo!\\
+⍝ `x` can be a folder, empty (the current dir rules) or a space (starting with `#`).
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'x'
+ project←##.EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ cmd←'stash drop ',stashID
+ r←folder U.RunGitCommand cmd
+⍝Done

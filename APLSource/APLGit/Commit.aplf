@@ -1,0 +1,20 @@
+ r←{x}Commit msg;nm;m;folder;project⍝
+⍝ Commits all changes.\\
+⍝ If the current branch is "master" then `msg` **_must not_** be empty and should carry a meaningful message.
+⍝ Otherwise `msg` may be empty but will become three dots (`...`).\\
+⍝ For what `x` can actually be see `EstablishProject`.\\
+⍝ Returns a two-element vector:
+⍝ 1. The name of the branch
+⍝ 1. The hash of the commit as a simple text string
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ project←EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ 'There are no pending changes / untracked files'⎕SIGNAL 11/⍨0=≢StatusShort folder
+ nm←'master'≢GetCurrentBranch folder
+ 'You must provide a menaningful message in the "master" branch'⎕SIGNAL 11/⍨(0=nm)∧0=≢msg
+ m←msg,(nm∧0=≢msg)/'...'
+ {}folder U.RunGitCommand'add --all'
+ r←⊃folder U.RunGitCommand'commit -m "',m,'"'
+ r←' 'A.Split{1↓¯1↓⍵/⍨{⍵∨≠\⍵}⍵∊'[]'}r
+⍝Done

@@ -1,0 +1,17 @@
+ r←{x}DiffBetweenBranches branches;branch1;branch2;buff;folder;project
+⍝ Lists all file differences between two branches.\\
+⍝ In case `branches` is empty it defaults to "master" and "dev".
+⍝ If it is not empty it must be a two-element vector with two branch names.\\
+⍝ For what `x` can actually be see `EstablishProject`.\\
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ project←EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ :If 0=≢branches
+     (branch1 branch2)←'master' 'dev'
+ :Else
+     (branch1 branch2)←branches
+ :EndIf
+ buff←folder U.RunGitCommand'diff --name-status ',branch1,'..',branch2
+ r←↑{i←⍵⍳' ' ⋄ ((i-1)↑⍵)(A.dlb i↓⍵)}¨buff
+⍝Done

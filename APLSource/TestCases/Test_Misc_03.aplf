@@ -1,0 +1,11 @@
+ R←Test_Misc_03(stopFlag batchFlag);⎕TRAP;r
+⍝ Exercise functions `GetGitProjects`
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ r←B.GetGitProjects''
+ →PassesIf 3=≢r
+
+ R←∆OK
+
+⍝Done

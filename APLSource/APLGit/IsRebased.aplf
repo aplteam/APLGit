@@ -1,0 +1,10 @@
+ r←IsRebased y;project;folder;branchCommits;masterCommits
+⍝ Checks whether a rebase has been issued.
+⍝ For what `x` can actually be see `EstablishProject`.\\
+ project←EstablishProject y
+ 'No open acre projects'⎕SIGNAL 6/⍨0=≢project
+ folder←2⊃project
+ branchCommits←folder GetCommits''
+ masterCommits←folder GetCommits'master'
+ r←(1⊃masterCommits.Hash)≡(2⊃branchCommits.Hash)
+⍝Done

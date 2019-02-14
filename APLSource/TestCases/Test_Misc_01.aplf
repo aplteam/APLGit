@@ -1,0 +1,28 @@
+ R←Test_Misc_01(stopFlag batchFlag);⎕TRAP;proj_1;proj_2;U;r;was;G
+⍝ Check whether `EstablishProject` works as expected (except '?' as argument).
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ G←##.GitBash
+ U←##.GitBash.U
+ was←{0=U.##.⎕NC'∆DefaultDir':⍬ ⋄ U.##.∆DefaultDir}⍬
+ U.##.⎕EX'∆DefaultDir'
+ →GoToTidyUp 0≠≢U.SetDefaultDir''                         ⍝ None defined yet
+ r←U.SetDefaultDir #.Proj_1
+ →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓r)
+ →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓B.∆DefaultDir)
+ r←G.EstablishProject''
+ →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓2⊃r)
+ U.##.∆DefaultDir←''
+ r←1 G.EstablishProject''
+ →GoToTidyUp≢/F.EnforceSlash¨#.FilesAndDirs.PWD(¯1↓2⊃r)
+ r←U.SetDefaultDir ∆Folder1
+ →GoToTidyUp≢/F.EnforceSlash¨∆Folder1 r
+ r←G.EstablishProject ∆Folder2
+ →GoToTidyUp≢/F.EnforceSlash¨∆Folder2(¯1↓2⊃r)
+
+ R←∆OK
+
+∆TidyUp:
+ :Trap 0 ⋄ {}B.SetDefaultDirectory was ⋄ :EndTrap
+⍝Done

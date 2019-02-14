@@ -1,0 +1,52 @@
+ R←Test_Bash_03(stopFlag batchFlag);⎕TRAP;url_1;url_2;r;project;folder;status
+⍝ Exercise these functions: `IsDirty`, `Commit`, `Status`, `StatusShort`, `CheckOut`, `GetTags`, `Log`, `DeleteBranch`
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ project←B.EstablishProject #.Proj_1
+ folder←2⊃project
+ :Trap 6
+     {}folder B.CheckOut'dev'
+     →FailsIf 1
+ :Else
+     →PassesIf'Branch does not exist'≡⊃⎕DMX.DM
+ :EndTrap
+
+ r←folder B.CreateBranch'HotFix_512'
+ →PassesIf 0=≢r
+ →PassesIf'HotFix_512'≡B.GetCurrentBranch folder
+ →PassesIf 0=B.IsDirty folder
+ A.WriteUtf8File(folder,'file1.txt')'Hello world in HotFix_512'
+ →PassesIf 1=B.IsDirty folder
+ r←folder B.Commit''
+ r←folder B.CreateBranch'dev'
+ →PassesIf 0=≢r
+ →PassesIf'dev'≡B.GetCurrentBranch folder
+ →PassesIf 0=B.IsDirty folder
+ A.WriteUtf8File(folder,'file1.txt')'Hello universe in "dev"'
+ A.WriteUtf8File(folder,'file2.txt')'The answer is 42 in "dev"!'
+ →PassesIf 1=B.IsDirty folder
+ status←B.Status folder
+ →PassesIf 1 1≡+/¨'file1.txt' 'file2.txt'⍷¨⊂∊status
+ r←folder B.Commit'Firlefanz'
+ →PassesIf 2=⍴r
+ →PassesIf'dev'≡1⊃r
+ →PassesIf 0=B.IsDirty folder
+ status←B.StatusShort folder
+ →PassesIf 0=≢status
+ r←B.GetTags folder
+ →PassesIf 0=≢r
+ r←B.Log folder
+ →PassesIf 2=≢r
+ →PassesIf 1=+/'Firlefanz'⍷∊' ',¨r[;4]
+ r←folder B.DeleteBranch'hotfix_512'
+ →PassesIf∨/'Deleted branch hotfix_512'⍷∊r
+ r←folder B.DeleteBranch'dev'
+ →PassesIf∨/'Cannot delete branch ''dev'' checked out'⍷∊r
+ r←folder B.CheckOut'master'
+ →PassesIf 0=≢r
+ r←folder B.DeleteBranch'dev'
+ →PassesIf∨/'Deleted branch dev'⍷∊r
+
+ R←∆OK
+⍝Done
