@@ -1,0 +1,44 @@
+ {r}←{x}ViewChangesBetweenCommits(hash1 hash2);project;folder;list;modified;name;header;now;tfn1;tfn2;thisFile;flag
+⍝ Allows the inspection of all changes in the two entities defined by `y`.\\
+⍝ The right argument must identify two existing commits.\\
+⍝ For the actual comparison the user command `]CompareFiles` is used.\\
+⍝ For what `x` can actually be see `EstablishProject`.\\
+⍝ Returns always `⍬`.\\
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ r←⍬
+ tfn1←tfn2←''
+ project←EstablishProject x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ folder←2⊃project
+ list←folder DiffBetween hash1 hash2
+ :If 0=+/modified←list[;1]≡¨⊂,'M'
+     ∆TestFlag U.Show'No changes found'
+     :Return
+ :EndIf
+ tfn1←'txt'F.GetTempFilename2''
+ tfn2←'txt'F.GetTempFilename2''
+ flag←0
+ :For thisFile :In modified⌿list[;2]
+     name←⊃⎕SE.acreAPI.itemname folder,thisFile
+     header←{↓⍵,[0.5]'='⍴⍨⍴⍵}name
+     :If (⎕NC name)∊3 4 9           ⍝ 2    : Vars not (yet?!) supported  ⍝TODO⍝
+         :If 3 4∊⍨⎕NC name
+             now←header,⎕NR name
+             flag←1
+         :ElseIf 9=⎕NC name
+             now←header,⎕SRC⍎name
+             flag←1
+         :ElseIf 2=⎕NC name
+             :Continue
+         :EndIf
+         'append'A.WriteUtf8File tfn1(header,folder U.RunGitCommand'show ',hash1,':',thisFile)
+         'append'A.WriteUtf8File tfn2 now
+     :EndIf
+ :EndFor
+ :If flag
+     {}⎕SE.UCMD'CompareFiles "',tfn1,'" "',tfn2,'" -ro1=1 -ro2=1 -label1=''',hash1,''' -label2=''',hash2,''''
+ :Else
+     ⎕←'No modified objects found'
+ :EndIf
+ F.DeleteFile¨tfn1 tfn2
+⍝Done

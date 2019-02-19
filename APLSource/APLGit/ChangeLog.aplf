@@ -13,7 +13,7 @@
  (space folder)←2↑project
  filename←(⍴folder)↓⎕SE.acreAPI.sourcefile name
  r←folder U.RunGitCommand'log --follow --pretty=format:"',U.GetLogFormat,'" -- ',filename
- (⊃r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
+ ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
  :If 0=≢r
      r←0 4⍴''
  :Else

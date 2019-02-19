@@ -1,6 +1,8 @@
  {r}←{x}Save msg;project;cmd;folder;id;msg
-⍝ `msg` might be empty or a simple character vector: a message attached to that stash.
+⍝ Saves the working directory (with `msg` attached to it) and then clears the working directory.\\
+⍝ `msg` might be empty or a simple character vector.\\
 ⍝ `x` can be a folder, empty (the current dir rules) or a space (starting with `#`).
+ x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  'Invalid: "msg"'⎕SIGNAL 11/⍨1≠≡,msg
  project←##.EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project

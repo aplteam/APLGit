@@ -1,11 +1,11 @@
- dir←SetDefaultDirectory y
+ {dir}←SetDefaultDirectory y;buff
 ⍝ If you don't like the concept of using the current directory as the default in case no explicit
 ⍝ directory has been specified you can instead use this function to define a default directory.
 ⍝ that is different from the current (or working) directory.\\
 ⍝ This setting will effect only the current APL session.\\
 ⍝ For what `y` can actually be see `EstablishProject` except whe `y` is empty: in that case the
-⍝ current setting is reported but nothing changes. In case there is not default dir defined an
-⍝ empty vector is returned.\\
+⍝ current setting is reported (shy!) but nothing changes. In case there is not default dir
+⍝ defined an empty vector is returned.\\
 ⍝ Note that `U.Init` assigns an empty vector to `∆DefaultDir`.\\
  :If 0=≢y
      :If 0=⎕NC'∆DefaultDir'
@@ -15,6 +15,10 @@
          dir←∆DefaultDir
      :EndIf
  :Else
-     dir←∆DefaultDir←y
+     :If 0=≢buff←∆DefaultDir←EstablishProject y
+         dir←{0<⎕NC ⍵:∆DefaultDir ⋄ ''}'∆DefaultDir'
+     :Else
+         ∆DefaultDir←dir←2⊃buff
+     :EndIf
  :EndIf
 ⍝Done

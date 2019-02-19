@@ -6,8 +6,9 @@
 ⍝ 2. User ID
 ⍝ 3. Timestamp
 ⍝ 4. Message\\
-⍝ By specifyingmthe optionsal command
+⍝ By specifying the optionsal command `short` (0 is default, 1 for "short") only [;1] and [;4] are returned.
 ⍝ For what `y` can actually be see `EstablishProject`.\\
+⍝ See also `LogForBranch` and `LogDetails`.\\
  :If 0≠≢project←EstablishProject y
      folder←2⊃project
      short←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'short'
@@ -16,7 +17,7 @@
          r←(1,1↓∧⌿' '=r)⊂r
      :Else
          buff←folder U.RunGitCommand'log --pretty=format:"',U.GetLogFormat,'"'
-         (1⊃buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+         ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
          :If 0=≢buff
              r←0 4⍴''
          :Else

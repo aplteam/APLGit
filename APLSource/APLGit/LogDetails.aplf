@@ -1,0 +1,10 @@
+ r←LogDetails y;project;folder;buff
+⍝ Returns a details history for the given project.\\
+⍝ For what `y` can actually be see `EstablishProject`.\\
+⍝ See also `LogForBranch` and `Log`'.\\
+ r←''
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     r←folder U.RunGitCommand'log --name-status'
+ :EndIf
+⍝Done

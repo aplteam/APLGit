@@ -1,0 +1,7 @@
+ r←Methods;buff
+⍝ Like `Public` but adds the first line after the header
+ r←Public~⊂'Methods'
+ buff←{2↑⎕NR ⍵}¨r
+ r←{⍵↑⍨¯1+⍵⍳';'}¨1⊃¨buff
+ r←r,[1.5]{(¯2×'\\'∘≡¨¯2↑¨⍵)↓¨⍵}2⊃¨buff
+⍝Done

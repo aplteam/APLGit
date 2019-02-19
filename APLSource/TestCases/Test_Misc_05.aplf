@@ -3,11 +3,10 @@
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 
- was←##.GitBash.∆DefaultDir
- ##.GitBash.⎕EX'∆DefaultDir'
- r←B.StatusShort''
+ was←##.APLGit.∆DefaultDir
+ ##.APLGit.⎕EX'∆DefaultDir'
  r←B.SetDefaultDirectory ∆Folder1
- →GoToTidyUp r≢∆Folder1
+ →GoToTidyUp r≢F.EnforceSlash ∆Folder1,'/'
  filename←∆Folder1,'/file4.txt'
  A.WriteUtf8File filename('r←Hello2' 'r←''Milkyway''')
  r←B.StatusShort''
@@ -17,5 +16,5 @@
  R←∆OK
 
 ∆TidyUp:
- ##.GitBash.∆DefaultDir←was
+ ##.APLGit.∆DefaultDir←was
 ⍝Done

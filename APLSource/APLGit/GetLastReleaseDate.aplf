@@ -1,0 +1,12 @@
+ r←GetLastReleaseDate y;project;folder;commits
+⍝ ⍺ ←→ [Project Folder|Space]
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ project←EstablishProject y
+ 'Not an acre project'⎕SIGNAL 6/⍨0=≢project
+ folder←2⊃project
+ commits←folder GetCommits'master'
+ ⍝b←
+ .
+ 'Release '∘≡¨8↑¨commits.Message
+ (b⍳1)⊃c.Date,⊂''
+⍝Done

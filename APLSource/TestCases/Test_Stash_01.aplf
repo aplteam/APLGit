@@ -4,7 +4,7 @@
 
  R←∆Failed
 
- S←##.GitBash.Stash
+ S←##.APLGit.Stash
  project←B.EstablishProject #.Proj_1
  folder←2⊃project
  :Trap 6

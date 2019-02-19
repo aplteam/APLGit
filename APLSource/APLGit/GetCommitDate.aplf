@@ -1,0 +1,8 @@
+ r←GetCommitDate y;project;folder
+⍝ Returns the last commit date for "master".
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ project←EstablishProject y
+ 'No open acre porject'⎕SIGNAL 6/⍨0=≢project
+ folder←2⊃project
+ r←↑folder U.RunGitCommand'show -s --format=%ci HEAD'
+⍝Done

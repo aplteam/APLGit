@@ -1,5 +1,5 @@
  R←Test_ZZZ_900(stopFlag batchFlag);⎕TRAP;list;bodies;hits;covered;uncovered;pattern
-⍝ Check whether all functions in GitBash and GitBash.Stash are covered by test functions.
+⍝ Check whether all functions in APLGit and APLGit.Stash are covered by test functions.
 ⍝ If there are any that are not then they are reported to the session.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed

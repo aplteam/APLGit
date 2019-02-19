@@ -7,9 +7,9 @@
  :Return
 
 ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
- ∆PressEnter'Now go to GitHub and create two private projects "GitBash_1" and "GitBash_2"'
- url_1←'https://github.com/aplteam/GitBash_1.git'
- url_2←'https://github.com/aplteam/GitBash_2.git'
+ ∆PressEnter'Now go to GitHub and create two private projects "APLGit_1" and "APLGit_2"'
+ url_1←'https://github.com/aplteam/APLGit_1.git'
+ url_2←'https://github.com/aplteam/APLGit_2.git'
  B.AddToGitHub
 
  →PassesIf 0=B.IsDirty #.Proj_1

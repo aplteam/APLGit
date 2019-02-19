@@ -1,25 +1,31 @@
  r←{x}LogForBranch branchName;project;folder;buff
 ⍝ Returns a two-item vector. Each items contains a (possibly empty) matrix, the first item
-⍝ In case `branchName` is empty it's reporting for the current branch.\\
 ⍝ with commit hashes and the second one with the associated messages.\\
-⍝ By default r is a matrix with four columns:
+⍝ In case `branchName` is empty it's reporting for the current branch.\\
+⍝ By default a matrix with four columns is returned:
 ⍝ 1. Hash of the commit
 ⍝ 2. User ID
 ⍝ 3. Timestamp
 ⍝ 4. Message\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
+⍝ See also `Log` and `LogDetails`.\\
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  :If 0≠≢project←EstablishProject x
      folder←2⊃project
      :If 0=≢branchName
          branchName←GetCurrentBranch folder
      :EndIf
-     buff←folder U.RunGitCommand'log ',branchName,' --not master --pretty=format:"',U.GetLogFormat,'"'
-     (1⊃buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+     buff←folder U.RunGitCommand'log ',branchName,' --pretty=format:"',U.GetLogFormat,'"'
      :If 0=≢buff
-         r←0 4⍴''
+         r←''
+         ⎕←'Nothing to show!'
      :Else
-         r←↑U.FormatLog buff
+         ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+         :If 0=≢buff
+             r←0 4⍴''
+         :Else
+             r←↑U.FormatLog buff
+         :EndIf
      :EndIf
  :EndIf
 ⍝Done
