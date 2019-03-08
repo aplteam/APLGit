@@ -18,6 +18,7 @@
      :If 0=≢buff←∆DefaultDir←EstablishProject y
          dir←{0<⎕NC ⍵:∆DefaultDir ⋄ ''}'∆DefaultDir'
      :Else
+         'Not an acre project'⎕SIGNAL 11/⍨0=≢3⊃buff
          ∆DefaultDir←dir←2⊃buff
      :EndIf
  :EndIf

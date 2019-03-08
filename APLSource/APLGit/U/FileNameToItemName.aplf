@@ -1,0 +1,9 @@
+ FileNameToItemName←{
+⍝ ⍺ ←→ [Project Folder|Space]
+⍝ ⍵ ←→ File Name
+     project←##.EstablishProject ⍺
+     folder←2⊃project
+     f←DecodeOctalEncoding ⍵
+     'APLSource/'≢10↑f:f
+     ⊃'itemname'⎕SE.acre.run folder,f
+ }

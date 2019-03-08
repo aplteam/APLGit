@@ -1,5 +1,6 @@
 # APLGit
 
+
 ## Philosophy
 
 All commands an APL programmer usually needs in order to work on a project by following the
@@ -39,11 +40,13 @@ For installation and usage see the document `Install.html`.
 ## Stashes
 
 Stashing allows you to take any yet uncommitted changes (and as an option also all untracked files) away from the 
-working directory and save them somewhere you don't need to worry about with a name you caneasily connect to what
-you've done / worked on / changed in the working directory.
+working directory.
 
-Since stashes do not really belong to the aformentioned work flow the are separated. That means that in the workspace 
-they are to be found in the sub-namespace `Stash`. This namespace has its own `Public` function.
+However, Git Stash is considered by many to be potentially harmful, for example
+<https://codingkilledthecat.wordpress.com/2012/04/27/git-stash-pop-considered-harmful/>
+
+Because commits in Git are cheap everything you can achive with stashing can also be achieved with creating a branch,
+but without the drawbacks of Git Stash. For that reason Git Stash was not impemented.
 
 
 ## Examples
@@ -61,7 +64,6 @@ G.GetAllBranches #.OtherProject                         ⍝ Check all branches o
 ]git.Checkout 'develop'                                 ⍝ Make "develop" the current branch of #.MyProject; must already exist
 ⍝ do some work                                          ⍝ ...
 G.Commit 'Issue #134 fixed'                             ⍝ Commit the changes in #.MyProject
-G.Stash.save 'try_1' /somewhere/Otherproject            ⍝ Stash away stuff in the working dir of #.Otherproject
 G.Push                                                  ⍝ Push the changes made on #.MyProject to GitHub
 ⍝ G.CreateRelease                                       ⍝ Not available yet; one day...
 ```
@@ -69,7 +71,7 @@ G.Push                                                  ⍝ Push the changes mad
 
 ## Misc
 
-* If you are in need for doing something that is not supported by APLGit then you can use `U.RunGitCommand` which allows
+* If you are in need for doing something that is not supported by APLGit then you can use ` U.RunGitCommand ` which allows
   you to do literally anything you want. However, use with care: you must know what you are doing.  
   
   The same holds true when you start a Git Bash in the current directory with `APLGit.Bash` of course.

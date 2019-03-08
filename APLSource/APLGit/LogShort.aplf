@@ -1,14 +1,11 @@
- r←{x}Log noOf;project;folder;buff;cmd
-⍝ Returns a matrix with two or four columns (depending on `short`) and zero to many rows.\\
-⍝ By default `r` is a matrix with four columns:
+ r←{x}LogShort noOf;project;folder;buff;cmd
+⍝ Returns a matrix with two columns and zero to many rows:\\
 ⍝ 1. Hash of the commit
-⍝ 2. User ID
-⍝ 3. Timestamp
-⍝ 4. Message\\
+⍝ 2. Message\\
 ⍝ With `noOf` you can limit the result to the last (youngest) `noOf` commits.
 ⍝ If you want all commits specify a 0.
 ⍝ For what `x` can actually be see `EstablishProject`.\\
-⍝ See also `LogForBranch`, `LogShort` and `LogDetails`.\\
+⍝ See also `Log`, `LogForBranch` and `LogDetails`.\\
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  'Invalid right argument'⎕SIGNAL 11/⍨1≠≡,noOf
  'Invalid right argument'⎕SIGNAL 11/⍨~(⎕DR noOf)∊83 163 323
@@ -16,16 +13,12 @@
      folder←2⊃project
      :If (⊂noOf)∊''⍬
      :OrIf 0=noOf
-         cmd←'log --pretty=format:"',U.GetLogFormat,'"'
+         cmd←'log --oneline'
      :Else
-         cmd←'log -',(⍕|noOf),' --pretty=format:"',U.GetLogFormat,'"'
+         cmd←'log -',(⍕|noOf),' --oneline'
      :EndIf
      buff←folder U.RunGitCommand cmd
      ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
-     :If 0=≢buff
-         r←0 4⍴''
-     :Else
-         r←↑U.FormatLog buff
-     :EndIf
+     r←{(1,1↓∧⌿' '=⍵)⊂⍵}↑buff
  :EndIf
 ⍝Done

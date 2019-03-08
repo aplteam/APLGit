@@ -1,6 +1,17 @@
- r←{x}LogForBranch branchName;project;folder;buff
-⍝ Returns a two-item vector. Each items contains a (possibly empty) matrix, the first item
-⍝ with commit hashes and the second one with the associated messages.\\
+ r←{x}LogForBranch y;project;folder;buff;noOf;branchName;cmd
+⍝ Returns Log information for a specific branch.\\
+⍝ Returns a matrix with four columns:
+⍝ 1. Commit hash
+⍝ 2. Committer
+⍝ 3. Commit date
+⍝ 4. Message\\
+⍝ The matrix will have zero to many rows.\\
+⍝ `y` can be one of:
+⍝ 1. A simple character vector. This is interpreted as a branch name
+⍝ 2. A vector of length two:
+⍝    1. A simple character vector. This is interpreted as a branch name
+⍝    2. A positive integer. This limits the number of commits to be returned.\\
+⍝       Returns always the **last** (or youngest) `noOf` commits.
 ⍝ In case `branchName` is empty it's reporting for the current branch.\\
 ⍝ By default a matrix with four columns is returned:
 ⍝ 1. Hash of the commit
@@ -8,14 +19,35 @@
 ⍝ 3. Timestamp
 ⍝ 4. Message\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
-⍝ See also `Log` and `LogDetails`.\\
+⍝ See also `Log`, `LogShort` and `LogDetails`.\\
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ r←''
  :If 0≠≢project←EstablishProject x
      folder←2⊃project
-     :If 0=≢branchName
-         branchName←GetCurrentBranch folder
+     :If 326=⎕DR y
+         (branchName noOf)←2↑y
+     :Else
+         branchName←y
+         noOf←⍬
      :EndIf
-     buff←folder U.RunGitCommand'log ',branchName,' --pretty=format:"',U.GetLogFormat,'"'
+     branchName←{GetCurrentBranch folder}⍣(0=≢branchName)⊣branchName
+     :If (⍬≡noOf)∨''≡noOf
+         :If branchName≡'master'
+             cmd←'log --first-parent master --pretty=format:"',U.GetLogFormat,'"'
+         :Else
+             cmd←'log master..',branchName,' --pretty=format:"',U.GetLogFormat,'"'
+         :EndIf
+     :ElseIf 1≠≢noOf
+     :OrIf ~(⎕DR noOf)∊83 163
+         'Invalid: "noOf": must be a negative integer'⎕SIGNAL 11
+     :Else
+         :If branchName≡'master'
+             cmd←'log --first-parent -',(⍕|noOf),' master --pretty=format:"',U.GetLogFormat,'"'
+         :Else
+             cmd←'log -',(⍕|noOf),' master..',branchName,' --pretty=format:"',U.GetLogFormat,'"'
+         :EndIf
+     :EndIf
+     buff←folder U.RunGitCommand cmd
      :If 0=≢buff
          r←''
          ⎕←'Nothing to show!'

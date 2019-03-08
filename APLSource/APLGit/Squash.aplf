@@ -1,4 +1,4 @@
- r←{x}Squash msg;project;currentBranch;ca;folder;commonAncestor;tags;buff
+ r←{x}Squash msg;project;folder;currentBranch;commonAncestor
 ⍝ Squashes **all commits** of the current branch into a single one.\\
 ⍝ You will be shown a list of all commits that are going to be squashed and prompted for your okay.\\
 ⍝ Returns the number of commits that were squashed.\\
@@ -11,18 +11,8 @@
  currentBranch←GetCurrentBranch folder
  'No squashing the master'⎕SIGNAL 11/⍨currentBranch≡'master'
  'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
- 'You must provide a meaningful message'⎕SIGNAL 11/⍨0=≢msg
- :If 0<≢tags←LogForBranch currentBranch
-     ⎕←' --- Commits to squashed on branch "',currentBranch,'"'
-     ⎕←{('.',¨⍨⍕¨⍳≢⍵),⍵}tags
-     →(0=U.YesOrNo'Sure you want to squash these commits into a single one with the proviced message?')/0
-     commonAncestor←⊃folder U.RunGitCommand'merge-base master ',currentBranch
-     buff←folder U.RunGitCommand'reset --soft ',commonAncestor
-     ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
-     buff←folder U.RunGitCommand'commit -m "',msg,'"'
-     ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
-     r←≢tags
- :Else
-     ⎕←'No commits to sqush'
- :EndIf
+ msg←msg,(0=≢msg)/'Save point'
+ commonAncestor←⊃folder U.RunGitCommand'merge-base master ',currentBranch
+ ⎕←⊃folder U.RunGitCommand'reset --soft ',commonAncestor
+ ⎕←⊃folder U.RunGitCommand'commit -m "',msg,'"'
 ⍝Done

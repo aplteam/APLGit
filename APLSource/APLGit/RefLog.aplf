@@ -6,5 +6,5 @@
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
- r←⍪folder U.RunGitCommand'reflog ',branchName
+ r←↑folder U.RunGitCommand'reflog ',branchName
 ⍝Doe

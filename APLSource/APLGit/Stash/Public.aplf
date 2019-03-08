@@ -1,9 +1,0 @@
- r←Public
- r←''
- r,←⊂'Apply'
- r,←⊂'Branch'
- r,←⊂'Clear'
- r,←⊂'Drop'
- r,←⊂'List'
- r,←⊂'Pop'
- r,←⊂'Save'

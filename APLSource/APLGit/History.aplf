@@ -1,4 +1,6 @@
  History
+⍝ * 0.5.1\\
+⍝   * Bug fix in `LogForBranch`: did not (always) work when the branch was "master".
 ⍝ * 0.5.0\\
 ⍝   * `LogForBranch` now works for "master" as well.
 ⍝   * `Method` enhanced.

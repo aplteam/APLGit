@@ -12,15 +12,9 @@
  :If IsGitProject folder
      r←folder U.RunGitCommand'branch --list -a'
      r←{⍵/⍨0<⊃∘⍴¨⍵}⍣(0≠≢r)⊣r
-     :If 0=suppressOutput
-         ∆TestFlag U.Show'--- Project: ',(1⊃project),' (',folder,')'
-         ∆TestFlag U.Show r
-     :EndIf
+     suppressOutput U.Show'--- Project: ',(1⊃project),' (',folder,')'
+     suppressOutput U.Show r
  :Else
-     :If suppressOutput
-         r←''
-     :Else
-         ∆TestFlag U.Show'Not a git project: ',y
-     :EndIf
+     suppressOutput U.Show'Not a git project: ',y
  :EndIf
 ⍝Done

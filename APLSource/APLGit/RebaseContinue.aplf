@@ -1,0 +1,9 @@
+ {r}←RebaseContinue y;project;folder
+⍝ ...
+ r←⍬
+ project←EstablishProject y
+ folder←2⊃project
+ ⎕←folder U.RunGitCommand'add --all'
+ ⎕←folder U.RunGitCommand'rebase --continue'
+ ⎕←'Rebase complete.'
+⍝Done

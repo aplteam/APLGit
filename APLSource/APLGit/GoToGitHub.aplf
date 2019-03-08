@@ -1,0 +1,13 @@
+ {r}←GoToGitHub y;project;folder;name;url
+⍝ Opens the homepage of the current project on GitHub.\\
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ r←⍬
+ :If 0=≢project←1 EstablishProject y
+     'Not an acre project'⎕SIGNAL 6
+ :Else
+     folder←2⊃project
+     name←⊃⌽'/'A.Split F.EnforceSlash ¯1↓folder
+     url←'https://github.com/aplteam/',name
+     A.GoToWebPage url
+ :EndIf
+⍝Done

@@ -10,7 +10,10 @@
  :If 0≠≢project←EstablishProject x
      folder←2⊃project
      'You must specify a branch name'⎕SIGNAL 6/⍨0=≢branchName
-     'There are uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
+     :If IsDirty folder
+     :AndIf 0=U.YesOrNo'There are uncommited changes - do you want to create the branch "',branchName,'" anyway?'
+         :Return
+     :EndIf
      ((' '=branchName)/branchName)←'-'
      'Branch already exists'⎕SIGNAL 11/⍨(⊂branchName)∊2↓¨1 ListBranches folder
      r←∆TestFlag U.Show↑folder U.RunGitCommand'checkout -b ',branchName,' master'

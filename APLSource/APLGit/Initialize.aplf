@@ -7,7 +7,7 @@
  'Not an acre project'⎕SIGNAL 6/⍨0=≢project
  folder←2⊃project
  ∆TestFlag U.Show folder U.RunGitCommand'init'
- ##.APLTreeUtils.WriteUtf8File(folder,'.gitattributes')U.GetGitAttributes
+ A.WriteUtf8File(folder,'.gitattributes')U.GetGitAttributes
  ∆TestFlag U.Show folder U.RunGitCommand'add .'
  ∆TestFlag U.Show folder U.RunGitCommand'commit -m ','"Initial commit"'
  r←⍬

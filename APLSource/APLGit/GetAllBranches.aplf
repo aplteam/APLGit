@@ -13,14 +13,10 @@
      r←path U.RunGitCommand'branch --list -a'
      r←{⍵/⍨0<⊃∘⍴¨⍵}⍣(0≠≢r)⊣r
      :If 0=suppressOutput
-         ⎕←'--- Project: ',space,' (',path,')'
-         ⎕←r
+         suppressOutput U.Show'--- Project: ',space,' (',path,')'
+         suppressOutput U.Show r
      :EndIf
  :Else
-     :If suppressOutput
-         r←''
-     :Else
-         ⎕←'Not a git project: ',y
-     :EndIf
+     suppressOutput U.Show'Not a git project: ',y
  :EndIf
 ⍝Done

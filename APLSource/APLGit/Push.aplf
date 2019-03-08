@@ -1,6 +1,7 @@
  {r}←{noPrompt}Push y;project;branchName;folder
 ⍝ Pushes all committed changes to GitHub.\\
 ⍝ The user will be prompted unless the (optional) left argument is 1.\\
+⍝ Note that `MergeWithMaster` will execute `Push` if the user wants to.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  r←⍬
  noPrompt←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'noPrompt'

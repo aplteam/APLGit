@@ -9,6 +9,7 @@
  '"branchName" must not be empty'⎕SIGNAL 11/⍨0=≢branchName
  :If 0≠≢project←EstablishProject x
      'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+ :AndIf U.YesOrNo'This will close the acre proejct before checking out. You need to re-open it yourself! Continue?'
      (space folder)←project[1 2]
      'Uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
      allBranches←1 ListBranches folder
@@ -17,13 +18,15 @@
          branchName←ind⊃2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches
      :Else
          'Branch does not exist'⎕SIGNAL 6/⍨~(⊂branchName)∊2↓¨allBranches
+         'That''s already the current branch?!'⎕SIGNAL 11/⍨branchName≡GetCurrentBranch''
      :EndIf
-     ⎕←'Closing acre project ',space,'...'
+     ⎕←'*** Closing acre project ',space,'...'
      {}⎕SE.UCMD'acre.Close ',space
      ⎕←'Checking out "',branchName,'"...'
      buff←folder U.RunGitCommand'checkout ',branchName
      r←∆TestFlag U.Show buff
      #.⎕EX space
+     ⎕←'*** Opening acre project ',space,'...'
      ⎕←⎕SE.UCMD'acre.OpenProject ',folder
  :EndIf
 ⍝Done

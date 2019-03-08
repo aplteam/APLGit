@@ -1,7 +1,8 @@
- {r}←MergeWithMaster y;project;folder;currentBranch;gitMsg;space
+ {r}←{noPrompt}MergeWithMaster y;project;folder;currentBranch;gitMsg;space
 ⍝ Merge `currentBranch` (which **must not** be "master") with the master.\\
 ⍝ Call `Squash` beforehand in order to clean up the commit history.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
+ noPrompt←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'noPrompt'
  project←EstablishProject y
  'No open acre projects'⎕SIGNAL 6/⍨0=≢project
  (space folder)←project[1 2]
@@ -9,15 +10,17 @@
  'This command MUST NOT be executed in the "master" currentBranch'⎕SIGNAL 11/⍨'master'≡currentBranch
  ('Branch "',currentBranch,'" is dirty!')⎕SIGNAL 11/⍨IsDirty folder
  ⎕←⊃folder U.RunGitCommand'fetch origin master:master'
- :If ~IsRebased folder
-     11 ⎕SIGNAL⍨'Not merged! ("',currentBranch,'" not rebased to master)'
- :EndIf
  ⎕←⊃folder U.RunGitCommand'checkout master'
  gitMsg←⊃folder U.RunGitCommand'merge --ff-only ',currentBranch
  'Fast-forward merge impossible, settle for ordinary merge!'⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}gitMsg
+ ⎕←'Merged...'
  ⎕←⊃folder DeleteBranch currentBranch
- ⎕←⊃1 Push folder
- ⎕SE.UCMD'acre.Close ',space
+ :If noPrompt
+ :OrIf U.YesOrNo'Would you like to push the master?'
+     1 Push folder
+     ⎕←'Pushed...'
+ :EndIf
+ {}⎕SE.UCMD'acre.Close ',space
  #.⎕EX space
- ⎕←'Project closed and deleted'
+ ⎕←'Project closed and branch "',currentBranch,'" deleted'
 ⍝Done

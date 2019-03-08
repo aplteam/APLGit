@@ -1,6 +1,5 @@
- {r}←{x}ViewChangesBetweenCommits(hash1 hash2);project;folder;list;modified;name;header;now;tfn1;tfn2;thisFile;flag
-⍝ Allows the inspection of all changes in the two entities defined by `y`.\\
-⍝ The right argument must identify two existing commits.\\
+ {r}←{x}ViewChangesBetweenCommits(hash1 hash2);project;folder;list;modified;header;tfn1;tfn2;thisFile;buff1;buff2;extension;noofBytes;name
+⍝ Allows the inspection of all changes between `hash1` and `hash2`.\\
 ⍝ For the actual comparison the user command `]CompareFiles` is used.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
 ⍝ Returns always `⍬`.\\
@@ -15,30 +14,33 @@
      ∆TestFlag U.Show'No changes found'
      :Return
  :EndIf
- tfn1←'txt'F.GetTempFilename2''
- tfn2←'txt'F.GetTempFilename2''
- flag←0
+ (tfn1 tfn2)←'txt'∘F.GetTempFilename2¨2⍴⊂''
+ noofBytes←0
  :For thisFile :In modified⌿list[;2]
-     name←⊃⎕SE.acreAPI.itemname folder,thisFile
-     header←{↓⍵,[0.5]'='⍴⍨⍴⍵}name
-     :If (⎕NC name)∊3 4 9           ⍝ 2    : Vars not (yet?!) supported  ⍝TODO⍝
-         :If 3 4∊⍨⎕NC name
-             now←header,⎕NR name
-             flag←1
-         :ElseIf 9=⎕NC name
-             now←header,⎕SRC⍎name
-             flag←1
-         :ElseIf 2=⎕NC name
-             :Continue
+     name←2⊃⎕NPARTS thisFile
+     header←↓U.Box(('⌹',[1]'⌹',,[0.5]name),[1]'⌹'),'⌹'
+     extension←A.Lowercase 3⊃⎕NPARTS thisFile
+     :If (⊂extension)∊'.html' '.css' '.txt' '.config' '.ini' '.aplf' '.aplo' '.apln' '.aplc' '.apli' '.charstring' '.charlist'
+         buff1←folder U.RunGitCommand'show ',hash1,':',thisFile
+         :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}buff1
+             buff1←⊂'*** ',1⊃,buff1
          :EndIf
-         'append'A.WriteUtf8File tfn1(header,folder U.RunGitCommand'show ',hash1,':',thisFile)
-         'append'A.WriteUtf8File tfn2 now
+         buff2←folder U.RunGitCommand'show ',hash2,':',thisFile
+         :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}buff2
+             buff2←⊂'*** ',1⊃,buff2
+         :EndIf
+     :Else
+         buff1←⊂'*** File type ignored for comparison: ',extension
+         buff2←⊂'*** File type ignored for comparison: ',extension
      :EndIf
+     'append'A.WriteUtf8File tfn1(header,buff1)
+     'append'A.WriteUtf8File tfn2(header,buff2)
+     noofBytes+←+/≢¨buff1
  :EndFor
- :If flag
+ :If 0<noofBytes
      {}⎕SE.UCMD'CompareFiles "',tfn1,'" "',tfn2,'" -ro1=1 -ro2=1 -label1=''',hash1,''' -label2=''',hash2,''''
  :Else
-     ⎕←'No modified objects found'
+     ⎕←'No modified files found'
  :EndIf
  F.DeleteFile¨tfn1 tfn2
 ⍝Done

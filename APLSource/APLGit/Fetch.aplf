@@ -1,10 +1,15 @@
- {r}←Fetch y;folder;project
+ {r}←{suppressOutput}Fetch y;folder;project;buff
 ⍝ Fetch latest changes from GitHub
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  r←⍬
  :If 0≠≢project←EstablishProject y
      folder←2⊃project
-     ∆TestFlag U.Show folder U.RunGitCommand'fetch origin'
-     ∆TestFlag U.Show⊃folder U.RunGitCommand'diff --name-status master origin/master'
+     suppressOutput←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'suppressOutput'
+     suppressOutput∨←∆TestFlag
+     buff←folder U.RunGitCommand'fetch origin'
+     'Apparently not on GitHub'⎕SIGNAL 11/⍨∨/'fatal: ''origin'' does not appear to be a git repository'⍷∊buff
+     suppressOutput U.Show buff
+     r←folder U.RunGitCommand'diff --name-status master origin/master'
+     suppressOutput U.Show r
  :EndIf
 ⍝Done

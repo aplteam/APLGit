@@ -1,17 +1,16 @@
- {r}←RebaseInteractively y;project;currentBranch;ca;folder;buff;tags
+ r←RebaseInteractively y;project;currentBranch;ca;folder;tags;cmd
 ⍝ Allows you to interactively squash selected commits of all commits of the current branch.\\
 ⍝ You will be prompted for a meaningful message unless you pick one with "fixup".\\
 ⍝ Returns `⍬`
 ⍝ For what `y` can actually be see `EstablishProject`.\\
- ∘∘∘  ⍝TODO⍝  This does not work: no matter what I try I keep getting "skipped non-existing commit" and the editor is empty.
  r←⍬
  project←EstablishProject y
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
  currentBranch←GetCurrentBranch folder
- 'No squashing the master'⎕SIGNAL 11/⍨currentBranch≡'master'
+ 'No rebasing the master'⎕SIGNAL 11/⍨currentBranch≡'master'
  'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
  tags←LogForBranch currentBranch
- buff←folder U.RunGitCommand'rebase -i HEAD~',⍕≢tags
- ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+ cmd←'rebase -i HEAD~',⍕≢tags
+ r←folder(({⍵}'')U.RunGitCommand)cmd
 ⍝Done
