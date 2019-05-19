@@ -1,4 +1,4 @@
- r←GetCommitDate y;project;folder
+ r←MasterCommitDate y;project;folder
 ⍝ Returns the last commit date for "master".
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  project←EstablishProject y

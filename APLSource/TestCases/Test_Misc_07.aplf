@@ -1,0 +1,10 @@
+ R←Test_Misc_07(stopFlag batchFlag);⎕TRAP;buff
+⍝ Exercise `StatusShort`.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ buff←##.APLGit.StatusShort'#.Proj_2'
+ →PassesIf 0=≢buff
+
+ R←∆OK
+⍝Done

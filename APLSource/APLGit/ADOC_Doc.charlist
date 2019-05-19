@@ -20,14 +20,14 @@ This workspace comes with a wide range of functions supporting the APL programme
 First of all it assumes that you are using GitHub, and that the Git Bash is installed and available on your PC.
 
 All commands that refer to a project assume that the programmer refers to a default project if none is specified. 
-For example, `GetAllBranches` prints a list of all branches, local and remote ones, to the session. If no project is 
+For example, `AllBranches` prints a list of all branches, local and remote ones, to the session. If no project is 
 specified then the current directory rules.
 
 Note that if you do not set the current directory to where your project lives, or in case you have opened more than one
 project and you don't want the Git command to be issued on the one that is associated with the current directory, then
 naturally you have to specify the directory or the space of the project you are interested in.
 
-So by specifying a path as right argument `GetAllBranches` will investigate and report on that project. 
+So by specifying a path as right argument `AllBranches` will investigate and report on that project. 
 
 However, instead of passing a folder you can also pass a space. This is recognized by `#` being the first character.
 
@@ -60,7 +60,7 @@ G.SetCurrentDir #.MyProject                             ⍝ Force the current di
 G.Initialize                                            ⍝ Make it also a Git repository
 G.CreateBranch 'develop'                                ⍝ Create a branch "develop" for the project #.MyProject
 ]acre.OpenProject /somewhere/OtherProject               ⍝ Opens #.OtherProject.
-G.GetAllBranches #.OtherProject                         ⍝ Check all branches of #.OtherProject
+G.AllBranches #.OtherProject                            ⍝ Check all branches of #.OtherProject
 ]git.Checkout 'develop'                                 ⍝ Make "develop" the current branch of #.MyProject; must already exist
 ⍝ do some work                                          ⍝ ...
 G.Commit 'Issue #134 fixed'                             ⍝ Commit the changes in #.MyProject

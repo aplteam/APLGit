@@ -1,4 +1,4 @@
- r←GetCurrentBranch y;folder;project
+ r←CurrentBranch y;folder;project
 ⍝ Returns the name of the current branch for `y`.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  project←EstablishProject y

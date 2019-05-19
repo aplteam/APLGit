@@ -1,4 +1,4 @@
- r←{detailed}GetTags y;project;folder
+ r←{detailed}Tags y;project;folder
 ⍝ Returns a vector if text vectors with the tag assigned to any commit.\\
 ⍝ In case the optional left argument is 1 (default is 0) instead a matrix
 ⍝ with 0 to many rows and three columns is returned:

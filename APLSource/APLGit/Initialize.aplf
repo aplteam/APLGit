@@ -1,14 +1,16 @@
- {r}←Initialize y;project;folder
+ {r}←{msg}Initialize y;project;folder
 ⍝ Makes `y` a Git Repository and commits what's there as "Initial commit".\\
 ⍝ After this use GitHub to create a new repository, then get the URL and
 ⍝ run `AddToGitHub` with the URL as right argument.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
+ msg←{0<⎕NC ⍵:⍎⍵ ⋄ 'Initial commit'}'msg'
  project←EstablishProject y
  'Not an acre project'⎕SIGNAL 6/⍨0=≢project
  folder←2⊃project
  ∆TestFlag U.Show folder U.RunGitCommand'init'
  A.WriteUtf8File(folder,'.gitattributes')U.GetGitAttributes
  ∆TestFlag U.Show folder U.RunGitCommand'add .'
- ∆TestFlag U.Show folder U.RunGitCommand'commit -m ','"Initial commit"'
+ msg←U.MassageMsg msg
+ ∆TestFlag U.Show folder U.RunGitCommand'commit -m "',msg,'"'
  r←⍬
 ⍝Done

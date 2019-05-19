@@ -1,5 +1,5 @@
  format←GetLogFormat;SEP;TAB
-⍝ Returns a proper format string useful to get what we want from Git's Log.
+⍝ Returns a proper format string useful to get what we want from Git's Log.   ⍝TODO⍝  ⍝TODO⍝  ⍝TODO⍝
 
  TAB←'%x09'                 ⍝ This does not work: arrives as space in APL!
  SEP←'\'                    ⍝ Therefore we settle for a backslash as seperator.

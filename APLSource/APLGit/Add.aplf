@@ -3,7 +3,7 @@
 ⍝ For example, if you want to stage _all_ files that have not been staged/tracked yet, specify just a dot (`.`).\\
 ⍝ Alternatively you may specify a specific file, or a RegEx that catches a number of files etc.\\
 ⍝ Note that the `Commit` function adds _all_ unstaged/untracked files anyway, so normaly you won't have the
-⍝ need to call this function.\\
+⍝ need to call this function. An exception is when you want to solve Merge conflicts.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  'Which project?!'⎕SIGNAL 6/⍨0=≢project←EstablishProject x

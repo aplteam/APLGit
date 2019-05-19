@@ -1,0 +1,12 @@
+ r←CleanUpWorkDir y;folder;project
+⍝ Get rid of all uncommitted changes.
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     :If U.YesOrNo'Would you like to get rid of all uncommitted changes in the work dir? (n=dry run)'
+         r←⍪folder U.RunGitCommand'checkout -- .'
+     :Else
+         r←⍪folder U.RunGitCommand'checkout --'
+     :EndIf
+ :EndIf
+⍝Done

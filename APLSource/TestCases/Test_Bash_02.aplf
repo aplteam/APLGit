@@ -1,18 +1,23 @@
- R←Test_Bash_02(stopFlag batchFlag);⎕TRAP;url_1;url_2;r
-⍝ Exercise these functions: `GetCurrentBranch`, `ListBranches`, `CreateBranch`, `DeleteBranch`, `Checkout`
+ R←Test_Bash_02(stopFlag batchFlag);⎕TRAP;url_1;url_2;r;DM
+⍝ Exercise these functions: `CurrentBranch`, `ListBranches`, `CreateBranch`, `DeleteBranch`, `Checkout`
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 
- r←#.Proj_1 B.CheckOut'master'
- →PassesIf 0=≢r
- {}#.Proj_1 B.DeleteBranch'dev'  ⍝ Just in case
+ :Trap 11
+     {}#.Proj_1 B.DeleteBranch'dev'  ⍝ Just in case
+ :EndTrap
  #.Proj_1 B.CreateBranch'dev'
- →PassesIf'dev'≡B.GetCurrentBranch #.Proj_1
+ →PassesIf'dev'≡B.CurrentBranch #.Proj_1
  #.Proj_1 B.CreateBranch'to_be_deleted'
- →PassesIf'to_be_deleted'≡B.GetCurrentBranch #.Proj_1
+ →PassesIf'to_be_deleted'≡B.CurrentBranch #.Proj_1
  →PassesIf 3=≢B.ListBranches #.Proj_1
- r←#.Proj_1 B.DeleteBranch'to_be_deleted'
- →PassesIf'error: Cannot delete branch'{⍺≡(⍴⍺)↑⍵}∊r
+ :Trap 11
+     r←#.Proj_1 B.DeleteBranch'to_be_deleted'
+     →FailsIf 1
+ :Else
+     DM←⎕DMX.DM
+     →PassesIf∨/'The current branch cannot be deleted'⍷∊DM
+ :EndTrap
  r←#.Proj_1 B.CheckOut'dev'
  →PassesIf 0=≢r
  r←#.Proj_1 B.DeleteBranch'to_be_deleted'

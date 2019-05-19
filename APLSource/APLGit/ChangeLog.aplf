@@ -1,5 +1,7 @@
- r←{x}ChangeLog name;project;folder;filename;space
+ r←{x}ChangeLog name;project;folder;filename;space;cmd
 ⍝ Takes the name of an APL object and returns a matrix with information about all commits that object was changed by.\\
+⍝ By default `name` is assumed to be the name of an APL object. If it's a file (like, say, acre.config) then prefix
+⍝ it with "file://" in order to let the function know.\\
 ⍝ The result is a matrix with zero or more rows and 4 columns:
 ⍝ 1. Hash
 ⍝ 2. Commiter's name
@@ -11,8 +13,13 @@
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  (space folder)←2↑project
- filename←(⍴folder)↓⎕SE.acreAPI.sourcefile name
- r←folder U.RunGitCommand'log --follow --pretty=format:"',U.GetLogFormat,'" -- ',filename
+ :If 'file://'{⍺≡(⍴,⍺)↑⍵}name
+     filename←(⍴'file://')↓name
+ :Else
+     filename←(⍴folder)↓⎕SE.acreAPI.sourcefile name
+ :EndIf
+ cmd←'log --follow --pretty=format:"',U.GetLogFormat,'" -- ',filename
+ r←folder U.RunGitCommand cmd
  ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
  :If 0=≢r
      r←0 4⍴''

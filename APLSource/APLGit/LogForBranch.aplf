@@ -30,7 +30,7 @@
          branchName←y
          noOf←⍬
      :EndIf
-     branchName←{GetCurrentBranch folder}⍣(0=≢branchName)⊣branchName
+     branchName←{CurrentBranch folder}⍣(0=≢branchName)⊣branchName
      :If (⍬≡noOf)∨''≡noOf
          :If branchName≡'master'
              cmd←'log --first-parent master --pretty=format:"',U.GetLogFormat,'"'

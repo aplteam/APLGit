@@ -1,5 +1,8 @@
- Cleanup
+ Cleanup;openProjects
  B.∆TestFlag←0
+ openProjects←⎕SE.UCMD'acre.Projects'
+ openProjects←('#.Proj_'∘{⍺≡(≢⍺)↑⍵}¨openProjects[;1])⌿openProjects
+ {}{⎕SE.UCMD'acre.Close ',⍵}¨openProjects
  :If 0<⎕NC'∆Folder1'
      F.RmDir¨∆Folder1 ∆Folder2
  :EndIf
@@ -7,5 +10,4 @@
  ⎕EX¨'∆Folder1' '∆Folder2'
  #.⎕EX¨'Proj_1' 'Proj_2'
  B.⎕EX'∆DefaultDir'
- Initial
 ⍝Done

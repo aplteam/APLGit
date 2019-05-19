@@ -1,4 +1,4 @@
- {r}←{x}ViewChangesBetweenCommits(hash1 hash2);project;folder;list;modified;header;tfn1;tfn2;thisFile;buff1;buff2;extension;noofBytes;name
+ {r}←{x}ViewChangesBetweenCommits(hash1 hash2);project;folder;list;modifiedOrAdded;header;tfn1;tfn2;thisFile;buff1;buff2;extension;noofBytes;name
 ⍝ Allows the inspection of all changes between `hash1` and `hash2`.\\
 ⍝ For the actual comparison the user command `]CompareFiles` is used.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
@@ -9,14 +9,15 @@
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
- list←folder DiffBetween hash1 hash2
- :If 0=+/modified←list[;1]≡¨⊂,'M'
+ 'Please specify two existing hashes'⎕SIGNAL 11/⍨0∊≢¨hash1 hash2
+ list←folder DiffBetween hash2 hash1
+ :If 0=+/modifiedOrAdded←{⊃⍵∊'AM'}¨list[;1]
      ∆TestFlag U.Show'No changes found'
      :Return
  :EndIf
  (tfn1 tfn2)←'txt'∘F.GetTempFilename2¨2⍴⊂''
  noofBytes←0
- :For thisFile :In modified⌿list[;2]
+ :For thisFile :In modifiedOrAdded⌿list[;2]
      name←2⊃⎕NPARTS thisFile
      header←↓U.Box(('⌹',[1]'⌹',,[0.5]name),[1]'⌹'),'⌹'
      extension←A.Lowercase 3⊃⎕NPARTS thisFile
@@ -40,7 +41,7 @@
  :If 0<noofBytes
      {}⎕SE.UCMD'CompareFiles "',tfn1,'" "',tfn2,'" -ro1=1 -ro2=1 -label1=''',hash1,''' -label2=''',hash2,''''
  :Else
-     ⎕←'No modified files found'
+     ⎕←'No modifiedOrAdded files found'
  :EndIf
  F.DeleteFile¨tfn1 tfn2
 ⍝Done

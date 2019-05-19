@@ -1,19 +1,18 @@
- {r}←{suppressOutput}PullMaster y;project;folder;currentBranch
-⍝ Get latest changes in "master" from remote repository no matter what the current branch is.
+ {r}←{suppressOutput}PullMaster y;project;folder;buff
+⍝ Get latest changes in "master" from remote repository and merge it with "origin/master".\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
- r←⍬
+ r←''
  project←EstablishProject y
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
- 'Uncommitted changes.'⎕SIGNAL 11/⍨IsDirty folder
  suppressOutput←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'suppressOutput'
  suppressOutput∨←∆TestFlag
- currentBranch←GetCurrentBranch folder
- :If currentBranch≢'master'
-     'Current branch is not master'⎕SIGNAL 11
- :Else
-     r←folder U.RunGitCommand'merge FETCH_HEAD'
-     suppressOutput U.Show r
- :EndIf
+ buff←folder U.RunGitCommand'fetch origin'
+ suppressOutput U.Show buff
+ r,←buff
+ buff←folder U.RunGitCommand'merge origin/master'
+ (∊buff)⎕SIGNAL 11/⍨∨/'fatal:'⍷∊buff
+ suppressOutput U.Show buff
+ r,←buff
  r←⍪r
 ⍝Done

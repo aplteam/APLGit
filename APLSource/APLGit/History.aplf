@@ -1,15 +1,49 @@
  History
-⍝ * 0.5.1\\
+⍝ * 0.8.2
+⍝   * Handling of quotes and double quotes in messages improved.
+⍝   * $ is not causing havov in messages any more.
+⍝ * 0.8.1
+⍝   * Bug fix in `U.RunGitCommand`: now realizes when the "Git" command it not available.
+⍝ * 0.8.0
+⍝   * Many functions got renamed.
+⍝   * Test cases amended and added.
+⍝ * 0.7.0
+⍝   *
+⍝   * Bug fixes:
+⍝     * `DeleteBranch` did not check whether the operation was successful.
+⍝     * `ListBranches` should have a shy result but did not.
+⍝   * Bug fix in `FastForwardMergeWithMaster`
+⍝ * 0.6.6
+⍝   * Bug fix in `FastForwardMergeWithMaster`
+⍝ * 0.6.5
+⍝   * Method `CleanUpWorkDir` added
+⍝ * 0.6.4
+⍝   * Bug fix in `FastForwardMergeWithMaster`
+⍝   * `Squash_Old` deleted
+⍝ * 0.6.3
+⍝   * Bug Fixes
+⍝ * 0.6.2
+⍝   * Bug fixes to `CheckOut`
+⍝ * 0.6.2
+⍝   * Bug fixed in `Push`
+⍝ * 0.6.1
+⍝   * Two bugs fixed in `ViewChangesBetweenBranches`
+⍝ * 0.6.0
+⍝   * `ChangeLog` can now handle filenames.
+⍝   * `Initialize` now accepts an optional left argument (message).
+⍝   * `AddToGitHub` now accepts an empty URL. It works out the project name and prompts
+⍝     the user for the GitHub user ID.
+⍝ * 0.5.1
 ⍝   * Bug fix in `LogForBranch`: did not (always) work when the branch was "master".
-⍝ * 0.5.0\\
+⍝ * 0.5.0
 ⍝   * `LogForBranch` now works for "master" as well.
 ⍝   * `Method` enhanced.
 ⍝   * Many more minor improvements
-⍝ * 0.4.0\\
+⍝ * 0.4.0
 ⍝   * Polished
-⍝ * 0.3.0\\
+⍝ * 0.3.0
 ⍝   * `Init` moved into `U`.
-⍝ * 0.2.0\\
+⍝ * 0.2.0
 ⍝   * `EstablishProject` now returns a useful result for a non-acre folder.
-⍝ * 0.1.0\\
-⍝   First release used for real work!
+⍝ * 0.1.0
+⍝   * First release used for real work!

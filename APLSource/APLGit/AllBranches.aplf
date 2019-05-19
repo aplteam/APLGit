@@ -1,4 +1,4 @@
- {r}←{suppressOutput}GetAllBranches y;date;path;space;buff⍝
+ {r}←{suppressOutput}AllBranches y;date;path;space;buff⍝
 ⍝ For the options how to define `y` see `EstablishProjects`.\\
 ⍝ `suppressOutput` is optional and defaults to 0. That means the result is printed to the session.\\
 ⍝ If you are using the function programmatically you are probably not interested in this; in this case set

@@ -1,4 +1,4 @@
- r←{x}GetCommits branchName;project;folder;s;buff;buff2
+ r←{x}Commits branchName;project;folder;s;buff;buff2
 ⍝ Returns commits for `branchName`. If `branchName` is empty it defaults to the current branch.
 ⍝ For what `x` can actually be see `EstablishProject`.\\
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'

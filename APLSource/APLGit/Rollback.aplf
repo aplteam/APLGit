@@ -8,7 +8,7 @@
  folder←2⊃project
  'Uncommitted changes.'⎕SIGNAL 11/⍨IsDirty folder
  .
- currentBranch←GetCurrentBranch folder
+ currentBranch←CurrentBranch folder
  :If currentBranch≢'master'
      r,←⊂folder U.RunGitCommand'fetch origin master:master'
  :Else

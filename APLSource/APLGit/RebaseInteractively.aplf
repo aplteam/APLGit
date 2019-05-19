@@ -7,7 +7,7 @@
  project←EstablishProject y
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
- currentBranch←GetCurrentBranch folder
+ currentBranch←CurrentBranch folder
  'No rebasing the master'⎕SIGNAL 11/⍨currentBranch≡'master'
  'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
  tags←LogForBranch currentBranch

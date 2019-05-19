@@ -7,6 +7,10 @@
  'No project folder or space specified/found'⎕SIGNAL 6/⍨0=≢project
  folder←2⊃project
  :If 0<≢r←folder U.RunGitCommand'status'
-     r←⍪r
+     :If ∨/'fatal:'⍷∊r
+         (1↓⊃,/(⎕UCS 13),¨r)⎕SIGNAL 11
+     :Else
+         r←⍪r
+     :EndIf
  :EndIf
 ⍝Done

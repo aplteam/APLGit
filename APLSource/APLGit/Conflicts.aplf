@@ -1,0 +1,8 @@
+ r←Conflicts y;rc;more;folder;project
+⍝ Returns a report regarding conflicts between the current branch and origin/master.
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ project←EstablishProject y
+ 'Not an acre project'⎕SIGNAL 6/⍨0=≢project
+ folder←2⊃project
+ r←⍪folder U.RunGitCommand'diff --name-only --diff-filter=U'
+⍝Done

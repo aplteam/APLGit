@@ -5,7 +5,7 @@
 ⍝ projects (rather than only those that are git-managed) by passing a 0.
      ⍺←1
      ~(⊂⍺)∊0 1:'Invalid left argument: not a Boolean'⎕SIGNAL 11
-     l←##.GetGitProjects ⍬
+     l←##.GitProjects ⍬
      0=≢i←Select↓⎕FMT l:''
      l[i;]
  }

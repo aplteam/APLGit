@@ -1,11 +1,14 @@
- {r}←{x}AddToGitHub gitHubUrl;project;folder;buff
+ {r}←{x}AddToGitHub gitHubUrl;project;folder;buff;userid
 ⍝ Use this to add a new local repo to GitHub. You need a URL from GitHub for this,
 ⍝ so first add it there before calling this function.\\
-⍝ The URL is built like this:\\
+⍝ Alternatively specify an empty right argument: in that case the function works out
+⍝ the project name from the current directory and prompts you for the GitHub user ID.
+⍝ In case the URL is empty it is built like this:\\
 ⍝ ```
 ⍝ https://github.com/{User}/{RepoName}.git
 ⍝ ```
-⍝ **Do not** add anything to the repo when creating it on Git like README.md or a license etc.
+⍝ **Do not** add a README.md on GitHub while creating the project; this causes problems.
+⍝ You may add a license however.
 ⍝ For what `x` can actually be see `EstablishProject`.\\
  r←⍬
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
@@ -13,6 +16,12 @@
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
  'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
+ :If 0=≢gitHubUrl
+     :Repeat
+         userid←{(⍴⍵)↓⍞,0/⍞←⍵}'GitHub user name: '
+     :Until 0≠≢userid
+     gitHubUrl←'https://github.com/',userid,'/',(2⊃⎕NPARTS F.PWD),'.git'
+ :EndIf
  r,←⊂buff←folder U.RunGitCommand'remote add origin ',gitHubUrl
  ∆TestFlag U.Show buff
  r,←⊂buff←folder U.RunGitCommand'remote -v'

@@ -18,19 +18,20 @@
  :Else
      (branch1 branch2)←y
  :EndIf
+ 'Please specify two existing branches or a single empty vector'⎕SIGNAL 11/⍨0∊≢¨branch1 branch2
  :Trap 11
      :If 0=≢hash1←folder LogForBranch branch1 1
          →0,⎕←'No commits found for ',branch1
      :EndIf
  :Else
-     ⎕DMX.DM ⎕SIGNAL 11
+     (1↓⊃,/(⎕UCS 13),¨⎕DMX.DM)⎕SIGNAL 11
  :EndTrap
  :Trap 11
      :If 0=≢hash2←folder LogForBranch branch2 1
          →0,⎕←'No commits found for ',branch1
      :EndIf
  :Else
-     ⎕DMX.DM ⎕SIGNAL 11
+     (1↓⊃,/(⎕UCS 13),¨⎕DMX.DM)⎕SIGNAL 11
  :EndTrap
  (hash1 hash2)←⊃¨hash1 hash2
  noofBytes←0
@@ -40,12 +41,12 @@
          :Return
      :EndIf
      (tfn1 tfn2)←'txt'∘F.GetTempFilename2¨2⍴⊂''
-     currentBranch←GetCurrentBranch folder
+     currentBranch←CurrentBranch folder
      :For thisFile :In list[;2]
          extension←A.Lowercase 3⊃⎕NPARTS thisFile
          :If (⊂extension)∊'.aplf' '.aplo' '.apln' '.aplc' '.apli' '.charstring' '.charlist'
          :AndIf 'APLSource/'{⍺≡(⍴⍺)↑⍵}thisFile
-             wsName←space,'.',{(¯1↓1⊃⍵),'.',(2⊃⍵)}⎕NPARTS'APLSource/'{(⍴⍺)↓⍵}thisFile
+             wsName←1⊃,⎕SE.acreAPI.itemname thisFile
              header←↓U.Box(('⌹',[1]'⌹',,[0.5]wsName),[1]'⌹'),'⌹'
              :If branch1≡currentBranch
              :AndIf 0<nc←⎕NC wsName
@@ -94,7 +95,7 @@
          :If buff1≢buff2
              'append'A.WriteUtf8File tfn1(header,buff1)
              'append'A.WriteUtf8File tfn2(header,buff2)
-             noofBytes+←+/≢¨buff1
+             noofBytes+←⌈/{+/≢¨⍵}¨buff1 buff2
          :EndIf
      :EndFor
  :EndIf
@@ -103,5 +104,6 @@
  :Else
      ⎕←'No APL objects found to compare'
  :EndIf
- F.DeleteFile¨tfn1 tfn2
+ :Trap 6 ⋄ F.DeleteFile tfn1 ⋄ :EndTrap
+ :Trap 6 ⋄ F.DeleteFile tfn2 ⋄ :EndTrap
 ⍝Done

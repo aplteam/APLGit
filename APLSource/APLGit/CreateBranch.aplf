@@ -1,5 +1,5 @@
  {r}←{x}CreateBranch branchName;project;folder
-⍝ Creates a new branch.\\
+⍝ Creates a new branch and then checks out "master" into this new branch.\\
 ⍝ Note that branch names are case insensitive.\\
 ⍝ Overwrites the working directory, so it forces you to either commit or stage first by throwing
 ⍝ an error in case the working directory is dirty.\\

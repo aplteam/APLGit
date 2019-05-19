@@ -1,18 +1,26 @@
- r←{x}Squash msg;project;folder;currentBranch;commonAncestor
+ {r}←{x}Squash msg;project;folder;currentBranch;commonAncestor
 ⍝ Squashes **all commits** of the current branch into a single one.\\
 ⍝ You will be shown a list of all commits that are going to be squashed and prompted for your okay.\\
-⍝ Returns the number of commits that were squashed.\\
+⍝ Returns the number of commits that were squashed as a shy result.\\
+⍝ You must provide a meaningful message but the check is performed only after all commits that are
+⍝ about to get squashed is printed to the session, so you can check without a message.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
  r←0
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
- currentBranch←GetCurrentBranch folder
+ currentBranch←CurrentBranch folder
  'No squashing the master'⎕SIGNAL 11/⍨currentBranch≡'master'
  'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
- msg←msg,(0=≢msg)/'Save point'
- commonAncestor←⊃folder U.RunGitCommand'merge-base master ',currentBranch
- ⎕←⊃folder U.RunGitCommand'reset --soft ',commonAncestor
- ⎕←⊃folder U.RunGitCommand'commit -m "',msg,'"'
+ r←≢⎕←LogForBranch currentBranch
+ :If 0=r
+     ⎕←'There is nothing to squash'
+ :ElseIf U.YesOrNo'These commits are going to be squashed; you okay with this?'
+     'Sqash requires a meaningful message'⎕SIGNAL 11/⍨(0=≢msg)∨(,'.')≡∪msg~' '
+     commonAncestor←⊃folder U.RunGitCommand'merge-base master ',currentBranch
+     {0=≢⍵: ⋄ ⎕←⍵}⊃folder U.RunGitCommand'reset --soft ',commonAncestor
+     msg←U.MassageMsg msg
+     {0=≢⍵: ⋄ ⎕←⍵}⊃folder U.RunGitCommand'commit -m "',msg,'"'
+ :EndIf
 ⍝Done

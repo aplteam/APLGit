@@ -1,0 +1,9 @@
+ r←Graph y;folder;project;buff
+⍝ Displays a nice graph
+⍝ For what `y` can actually be see `EstablishProject`.\\
+ r←⍬
+ :If 0≠≢project←EstablishProject y
+     folder←2⊃project
+     r←↑folder U.RunGitCommand'log --all --decorate --oneline --graph'
+ :EndIf
+⍝Done

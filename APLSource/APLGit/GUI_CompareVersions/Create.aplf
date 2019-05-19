@@ -35,7 +35,6 @@
  n.Grid.Coord←'Pixel'
  {⎕NQ n.Grid'SetColSize'⍵ ¯3}¨⍳2⊃⍴n.Grid.Values
  ⎕NQ n.Grid'SetColSize' 0 50
-⍝ (⍳2⊃⍴n.Grid.Values){⎕NQ n.Grid'SetColSize'⍺ ⍵}¨5+{2 2⊃2 ⎕NQ n.Grid'GetCellRect' 1 ⍵}¨⍳2⊃⍴n.Grid.Values
  n.Grid.onCellUp←'OnCellUp'
 
  n.∆Form.n←n

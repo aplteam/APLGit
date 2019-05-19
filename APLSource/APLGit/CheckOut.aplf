@@ -1,4 +1,4 @@
- {r}←{x}CheckOut branchName;project;folder;space;allBranches;ind;buff
+ {r}←{x}CheckOut branchName;project;folder;space;allBranches;ind;buff;isOpenacreProject
 ⍝ Close the acre project, overwrites the working directory with `branchName` and then
 ⍝ re-opens the acre project.\\
 ⍝ Note that branch names are case insensitive.\\
@@ -8,25 +8,34 @@
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  '"branchName" must not be empty'⎕SIGNAL 11/⍨0=≢branchName
  :If 0≠≢project←EstablishProject x
-     'Not an acre project'⎕SIGNAL 11/⍨0=≢project
- :AndIf U.YesOrNo'This will close the acre proejct before checking out. You need to re-open it yourself! Continue?'
      (space folder)←project[1 2]
-     'Uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
-     allBranches←1 ListBranches folder
-     :If '?'≡branchName
-         →(0=≢ind←U.Select 2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches)/0
-         branchName←ind⊃2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches
-     :Else
-         'Branch does not exist'⎕SIGNAL 6/⍨~(⊂branchName)∊2↓¨allBranches
-         'That''s already the current branch?!'⎕SIGNAL 11/⍨branchName≡GetCurrentBranch''
+     'This function MUST NOT be called from inside the project space'⎕SIGNAL 11/⍨space≡⊃⎕NSI
+     'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+     :If ~isOpenacreProject←0<+/≢¨project[1 3]
+     :OrIf U.YesOrNo'This will close the acre project before checking out and then re-opening it! Continue?'
+         'Uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
+         allBranches←1 ListBranches folder
+         :If '?'≡branchName
+             →(0=≢ind←U.Select 2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches)/0
+             branchName←ind⊃2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches
+         :Else
+             'Branch does not exist'⎕SIGNAL 6/⍨~(⊂branchName)∊2↓¨allBranches
+             'That''s already the current branch?!'⎕SIGNAL 11/⍨branchName≡CurrentBranch folder
+         :EndIf
+         :If isOpenacreProject
+             ⎕←'*** Closing acre project ',space,'...'
+             {}⎕SE.UCMD'acre.Close ',space
+         :EndIf
+         ⎕←'Checking out "',branchName,'"...'
+         buff←folder U.RunGitCommand'checkout ',branchName
+         r←∆TestFlag U.Show buff
+         :If isOpenacreProject
+             #.⎕EX space
+             ⎕←'*** Opening acre project ',space,'...'
+             ⎕←⎕SE.UCMD'acre.OpenProject ',folder
+         :EndIf
      :EndIf
-     ⎕←'*** Closing acre project ',space,'...'
-     {}⎕SE.UCMD'acre.Close ',space
-     ⎕←'Checking out "',branchName,'"...'
-     buff←folder U.RunGitCommand'checkout ',branchName
-     r←∆TestFlag U.Show buff
-     #.⎕EX space
-     ⎕←'*** Opening acre project ',space,'...'
-     ⎕←⎕SE.UCMD'acre.OpenProject ',folder
+ :Else
+     ⎕←'No projects found'
  :EndIf
 ⍝Done
