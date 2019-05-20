@@ -1,4 +1,10 @@
  History
+⍝ * 0.8.4
+⍝   * `CompareVersions` should check whether the object (still) exists in the WS and act accordingly.\\
+⍝      It now tries to find the object in the calling namespace in case it is not a fully qualified name.
+⍝ * 0.8.3
+⍝   * `CompareVersions` did not realize when two versions were identical.
+⍝   * `CompareVersions` did not complain about an empty or otherwise invalid right argument.
 ⍝ * 0.8.2
 ⍝   * Handling of quotes and double quotes in messages improved.
 ⍝   * $ is not causing havov in messages any more.
