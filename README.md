@@ -1,5 +1,5 @@
 # APLGit
 
-This is a collection of APL functions that support the OneFlow work flow.
+This is a collection of APL functions that support the OneFlow Git work flow.
 
-These function allow to execute the required GitBash commands from within a DyalogAPL session.
+These functions allow to execute the required GitBash commands from within a Dyalog APL session.
