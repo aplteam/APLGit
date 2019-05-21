@@ -1,7 +1,8 @@
  History
 ⍝ * 0.8.4
-⍝   * `CompareVersions` should check whether the object (still) exists in the WS and act accordingly.\\
-⍝      It now tries to find the object in the calling namespace in case it is not a fully qualified name.
+⍝   * `CompareVersions` should check whether the object (still) exists in the WS and act accordingly.
+⍝      For the time being that means refusing because Git's "Log" command does not work on anything that's not a file in HEAD.\\
+⍝      Also, it now tries to find the object in question in the calling namespace in case it is not a fully qualified name.
 ⍝ * 0.8.3
 ⍝   * `CompareVersions` did not realize when two versions were identical.
 ⍝   * `CompareVersions` did not complain about an empty or otherwise invalid right argument.

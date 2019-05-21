@@ -11,6 +11,13 @@
  :If '#'≠1⍴name
      name←(⊃⎕NSI),'.',name
  :EndIf
+
+⍝ --- For the time being we cannot get this to work with anything that does not exist any more ---
+ :If ~(⎕NC name)∊⍳16
+     'Object does not exist in the workspace'⎕SIGNAL 6
+ :EndIf
+⍝ ------------------------------------------------------------------------------------------------
+
  :If 0=≢log←folder ChangeLog name
      ⎕←'No changes found for ',name
  :Else

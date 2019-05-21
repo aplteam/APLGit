@@ -8,5 +8,9 @@
  (space folder)←2↑project
  filename←(⍴folder)↓⎕SE.acreAPI.sourcefile name
  r←folder U.RunGitCommand'show ',hash,':',filename,' --find-renames'
+ :If ∨/'option ''--find-renames'' must come before non-option arguments'⍷,↑r
+     ⍝ I don't understand this error but  without the "--find-renames'" part it works
+     r←folder U.RunGitCommand'show ',hash,':',filename
+ :EndIf
  ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
 ⍝Done
