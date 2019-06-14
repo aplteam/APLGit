@@ -1,22 +1,23 @@
- index←{manyFlag}Select options;flag;answer;question;value;bool
-⍝ Presents `options` as a numbered list and allows the user to select either exactly one or multiple ones.\\
-⍝ One is the default.\\
-⍝ `manyFlag` default to 0 (menaing just one item might be selected) or 1, in which case
-⍝ multiple items can be specified.
+ index←{caption}Select options;flag;answer;question;value;bool
+⍝ Presents `options` as a numbered list and allows the user to select either exactly one of them.\\
+⍝ See also `SelectTwo`.\\
 ⍝ `options` must not have more than 999 items.
-⍝ If the user aborts `index is `⍬`.
- manyFlag←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'manyFlag'
+⍝ If the user aborts `index1 is `⍬`.
+ caption←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'caption'
  'Invalid right argument; must be a vector of text vectors.'⎕SIGNAL 11/⍨2≠≡options
  'Right argument has more than 999 items'⎕SIGNAL 11/⍨999<≢options
  flag←0
  :Repeat
      ⎕←(⎕PW-1)⍴'-'
+     :If 0<≢caption
+         ⎕←caption
+     :EndIf
      ⎕←⍪{((⊂'. '),¨⍨(⊂3 0)⍕¨⍳⍴⍵),¨⍵}options
      ⎕←''
-     :If 0<≢answer←⍞,0/⍞←question←'Select one ',(manyFlag/'or more '),'item',((manyFlag)/'s'),' (q=quit',(manyFlag/', a=all'),') : '
+     :If 0<≢answer←⍞,0/⍞←question←'Select one item (q=quit) : '
          answer←(⍴question)↓answer
          :If 1=≢answer
-         :AndIf answer∊'Qq',manyFlag/'Aa'
+         :AndIf answer∊'Qq'
              :If answer∊'Qq'
                  index←⍬
                  :Return
@@ -24,10 +25,9 @@
                  index←⍳≢options
                  flag←1
              :EndIf
-         :Else
+         :ElseIf 0<≢answer
              (bool value)←⎕VFI answer
              :If ∧/bool
-             :AndIf manyFlag∨1=+/bool
                  value←bool/value
              :AndIf ∧/value∊⍳⍴options
                  index←value
@@ -37,3 +37,4 @@
      :EndIf
  :Until flag
  index←{1<≢⍵:⍵ ⋄ ⊃⍵}index
+⍝Done

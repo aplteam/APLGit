@@ -1,5 +1,5 @@
  r←GetGitAttributes
-⍝ Returns a vector of chracter vectors that define a default file .gitattributes
+⍝ Returns a vector of character vectors that define a default file .gitattributes
  r←''
  r,←⊂'# Auto detect text files'
  r,←⊂'* text=auto'

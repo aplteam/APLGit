@@ -1,5 +1,4 @@
  RunGitCommand←{
-⍝ ⍺ ←→ Git project folder
 ⍝ ⍵ ←→ command
      ⍺←''
      folder←⍺

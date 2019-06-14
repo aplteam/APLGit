@@ -13,7 +13,7 @@
  currentBranch←CurrentBranch folder
  'No squashing the master'⎕SIGNAL 11/⍨currentBranch≡'master'
  'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
- r←≢⎕←LogForBranch currentBranch
+ r←≢⎕←folder LogForBranch currentBranch
  :If 0=r
      ⎕←'There is nothing to squash'
  :ElseIf U.YesOrNo'These commits are going to be squashed; you okay with this?'

@@ -36,6 +36,7 @@
  {⎕NQ n.Grid'SetColSize'⍵ ¯3}¨⍳2⊃⍴n.Grid.Values
  ⎕NQ n.Grid'SetColSize' 0 50
  n.Grid.onCellUp←'OnCellUp'
+ n.Grid.onGridKeyPress←'OnKeyPressInGrid'
 
  n.∆Form.n←n
  n.∆Name←name

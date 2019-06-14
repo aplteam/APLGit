@@ -5,35 +5,40 @@
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  noPrompt←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'noPrompt'
  project←EstablishProject y
- 'This function MUST be called from #'⎕SIGNAL 11/⍨(,'#')≢,⊃⎕NSI
- 'No open acre projects'⎕SIGNAL 6/⍨0=≢project
- (space folder)←project[1 2]
- currentBranch←CurrentBranch folder
- 'This command MUST NOT be executed in "master"'⎕SIGNAL 11/⍨'master'≡currentBranch
- ('Branch "',currentBranch,'" is dirty!')⎕SIGNAL 11/⍨IsDirty folder
- :If 1 U.YesOrNo'Would you like to pull the master?'
-     buff←PullMaster folder
- :AndIf 0<'CONFLICT'{+/⍺∧.=⍨(≢⍺)↑[2]⍵}↑,buff
-     {}⎕SE.UCMD'acre.Close ',space
-     ⎕←'Because of the conflict the project is now closed.'
-     ⎕←'Re-open in a clean environment and then solve the merge conflicts.'
-     :Return
- :EndIf
- ⎕←'Now checking out master...'
- ⎕←⊃folder U.RunGitCommand'checkout master'
- ⎕←gitMsg←↑folder U.RunGitCommand'merge ',currentBranch
- ⎕SIGNAL 11/⍨∨/'fatal:'⍷,' ',gitMsg
- ⎕←⊃folder DeleteBranch currentBranch
- :If noPrompt
- :OrIf U.YesOrNo'Would you like to push the master?'
-     :If 0=≢∊gitMsg←1 Push folder
-         ⎕←'Pushed!'
-     :Else
-         ⎕←↑gitMsg
+ :If (,'#')≢,⊃⎕NSI
+     ⎕←'This function must be called from #'
+     ⎕←'Please enter the following command before executing the function again:'
+     ⎕←'      )CS'
+ :Else
+     'No open acre projects'⎕SIGNAL 6/⍨0=≢project
+     (space folder)←project[1 2]
+     currentBranch←CurrentBranch folder
+     'This command MUST NOT be executed in "master"'⎕SIGNAL 11/⍨'master'≡currentBranch
+     ('Branch "',currentBranch,'" is dirty!')⎕SIGNAL 11/⍨IsDirty folder
+     :If 1 U.YesOrNo'Would you like to pull the master?'
+         buff←PullMaster folder
+     :AndIf 0<'CONFLICT'{+/⍺∧.=⍨(≢⍺)↑[2]⍵}↑,buff
+         {}⎕SE.UCMD'acre.Close ',space
+         ⎕←'Because of the conflict the project is now closed.'
+         ⎕←'Re-open in a clean environment and then solve the merge conflicts.'
+         :Return
      :EndIf
+     ⎕←'Now checking out master...'
+     ⎕←⊃folder U.RunGitCommand'checkout master'
+     ⎕←gitMsg←↑folder U.RunGitCommand'merge ',currentBranch
+     ⎕SIGNAL 11/⍨∨/'fatal:'⍷,' ',gitMsg
+     ⎕←⊃folder DeleteBranch currentBranch
+     :If noPrompt
+     :OrIf U.YesOrNo'Would you like to push the master?'
+         :If 0=≢∊gitMsg←1 Push folder
+             ⎕←'Pushed!'
+         :Else
+             ⎕←↑gitMsg
+         :EndIf
+     :EndIf
+     {}⎕SE.UCMD'acre.Close ',space
+     #.⎕EX space
+     ⎕CS'#'
+     ⎕←'Project closed, space "',space,'" deleted and branch "',currentBranch,'" deleted'
  :EndIf
- {}⎕SE.UCMD'acre.Close ',space
- #.⎕EX space
- ⎕CS'#'
- ⎕←'Project closed, space "',space,'" deleted and branch "',currentBranch,'" deleted'
 ⍝Done

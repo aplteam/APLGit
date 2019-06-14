@@ -13,24 +13,33 @@
      :Else
          hash1←⊃n.Grid.Values[row1;3]
          :Trap 11
-             body1←n.∆Folder ##.GetRevision n.∆Name hash1
+             body1←n.∆Folder ##.GetRevision n.∆Filename hash1
          :Else
              'Failure to get revision'##.GUI_Show.ErrMsg('Getting the revision for "',hash1,'" failed!')'Details:'(1⊃⎕DM)
              ##.F.DeleteFile tempfile1 tempfile2
              :Return
          :EndTrap
+         :If ¯1≡body1
+             'Failure to get revision'##.GUI_Show.ErrMsg'It seems that the object was deleted by commit <',hash1,'>'
+             :Return
+         :EndIf
      :EndIf
      :If 1=row2
+     :AndIf (⎕NC n.∆Name)∊⍳16
          body2←{9=⎕NC ⍵:⎕SRC⍎⍵ ⋄ ⎕NR ⍵}n.∆Name
      :Else
          hash2←⊃n.Grid.Values[row2;3]
          :Trap 11
-             body2←n.∆Folder ##.GetRevision n.∆Name hash2
+             body2←n.∆Folder ##.GetRevision n.∆Filename hash2
          :Else
              'Failure to get revision'##.GUI_Show.ErrMsg('Getting the revision for "',hash2,'" failed!')'Details:'(1⊃⎕DM)
              ##.F.DeleteFile tempfile1 tempfile2
              :Return
          :EndTrap
+         :If ¯1≡body2
+             'Failure to get revision'##.GUI_Show.ErrMsg'It seems that the object was deleted by commit ",',hash2,'"'
+             :Return
+         :EndIf
      :EndIf
      :If body1≡body2
          'Comparison'##.GUI_Show.Msg'The two versions match'

@@ -29,6 +29,7 @@
  r,←⊂'ListBranches'
  r,←⊂'ListChanges'
  r,←⊂'ListDeleted'
+ r,←⊂'ListFiles'
  r,←⊂'ListUntracked'
  r,←⊂'Log'
  r,←⊂'LogShort'

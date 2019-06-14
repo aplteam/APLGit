@@ -13,8 +13,13 @@
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  (space folder)←2↑project
+ currentBranch←CurrentBranch folder
  :If 0=≢y
-     (branch1 branch2)←'master' 'dev'
+     :If 'master'≡currentBranch
+         (branch1 branch2)←'master' 'dev'
+     :Else
+         (branch1 branch2)←'master'currentBranch
+     :EndIf
  :Else
      (branch1 branch2)←y
  :EndIf
@@ -41,7 +46,6 @@
          :Return
      :EndIf
      (tfn1 tfn2)←'txt'∘F.GetTempFilename2¨2⍴⊂''
-     currentBranch←CurrentBranch folder
      :For thisFile :In list[;2]
          extension←A.Lowercase 3⊃⎕NPARTS thisFile
          :If (⊂extension)∊'.aplf' '.aplo' '.apln' '.aplc' '.apli' '.charstring' '.charlist'
@@ -74,7 +78,7 @@
                  :ElseIf nc∊3 4
                      buff2←⎕NR wsName
                  :Else
-                     buff2←⎕SE.acreAPI.toaplan⍎wsName
+                     buff2←(⎕UCS 13)A.Split ⎕SE.acreAPI.toaplan⍎wsName
                  :EndIf
              :Else
                  buff2←folder U.RunGitCommand'show ',hash2,':',thisFile

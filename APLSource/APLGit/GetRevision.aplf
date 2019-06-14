@@ -1,16 +1,17 @@
- r←{x}GetRevision(name hash);project;folder;filename;space   ⍝TODO⍝
-⍝ Takes the name of an APL object and returns the version from `hash`.\\
-⍝ The result either empty or the code of that object.
+ r←{x}GetRevision(filename hash);project;folder;space;cmd
+⍝ Takes a filename (!) and returns the content from `hash`.\\
+⍝ The result is either ¯1 (unknown) or the code of that object.\\
+⍝ If something goes wrong an error is thrown.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  (space folder)←2↑project
- filename←(⍴folder)↓⎕SE.acreAPI.sourcefile name
- r←folder U.RunGitCommand'show ',hash,':',filename,' --find-renames'
- :If ∨/'option ''--find-renames'' must come before non-option arguments'⍷,↑r
-     ⍝ I don't understand this error but  without the "--find-renames'" part it works
-     r←folder U.RunGitCommand'show ',hash,':',filename
+ cmd←'cat-file blob ',hash,':',filename
+ r←folder U.RunGitCommand cmd
+ :If ∨/'fatal: Not a valid object name'⍷∊r
+     r←¯1
+ :Else
+     ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
  :EndIf
- ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
 ⍝Done
