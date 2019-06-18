@@ -8,14 +8,18 @@
 ⍝ 1. The hash of the commit as a simple text string
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  project←EstablishProject x
- 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
- folder←2⊃project
- 'There are no pending changes / untracked files'⎕SIGNAL 11/⍨0=≢StatusShort folder
- nm←'master'≢CurrentBranch folder
- 'You must provide a menaningful message in the "master" branch'⎕SIGNAL 11/⍨(0=nm)∧0=≢msg
- m←msg,(nm∧0=≢msg)/'...'
- {}folder U.RunGitCommand'add --all'
- m←U.MassageMsg m
- r←⊃folder U.RunGitCommand'commit -m "',m,'"'
- r←' 'A.Split{1↓¯1↓⍵/⍨{⍵∨≠\⍵}⍵∊'[]'}r
+ 'Not an acre project'⎕SIGNAL 11/⍨(0=≢project)∧0≠≢x
+ :If 0=≢project
+     r←⍬
+ :Else
+     folder←2⊃project
+     'There are no pending changes / untracked files'⎕SIGNAL 11/⍨0=≢StatusShort folder
+     nm←'master'≢CurrentBranch folder
+     'You must provide a menaningful message in the "master" branch'⎕SIGNAL 11/⍨(0=nm)∧0=≢msg
+     m←msg,(nm∧0=≢msg)/'...'
+     {}folder U.RunGitCommand'add --all'
+     m←U.MassageMsg m
+     r←⊃folder U.RunGitCommand'commit -m "',m,'"'
+     r←' 'A.Split{1↓¯1↓⍵/⍨{⍵∨≠\⍵}⍵∊'[]'}r
+ :EndIf
 ⍝Done

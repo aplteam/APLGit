@@ -7,22 +7,20 @@
  U←##.APLGit.U
  was←{0=U.##.⎕NC'∆DefaultDir':⍬ ⋄ U.##.∆DefaultDir}⍬
  U.##.⎕EX'∆DefaultDir'
- →GoToTidyUp 0≠≢U.SetDefaultDir''                         ⍝ None defined yet
- r←U.SetDefaultDir #.Proj_1
+ →GoToTidyUp 0≠≢G.SetDefaultProject''                         ⍝ None defined yet
+ r←G.SetDefaultProject #.Proj_1
  →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓r)
  →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓B.∆DefaultDir)
  r←G.EstablishProject''
  →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓2⊃r)
- U.##.∆DefaultDir←''
- r←1 G.EstablishProject''
- →GoToTidyUp≢/F.EnforceSlash¨#.FilesAndDirs.PWD(¯1↓2⊃r)
- r←U.SetDefaultDir ∆Folder1
+ G.SetDefaultProject''
+ r←{⍵↓⍨-(¯1↑⍵)∊'/\'}G.SetDefaultProject ∆Folder1
  →GoToTidyUp≢/F.EnforceSlash¨∆Folder1 r
- r←G.EstablishProject ∆Folder2
+ r←{⍵↓⍨-(¯1↑⍵)∊'/\'}G.EstablishProject ∆Folder2
  →GoToTidyUp≢/F.EnforceSlash¨∆Folder2(¯1↓2⊃r)
 
  R←∆OK
 
 ∆TidyUp:
- :Trap 0 ⋄ {}B.SetDefaultDirectory was ⋄ :EndTrap
+ :Trap 0 ⋄ {}B.G.SetDefaultProject was ⋄ :EndTrap
 ⍝Done

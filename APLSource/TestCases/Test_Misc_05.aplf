@@ -5,7 +5,7 @@
 
  was←##.APLGit.∆DefaultDir
  ##.APLGit.⎕EX'∆DefaultDir'
- r←B.SetDefaultDirectory ∆Folder1
+ r←B.SetDefaultProject ∆Folder1
  →GoToTidyUp r≢F.EnforceSlash ∆Folder1,'/'
  filename←∆Folder1,'/file4.txt'
  A.WriteUtf8File filename('r←Hello2' 'r←''Milkyway''')

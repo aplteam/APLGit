@@ -1,6 +1,7 @@
  yesOrNo←{default}∆YesOrNo question;isOkay;answer;add
 ⍝ Ask a simple question and allows just "Yes" or "No" as answers.
-⍝ Allows specifying a default via the left argument which takes place in case the user simply presses <enter>.
+⍝ You may specify a default via the optional left argument which when specified
+⍝ rukes what happens when the user just presses <enter>.
 ⍝ `default` must be either 1 (yes) or 0 (no).
  isOkay←0
  default←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'default'

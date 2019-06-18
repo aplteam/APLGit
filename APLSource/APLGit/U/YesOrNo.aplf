@@ -27,12 +27,13 @@
  :EndIf
  :Repeat
      ⍞←question
-     answer←¯1↑⍞
-     :If (1=⍴,answer)∨(0∊⍴answer)∧~0∊⍴default
-         :If ~0∊⍴default
-             yesOrNo←default
-             isOkay←1
-         :ElseIf answer∊'YyNn'
+     answer←⍞
+     answer{⍵≡(≢⍵)↑⍺:(≢⍵)↓⍺ ⋄ ⍺}←question
+     :If (0=≢answer)∧0≠≢default
+         yesOrNo←default
+         isOkay←1
+     :ElseIf 1=⍴,answer
+         :If answer∊'YyNn'
              isOkay←1
              yesOrNo←answer∊'Yy'
          :EndIf

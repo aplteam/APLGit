@@ -1,5 +1,6 @@
  r←Methods;buff;list
-⍝ Like `Public` but adds the first line after the header and syntax information.
+⍝ Like `Public` but adds the first line after the header and syntax information.\\
+⍝ Uses `Public` as source.
  list←Public~⊂'Methods'
  buff←{2↑⎕NR ⍵}¨list
  r←{⍵↑⍨¯1+⍵⍳';'}¨1⊃¨buff

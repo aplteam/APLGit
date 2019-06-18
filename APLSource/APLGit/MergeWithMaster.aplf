@@ -1,7 +1,14 @@
  {r}←{noPrompt}MergeWithMaster y;project;folder;currentBranch;gitMsg;space;buff
-⍝ Merge `currentBranch` (which **must not** be "master") with the master.\\
+⍝ This function is usually executed only in case `FastForwardMergeWithMaster` failes. See there why
+⍝ that might fail.\\
+⍝ Like `FastForwardMergeWithMaster`, `MergeWithMaster` performs several steps:
+⍝ 1. Pulls the master (if user agrees)
+⍝ 2. Merge `currentBranch` with the master
+⍝ 3. Push the master
+⍝ 4. Delete the branch in question\\
 ⍝ Use this in case `FastForwardMergeWithMaster` does not work; see there why that might be the case.\\
 ⍝ Call `Squash` beforehand in order to clean up the commit history.\\
+⍝ Pulls the master first (the user will be prompted) and pushes after the merge.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  noPrompt←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'noPrompt'
  project←EstablishProject y
@@ -13,6 +20,9 @@
      'No open acre projects'⎕SIGNAL 6/⍨0=≢project
      (space folder)←project[1 2]
      currentBranch←CurrentBranch folder
+     :If 1<≢⎕SE.acreAPI.projects ⍬
+         ⎕←{(⎕PW-1)↑'--- ',⍵,' ',⎕PW⍴'-'}'Project <',(1⊃project),'> with branch "',currentBranch,'"'
+     :EndIf
      'This command MUST NOT be executed in "master"'⎕SIGNAL 11/⍨'master'≡currentBranch
      ('Branch "',currentBranch,'" is dirty!')⎕SIGNAL 11/⍨IsDirty folder
      :If 1 U.YesOrNo'Would you like to pull the master?'
@@ -29,7 +39,7 @@
      ⎕SIGNAL 11/⍨∨/'fatal:'⍷,' ',gitMsg
      ⎕←⊃folder DeleteBranch currentBranch
      :If noPrompt
-     :OrIf U.YesOrNo'Would you like to push the master?'
+     :OrIf 1 U.YesOrNo'Would you like to push the master?'
          :If 0=≢∊gitMsg←1 Push folder
              ⎕←'Pushed!'
          :Else
@@ -38,6 +48,7 @@
      :EndIf
      {}⎕SE.UCMD'acre.Close ',space
      #.⎕EX space
+     ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acreAPI.projects ⍬)[;2])/∆DefaultDir
      ⎕CS'#'
      ⎕←'Project closed, space "',space,'" deleted and branch "',currentBranch,'" deleted'
  :EndIf

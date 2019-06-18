@@ -1,43 +1,108 @@
 # APLGit
 
 
-## Philosophy
-
-All commands an APL programmer usually needs in order to work on a project by following the
-[OneFlow](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow) workflow are offered by APLGit.
-
-The purpose is to hide the enormous complexity of Git by offering just the commands needed to work according to this
-workflow. Same for the options.
-
-
 ## Overview
 
 This workspace comes with a wide range of functions supporting the APL programmer when dealing with both acre and Git.
 
 
+## Philosophy
+
+APLGit offers most of the Git commands an APL programmer usually needs in order to work on a project that is managed 
+by both acre and Git by following the 
+[OneFlow](https://www.endoflineblog.com/oneflow-a-git-branching-model-and-workflow) 
+workflow, only that the commands can be executed from within the APL session.
+
+The purpose is to hide the complexity of Git by offering just the commands needed to work according to this workflow.
+Same for the options. Because they are executed from within APL they can also make assumptions that help matters.
+
+
 ## Assumptions / preconditions
 
-First of all it assumes that you are using GitHub, and that the Git Bash is installed and available on your PC.
+* The GitBash must be installed and available on the Windows environment variable `%PATH%`.
+* `APLGit` assumes that any project is managed by the project manager 
+  [acre](https://github.com/the-carlisle-group/Acre-Desktop).
+* `APLGit` assumes that you host your project on GitHub. This implies that GitLab is _not_ supported.
 
-All commands that refer to a project assume that the programmer refers to a default project if none is specified. 
-For example, `AllBranches` prints a list of all branches, local and remote ones, to the session. If no project is 
-specified then the current directory rules.
 
-Note that if you do not set the current directory to where your project lives, or in case you have opened more than one
-project and you don't want the Git command to be issued on the one that is associated with the current directory, then
-naturally you have to specify the directory or the space of the project you are interested in.
-
-So by specifying a path as right argument `AllBranches` will investigate and report on that project. 
-
-However, instead of passing a folder you can also pass a space. This is recognized by `#` being the first character.
-
-Another option is to specify `'?'` instead of a folder/space: it will then present all currently opened acre projects 
-that are Git-managed and allow the user to select one of them.    
+## Installation
 
 For installation and usage see the document `Install.html`.
+
+
+## The default project
+
+Though all `APLGit` commands allow you to specify a project explicitly by providing either the path or the namespace
+container that identify a projecy `APLGit` tries to figure out which project to use if no such information is provided.
+
+The following rules apply:
+
+1. If there is just one acre project open, that's the one!
+2. If there is more than one acre project open `APLGit` checks whether one of them lives in the current directory.
+
+   If that is the case than the user is told that there are several acre projects open and is asked whether she is
+   happy with the one that got identified via the current directory. 
+   
+   If she is not happy she gets a list with all open acre projects to select from.
+   
+3. If the current directory does not give anything away the user is presented a list with all currently opened
+   acre projects. She may then select one of them.
+
+Because the aforementioned work flow can be inconvenient in case you have more then one acre project open but want to
+deal with just one of them when it comes to Git you can specify a default project by calling `SetDefaultProject`.
+
+This function accepts both a folder or a namespace container as long as they point to a currently opened acre
+project. The easiest way is to execute  `APLGit.SetDefaultProject '?'`.
+
+You can check at any point which acre project `APLGit` would choose by executing `APLGit.EstablishProject ''`.
+
+You can also specify a question mark as argument to any command that is project specific in order to make `APLGit` 
+list all open acre projects; for example:
+
+```
+      APLGit.Status '?'
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+   1.  #._APLGit       C:/.../APLGit/    
+   2.  #._GitHubAPIv3  C:/.../GitHubAPIv3/  
+
+Select one item (q=quit) :
+```
            
 
-## Stashes
+## Example
+
+Note that when branch names are needed but not proveded, "master" and "dev" are assumed.
+
+Assuming that we have a project sitting in `#.MyProject` then this is a typical sequence:
+
+```                                                                        
+  G←⎕SE.APLGit
+  ]acre.CreateProject /somewhere/myprj #.MyProject ⍝ Opens #.MyProject
+#.MyProject
+  G.SetCurrentProject #.MyProject                  ⍝ Force `
+/somewhere/myprj/
+  G.Initialize                                     ⍝ Make it also a Git repository
+Initialized empty Git repository in ...
+...
+  G.CreateBranch 'dev'                             ⍝ Create branch "dev" for project #.MyProject
+Switched to a new branch 'dev'
+Please wait - Reading 0 files from ...
+  G.AllBranches ''                                 ⍝ Check all branches 
+--- Project: #.MyProject (/somewhere/...)
+ * dev    
+   master 
+    ⍝⍝⍝⍝⍝ do some work
+  G.Commit ''                                      ⍝ Commit the changes in #.MyProject
+    ⍝⍝⍝⍝⍝ do some more work
+  G.Commit ''                                      ⍝ Commit the changes in #.MyProject
+  G.Squash 'Meaningful message'                    ⍝ Squashes two earlier commits
+  G.FastForwardMergeWithMaster ''                  ⍝ Pull master, merge dev+master, push master
+```
+
+
+## Misc
+
+### Stashes
 
 Stashing allows you to take any yet uncommitted changes (and as an option also all untracked files) away from the 
 working directory.
@@ -49,38 +114,13 @@ Because commits in Git are cheap everything you can achive with stashing can als
 but without the drawbacks of Git Stash. For that reason Git Stash was not impemented.
 
 
-## Examples
+### `U.RunGitCommand` and `Bash`
 
-This is a typical sequence:
-
-```
-]acre.CreateProject /somewhere/myproject #.MyProject    ⍝ Opens #.MyProject
-G←⎕SE.APLGit
-G.SetCurrentDir #.MyProject                             ⍝ Force the current dir to be the project's path
-G.Initialize                                            ⍝ Make it also a Git repository
-G.CreateBranch 'develop'                                ⍝ Create a branch "develop" for the project #.MyProject
-]acre.OpenProject /somewhere/OtherProject               ⍝ Opens #.OtherProject.
-G.AllBranches #.OtherProject                            ⍝ Check all branches of #.OtherProject
-]git.Checkout 'develop'                                 ⍝ Make "develop" the current branch of #.MyProject; must already exist
-⍝ do some work                                          ⍝ ...
-G.Commit 'Issue #134 fixed'                             ⍝ Commit the changes in #.MyProject
-G.Push                                                  ⍝ Push the changes made on #.MyProject to GitHub
-⍝ G.CreateRelease                                       ⍝ Not available yet; one day...
-```
-
-
-## Misc
-
-* If you are in need for doing something that is not supported by APLGit then you can use ` U.RunGitCommand ` which allows
-  you to do literally anything you want. However, use with care: you must know what you are doing.  
+If you are in need for doing something that is not supported by APLGit then you can use ` U.RunGitCommand ` which allows
+you to do literally anything you want. However, use with care: you must know what you are doing.  
   
-  The same holds true when you start a Git Bash in the current directory with `APLGit.Bash` of course.
-  
-  
-## How to start
-
-
-  
+The same holds true when you start a Git Bash in the current directory with `APLGit.Bash` of course.
+    
 ----
 
 This project lives on <https://github.com/aplteam/APLGit>. It was created by Kai Jaeger in 2019.

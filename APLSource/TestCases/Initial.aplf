@@ -12,11 +12,11 @@
 
  B.∆TestFlag←1
 
- ∆Folder1←F.GetTempFilename2'APLGitTests_'
+ ∆Folder1←B.U.EnforceSlashes F.GetTempFilename2'APLGitTests_'
  F.DeleteFile ∆Folder1
  ∆Folder1←¯4↓∆Folder1
 
- ∆Folder2←F.GetTempFilename2'APL Git Tests_'
+ ∆Folder2←B.U.EnforceSlashes F.GetTempFilename2'APL Git Tests_'
  F.DeleteFile ∆Folder2
  ∆Folder2←¯4↓∆Folder2
 

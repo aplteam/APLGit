@@ -1,4 +1,11 @@
  History
+⍝ * 0.14.0
+⍝   * `EstablishProject` now accepts <enter> as "Yes!" for default project prompts.
+⍝   * `U.SetDefaultDir` deleted.
+⍝   * `SetDefaultProject` introduced.
+⍝   * Documentation improved.
+⍝ * 0.13.1
+⍝   `Commit` improved.
 ⍝ * 0.13.0
 ⍝   * Method `CleanUpWorkDir` added.
 ⍝ * 0.12.1

@@ -4,7 +4,7 @@
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 
- list←{⍵↑⍨¯1+⍵⍳' '}¨##.APLTreeUtils.dlb↓L''
+ list←##.APLTreeUtils.dlb¨(L'')[;1]
  bodies←⎕NR¨list
  ⍝ In this case the function names are preceded bei "B." or "S." followed by an uppercase letter followed by letters:
  pattern←'\b[BS]\.[A-Z][A-Za-z.]*'

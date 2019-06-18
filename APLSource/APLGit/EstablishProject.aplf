@@ -25,22 +25,29 @@
          :If 0<⎕NC'∆DefaultDir'
          :AndIf 0<≢∆DefaultDir
              folder←∆DefaultDir
+             :If ~(⊂{⍵,(~(¯1↑⍵)∊'/')/'/'}U.EnforceSlashes ∆DefaultDir)∊{U.EnforceSlashes¨⍵[;2]}⎕SE.acreAPI.projects ⍬
+                 '∆DefaultDir does not define an open acre project?!'⎕SIGNAL 6
+             :EndIf
          :Else
-             folder←F.PWD
              :If 1<≢list
              :AndIf 0=noWarning
+                 folder←F.PWD
                  ⎕←''
                  ⎕←'*** There is more than one project open.'
                  ⎕←'    The default project is:'
-                 ⎕←'    ',F.PWD
-                 :If 0=U.YesOrNo'Is that okay? (Answer "n" for a selection)'
+                 ⎕←'    ',folder
+                 :If 0=1 U.YesOrNo'Is that okay? (Answer "n" for a selection)'
                      :If 0=≢ind←U.Select list[;1]
                          project←''
                          :Return
                      :Else
                          folder←2⊃list[ind;]
                      :EndIf
+                 :Else
+                     folder←2⊃list[1;]
                  :EndIf
+             :Else
+                 folder←2⊃list[1;]
              :EndIf
          :EndIf
          folder←U.WinLowercase F.EnforceSlash folder
