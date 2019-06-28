@@ -51,7 +51,9 @@
      :EndIf
      {}⎕SE.UCMD'acre.Close ',space
      #.⎕EX space
-     ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acreAPI.projects ⍬)[;2])/∆DefaultDir
+     :If 0<⎕NC'∆DefaultDir'
+         ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acreAPI.projects ⍬)[;2])/∆DefaultDir
+     :EndIf
      ⎕←'Project closed, space "',space,'" deleted and branch "',currentBranch,'" deleted'
  :EndIf
 ⍝Done

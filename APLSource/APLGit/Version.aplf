@@ -1,3 +1,3 @@
  r←Version
 ⍝ See also `History`
- r←'APLGit' '0.14.0.89' '2019-06-17'
+ r←'APLGit' '0.14.2.91' '2019-06-28'

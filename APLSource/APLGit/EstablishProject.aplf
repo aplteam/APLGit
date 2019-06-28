@@ -43,8 +43,6 @@
                      :Else
                          folder←2⊃list[ind;]
                      :EndIf
-                 :Else
-                     folder←2⊃list[1;]
                  :EndIf
              :Else
                  folder←2⊃list[1;]

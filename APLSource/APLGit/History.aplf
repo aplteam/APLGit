@@ -1,4 +1,8 @@
  History
+⍝ * 0.14.1
+⍝   * `EstablishProject` returned potentially a wrong result when the default project was accepted.
+⍝ * 0.14.1
+⍝   * VALUE ERROR in `FastForwardMergeWithMaster` fixed (∆DefaultDir).
 ⍝ * 0.14.0
 ⍝   * `EstablishProject` now accepts <enter> as "Yes!" for default project prompts.
 ⍝   * `U.SetDefaultDir` deleted.
