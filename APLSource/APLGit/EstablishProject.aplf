@@ -19,7 +19,10 @@
  :If '?'≡y
      project←U.SelectProject ⍬
  :Else
-     list←⎕SE.acreAPI.projects''
+     :If 0=≢list←⎕SE.acreAPI.projects''
+         project←''
+         :Return
+     :EndIf
      list[;2]←F.EnforceSlash¨list[;2]
      :If 0=≢y
          :If 0<⎕NC'∆DefaultDir'

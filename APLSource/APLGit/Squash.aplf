@@ -3,7 +3,8 @@
 ⍝ You will be shown a list of all commits that are going to be squashed and prompted for your okay.\\
 ⍝ Returns the number of commits that were squashed as a shy result.\\
 ⍝ You must provide a meaningful message but the check is performed only after all commits that are
-⍝ about to get squashed is printed to the session, so you can check without a message.\\
+⍝ about to get squashed is printed to the session, and even then you are prompted for a message.
+⍝ Only when you still do not provide a meaningful message will the function throws an error.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
  r←0
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
@@ -16,7 +17,21 @@
  r←≢⎕←folder LogForBranch currentBranch
  :If 0=r
      ⎕←'There is nothing to squash'
- :ElseIf U.YesOrNo'These commits are going to be squashed; you okay with this?'
+ :ElseIf 1 U.YesOrNo'These commits are going to be squashed; you okay with this?'
+     :If 0=≢msg
+         ⍞←'Provide a meaningful commit message'
+         ⎕SE.⎕SHADOW'TEMP'
+         'TEMP'⎕SE.⎕NS''
+         ⎕SE.TEMP.CommitMsg←''
+         ⎕SE.TEMP.⎕ED'CommitMsg'
+         msg←⎕SE.TEMP.CommitMsg
+         msg←(~(⎕UCS 13 13)⍷msg)/msg
+         msg←(-(⎕UCS 13)=¯1↑msg)↓msg
+         :If (⎕UCS 13)∊msg
+             ((msg=⎕UCS 13)/msg)←⊂' ⋄ '
+             msg←{⎕ML←3 ⋄ ∊⍵}msg
+         :EndIf
+     :EndIf
      'Sqash requires a meaningful message'⎕SIGNAL 11/⍨(0=≢msg)∨(,'.')≡∪msg~' '
      commonAncestor←⊃folder U.RunGitCommand'merge-base master ',currentBranch
      {0=≢⍵: ⋄ ⎕←⍵}⊃folder U.RunGitCommand'reset --soft ',commonAncestor

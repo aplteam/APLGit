@@ -1,6 +1,5 @@
  r←{x}Log noOf;project;folder;buff;cmd
-⍝ Returns a matrix with two or four columns (depending on `short`) and zero to many rows.\\
-⍝ By default `r` is a matrix with four columns:
+⍝ Returns a matrix with four columns and zero to many rows:\\
 ⍝ 1. Hash of the commit
 ⍝ 2. User ID
 ⍝ 3. Timestamp
@@ -14,8 +13,7 @@
  'Invalid right argument'⎕SIGNAL 11/⍨~(⎕DR noOf)∊83 163 323
  :If 0≠≢project←EstablishProject x
      folder←2⊃project
-     :If (⊂noOf)∊''⍬
-     :OrIf 0=noOf
+     :If 0=noOf
          cmd←'log --pretty=format:"',U.GetLogFormat,'"'
      :Else
          cmd←'log -',(⍕|noOf),' --pretty=format:"',U.GetLogFormat,'"'

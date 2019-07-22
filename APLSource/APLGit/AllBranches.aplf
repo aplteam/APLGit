@@ -3,7 +3,7 @@
 ⍝ `suppressOutput` is optional and defaults to 0. That means the result is printed to the session.\\
 ⍝ If you are using the function programmatically you are probably not interested in this; in this case set
 ⍝ `suppressOutput` to 1.\\
-⍝ Returns a vector of vector with branch names (the current branch starts with "* ") or ''.
+⍝ Returns a vector of vector with branch names (the current branch starts with "\* ") or ''.
  suppressOutput←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'suppressOutput'
  'Left argument must be a Boolean'⎕SIGNAL 11/⍨~(⊂suppressOutput)∊0 1
  buff←EstablishProject y

@@ -11,8 +11,7 @@
  'Invalid right argument'⎕SIGNAL 11/⍨~(⎕DR noOf)∊83 163 323
  :If 0≠≢project←EstablishProject x
      folder←2⊃project
-     :If (⊂noOf)∊''⍬
-     :OrIf 0=noOf
+     :If 0=noOf
          cmd←'log --oneline'
      :Else
          cmd←'log -',(⍕|noOf),' --oneline'

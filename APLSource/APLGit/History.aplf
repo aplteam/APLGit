@@ -1,5 +1,13 @@
  History
-⍝ * 0.14.1
+⍝ * 0.14.4
+⍝   * Bug fixes:
+⍝     * In `Log` and `LogShort`.
+⍝     * `Squash`
+⍝     * `U.YesOrNo`
+⍝     * `GUI_CompareVersions.OnQuit`
+⍝ * 0.14.3
+⍝   * Name of the workspace is from now on fixed to "project.dws".
+⍝ * 0.14.2
 ⍝   * `EstablishProject` returned potentially a wrong result when the default project was accepted.
 ⍝ * 0.14.1
 ⍝   * VALUE ERROR in `FastForwardMergeWithMaster` fixed (∆DefaultDir).

@@ -8,7 +8,7 @@
 ⍝ 1. The hash of the commit as a simple text string
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  project←EstablishProject x
- 'Not an acre project'⎕SIGNAL 11/⍨(0=≢project)∧0≠≢x
+ 'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  :If 0=≢project
      r←⍬
  :Else

@@ -1,5 +1,5 @@
  OnQuit←{
      rf←GetRef2n 1⊃,⍵
-     _←2 ⎕NQ rf.n.∆Form'Close'
+     _←2 ⎕NQ rf.∆Form'Close'
      0
  }
