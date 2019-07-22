@@ -1,4 +1,6 @@
  History
+⍝ * 0.15.0
+⍝   * `GoToGitHub` enhanced.
 ⍝ * 0.14.4
 ⍝   * Bug fixes:
 ⍝     * In `Log` and `LogShort`.
