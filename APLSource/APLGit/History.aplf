@@ -1,4 +1,6 @@
  History
+⍝ * 0.16.1
+⍝ * Pane captions in `ViewChangesBetweenCommits` fixed.
 ⍝ * 0.16.0
 ⍝    * Message in `Squash` polished.
 ⍝    * `CheckOut` now accepts <enter> as "yes".

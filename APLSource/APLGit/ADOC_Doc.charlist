@@ -71,7 +71,7 @@ Select one item (q=quit) :
 
 ## Example
 
-Note that when branch names are needed but not proveded, "master" and "dev" are assumed.
+Note that when branch names are needed but not provided, "master" and "dev" are assumed.
 
 Assuming that we have a project sitting in `#.MyProject` then this is a typical sequence:
 
