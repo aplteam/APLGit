@@ -12,7 +12,7 @@
      'This function MUST NOT be called from inside the project space'⎕SIGNAL 11/⍨space≡⊃⎕NSI
      'Not an acre project'⎕SIGNAL 11/⍨0=≢project
      :If ~isOpenacreProject←0<+/≢¨project[1 3]
-     :OrIf U.YesOrNo'This will close the acre project before checking out and then re-opening it! Continue?'
+     :OrIf 1 U.YesOrNo'This will close the acre project before checking out and then re-opening it! Continue?'
          'Uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
          allBranches←1 ListBranches folder
          :If '?'≡branchName

@@ -1,4 +1,8 @@
  History
+⍝ * 0.16.0
+⍝    * Message in `Squash` polished.
+⍝    * `CheckOut` now accepts <enter> as "yes".
+⍝    * Bug fix in EstablishProject`: a path was only accecpted when there was at least one open acre project.
 ⍝ * 0.15.0
 ⍝   * `GoToGitHub` enhanced.
 ⍝ * 0.14.4

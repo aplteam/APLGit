@@ -19,7 +19,7 @@
      ⎕←'There is nothing to squash'
  :ElseIf 1 U.YesOrNo'These commits are going to be squashed; you okay with this?'
      :If 0=≢msg
-         ⍞←'Provide a meaningful commit message'
+         ⍞←'Provide a meaningful commit message in the editor:'
          ⎕SE.⎕SHADOW'TEMP'
          'TEMP'⎕SE.⎕NS''
          ⎕SE.TEMP.CommitMsg←''
