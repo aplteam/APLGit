@@ -23,7 +23,7 @@
      'No open acre projects'⎕SIGNAL 6/⍨0=≢project
      (space folder)←project[1 2]
      currentBranch←CurrentBranch folder
-     :If 1<≢⎕SE.acreAPI.projects ⍬
+     :If 1<≢⎕SE.acre.Projects ⍬
          ⎕←{(⎕PW-1)↑'--- ',⍵,' ',⎕PW⍴'-'}'Project <',(1⊃project),'> with branch "',currentBranch,'"'
      :EndIf
      'This command MUST NOT be executed in "master"'⎕SIGNAL 11/⍨'master'≡currentBranch
@@ -54,7 +54,7 @@
      {}⎕SE.UCMD'acre.Close ',space
      #.⎕EX space
      :If 0<⎕NC'∆DefaultDir'
-         ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acreAPI.projects ⍬)[;2])/∆DefaultDir
+         ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acre.Projects ⍬)[;2])/∆DefaultDir
      :EndIf
      ⎕←'Project closed, space "',space,'" deleted and branch "',currentBranch,'" deleted'
  :EndIf

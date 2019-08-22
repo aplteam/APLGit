@@ -4,38 +4,45 @@
 ⍝ Note that branch names are case insensitive.\\
 ⍝ Throws an error in case the working directory is dirty.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
- r←⍬
+⍝ Returns 0 for okay and 1 otherwise.
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  '"branchName" must not be empty'⎕SIGNAL 11/⍨0=≢branchName
  :If 0≠≢project←EstablishProject x
      (space folder)←project[1 2]
-     'This function MUST NOT be called from inside the project space'⎕SIGNAL 11/⍨space≡⊃⎕NSI
-     'Not an acre project'⎕SIGNAL 11/⍨0=≢project
-     :If ~isOpenacreProject←0<+/≢¨project[1 3]
-     :OrIf 1 U.YesOrNo'This will close the acre project before checking out and then re-opening it! Continue?'
-         'Uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
-         allBranches←1 ListBranches folder
-         :If '?'≡branchName
-             →(0=≢ind←U.Select 2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches)/0
-             branchName←ind⊃2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches
-         :Else
-             'Branch does not exist'⎕SIGNAL 6/⍨~(⊂branchName)∊2↓¨allBranches
-             'That''s already the current branch?!'⎕SIGNAL 11/⍨branchName≡CurrentBranch folder
-         :EndIf
-         :If isOpenacreProject
-             ⎕←'*** Closing acre project ',space,'...'
-             {}⎕SE.UCMD'acre.Close ',space
-         :EndIf
-         ⎕←'Checking out "',branchName,'"...'
-         buff←folder U.RunGitCommand'checkout ',branchName
-         r←∆TestFlag U.Show buff
-         :If isOpenacreProject
-             #.⎕EX space
-             ⎕←'*** Opening acre project ',space,'...'
-             ⎕←⎕SE.UCMD'acre.OpenProject ',folder
+     :If (⊂space)∊⎕NSI
+         ⎕←'This function MUST NOT be called from within the project in question!'
+         ⎕←'Please enter the following command before executing the function again:'
+         ⎕←'      )CS'
+         r←1
+     :Else
+         'Not an acre project'⎕SIGNAL 11/⍨0=≢project
+         :If ~isOpenacreProject←0<+/≢¨project
+         :OrIf 1 U.YesOrNo'This will close the acre project before checking out and then re-opening it! Continue?'
+             'Uncommited changes'⎕SIGNAL 11/⍨IsDirty folder
+             allBranches←1 ListBranches folder
+             :If '?'≡branchName
+                 →(0=≢ind←U.Select 2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches)/0
+                 branchName←ind⊃2↓¨{⍵/⍨'*'≠⊃¨⍵}allBranches
+             :Else
+                 'Branch does not exist'⎕SIGNAL 6/⍨~(⊂branchName)∊2↓¨allBranches
+                 'That''s already the current branch?!'⎕SIGNAL 11/⍨branchName≡CurrentBranch folder
+             :EndIf
+             :If isOpenacreProject
+                 ⎕←'*** Closing acre project ',space,'...'
+                 {}⎕SE.UCMD'acre.Close ',space
+             :EndIf
+             ⎕←'Checking out "',branchName,'"...'
+             buff←folder U.RunGitCommand'checkout ',branchName
+             r←∆TestFlag U.Show buff
+             :If isOpenacreProject
+                 #.⎕EX space
+                 ⎕←'*** Opening acre project ',space,'...'
+                 ⎕←⎕SE.UCMD'acre.OpenProject ',folder
+             :EndIf
          :EndIf
      :EndIf
  :Else
      ⎕←'No projects found'
  :EndIf
+ r←0
 ⍝Done

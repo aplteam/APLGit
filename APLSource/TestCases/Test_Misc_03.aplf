@@ -4,7 +4,7 @@
  R←∆Failed
 
  r←B.GitProjects''
- →PassesIf(≢⎕SE.acreAPI.projects ⍬)=≢r
+ →PassesIf(≢⎕SE.acre.Projects ⍬)=≢r
 
  R←∆OK
 

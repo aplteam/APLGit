@@ -1,4 +1,7 @@
  History
+⍝ * 0.17.0
+⍝   * New acre API incorporated.
+⍝   * `CheckOut` now complains when executed from within a project space.
 ⍝ * 0.16.1
 ⍝ * Pane captions in `ViewChangesBetweenCommits` fixed.
 ⍝ * 0.16.0

@@ -49,7 +49,7 @@
      →PassesIf∨/'The current branch cannot be deleted'⍷∊DM
  :EndTrap
  r←folder B.CheckOut'master'
- →PassesIf 0=≢r
+ →PassesIf 0=r
  r←folder B.DeleteBranch'dev'
  →PassesIf∨/'Deleted branch dev'⍷∊r
 

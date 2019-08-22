@@ -21,12 +21,12 @@
      (space folder)←2↑project
  :EndIf
  :If inWs←(⎕NC name)∊⍳16
-     filename←'file://',(≢folder)↓⎕SE.acreAPI.sourcefile name
+     filename←'file://',(≢folder)↓⎕SE.acre.Sourcefile name
  :Else
      :If 0=≢buff←'Select object type:'U.Select U.ValidAplObjects
          :Return
      :Else
-         filename←(≢folder)↓¯1↓⎕SE.acreAPI.sourcefile name
+         filename←(≢folder)↓¯1↓⎕SE.acre.Sourcefile name
          filename←'file://',filename,buff⊃U.ValidFileExtensions
      :EndIf
  :EndIf

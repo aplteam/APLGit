@@ -20,7 +20,7 @@
      project←U.SelectProject ⍬
  :Else
      project←''
-     :If 0=≢list←⎕SE.acreAPI.projects''
+     :If 0=≢list←⎕SE.acre.Projects''
          y←⍕y
          :If '#'≠1⍴y
              y,←(~(¯1↑y)∊'/\')/'/'
@@ -34,7 +34,7 @@
              :If 0<⎕NC'∆DefaultDir'
              :AndIf 0<≢∆DefaultDir
                  folder←∆DefaultDir
-                 :If ~(⊂{⍵,(~(¯1↑⍵)∊'/')/'/'}U.EnforceSlashes ∆DefaultDir)∊{U.EnforceSlashes¨⍵[;2]}⎕SE.acreAPI.projects ⍬
+                 :If ~(⊂{⍵,(~(¯1↑⍵)∊'/')/'/'}U.EnforceSlashes ∆DefaultDir)∊{U.EnforceSlashes¨⍵[;2]}⎕SE.acre.Projects ⍬
                      '∆DefaultDir does not define an open acre project?!'⎕SIGNAL 6
                  :EndIf
              :Else

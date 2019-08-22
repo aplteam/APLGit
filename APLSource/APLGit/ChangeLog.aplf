@@ -14,7 +14,7 @@
  :If 'file://'{⍺≡(≢⍺)↑⍵}name
      filename←(⍴'file://')↓name
  :Else
-     filename←(⍴folder)↓⎕SE.acreAPI.sourcefile name
+     filename←(⍴folder)↓⎕SE.acre.Sourcefile name
  :EndIf
  cmd←'log --follow --pretty=format:"',U.GetLogFormat,'" -- ',filename
  r←folder U.RunGitCommand cmd

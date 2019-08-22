@@ -19,12 +19,12 @@
      →PassesIf∨/'The current branch cannot be deleted'⍷∊DM
  :EndTrap
  r←#.Proj_1 B.CheckOut'dev'
- →PassesIf 0=≢r
+ →PassesIf 0=r
  r←#.Proj_1 B.DeleteBranch'to_be_deleted'
  →PassesIf'Deleted branch to_be_deleted'{⍺≡(⍴⍺)⍴⍵}⊃r
  →PassesIf 2=≢B.ListBranches #.Proj_1
  r←#.Proj_1 B.CheckOut'master'
- →PassesIf 0=≢r
+ →PassesIf 0=r
  r←#.Proj_1 B.DeleteBranch'dev'
  →PassesIf∨/'Deleted branch dev'⍷∊r
 

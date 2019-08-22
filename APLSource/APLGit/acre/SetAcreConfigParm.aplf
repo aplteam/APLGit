@@ -7,9 +7,9 @@
  folder←2⊃project
  filename←folder,'acre.config'
  aplan←A.ReadUtf8File filename
- ns←⎕SE.acreAPI.fromaplan aplan
+ ns←⎕SE.acre.FromAPLAN aplan
  (names values)←{⊂,⍣(0 1∊⍨≡⍵)⊣⍵}¨names values
  names ns.{⍎⍺,'←⍵'}¨values
- aplan←⎕SE.acreAPI.toaplan ns
+ aplan←⎕SE.acre.ToAPLAN ns
  A.WriteUtf8File filename aplan
 ⍝Done
