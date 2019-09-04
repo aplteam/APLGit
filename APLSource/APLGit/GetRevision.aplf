@@ -12,6 +12,6 @@
  :If ∨/'fatal: Not a valid object name'⍷∊r
      r←¯1
  :Else
-     ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
+     ⎕SIGNAL/U.CheckForFatal r
  :EndIf
 ⍝Done

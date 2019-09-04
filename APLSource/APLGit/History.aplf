@@ -1,4 +1,9 @@
  History
+⍝ * 0.17.1
+⍝   * Checks for the message "fatal:" returned potentially by the GitBash is now done by `U.CheckForFatal`.
+⍝   * Bug fixes:
+⍝     * `EstablishProject` die not return an empty vector when a path was specified that did not point to an acre project.
+⍝     * `Commit` did not analyze the result, therefore missing any "fatal" messages.
 ⍝ * 0.17.0
 ⍝   * New acre API incorporated.
 ⍝   * `CheckOut` now complains when executed from within a project space.

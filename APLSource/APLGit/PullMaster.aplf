@@ -11,7 +11,7 @@
  suppressOutput U.Show buff
  r,←buff
  buff←folder U.RunGitCommand'merge origin/master'
- (∊buff)⎕SIGNAL 11/⍨∨/'fatal:'⍷∊buff
+ ⎕SIGNAL/U.CheckForFatal buff
  suppressOutput U.Show buff
  r,←buff
  r←⍪r

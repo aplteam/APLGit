@@ -17,7 +17,7 @@
          cmd←'log -',(⍕|noOf),' --oneline'
      :EndIf
      buff←folder U.RunGitCommand cmd
-     ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+     ⎕SIGNAL/U.CheckForFatal buff
      r←{(1,1↓∧⌿' '=⍵)⊂⍵}↑buff
  :EndIf
 ⍝Done

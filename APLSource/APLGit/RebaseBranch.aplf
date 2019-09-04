@@ -8,8 +8,8 @@
      folder Squash''
      ⎕←⊃folder U.RunGitCommand'fetch origin master:master'
      buff←folder U.RunGitCommand'rebase master'
-     ⎕←⊃folder U.ProcessFileLine¨buff
-     ⎕SE.UCMD'acre.RefreshProject ',folder
+     ⎕←⊃folder∘U.ProcessFileLine¨buff
+     ⎕SE.UCMD'acre.Refresh ',folder
      :If IsDirty folder
          ⎕←'Merge manually, then run RebaseContinue'
          success←0

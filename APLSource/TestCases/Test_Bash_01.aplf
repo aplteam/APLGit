@@ -6,9 +6,6 @@
  →PassesIf F.IsDir ∆Folder1
  →PassesIf F.IsDir ∆Folder2
 
- →PassesIf F.IsDir ∆Folder1,'/.acre'
- →PassesIf F.IsDir ∆Folder2,'/.acre'
-
  →PassesIf F.IsDir ∆Folder1,'/.git'
  →PassesIf F.IsDir ∆Folder2,'/.git'
 

@@ -36,7 +36,7 @@
      ⎕←'Now checking out master...'
      ⎕←⊃folder U.RunGitCommand'checkout master'
      ⎕←gitMsg←↑folder U.RunGitCommand'merge ',currentBranch
-     ⎕SIGNAL 11/⍨∨/'fatal:'⍷,' ',gitMsg
+     ⎕SIGNAL/U.CheckForFatal gitMsg
      ⎕←⊃folder DeleteBranch currentBranch
      :If noPrompt
      :OrIf 1 U.YesOrNo'Would you like to push the master?'

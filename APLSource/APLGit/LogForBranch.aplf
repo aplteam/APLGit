@@ -52,7 +52,7 @@
          r←''
          ⎕←'Nothing to show!'
      :Else
-         ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+         ⎕SIGNAL/U.CheckForFatal buff
          :If 0=≢buff
              r←0 4⍴''
          :Else

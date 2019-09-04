@@ -19,7 +19,7 @@
          cmd←'log -',(⍕|noOf),' --pretty=format:"',U.GetLogFormat,'"'
      :EndIf
      buff←folder U.RunGitCommand cmd
-     ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}buff)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃buff
+     ⎕SIGNAL/U.CheckForFatal buff
      :If 0=≢buff
          r←0 4⍴''
      :Else

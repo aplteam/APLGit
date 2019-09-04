@@ -18,7 +18,7 @@
  :EndIf
  cmd←'log --follow --pretty=format:"',U.GetLogFormat,'" -- ',filename
  r←folder U.RunGitCommand cmd
- ({0∊⍴⍵:⍵ ⋄ 1⊃,⍵}r)⎕SIGNAL 11/⍨'fatal:'{⍺≡(⍴⍺)↑⍵}⊃r
+ ⎕SIGNAL/U.CheckForFatal r
  :If 0=≢r
      r←0 4⍴''
  :Else

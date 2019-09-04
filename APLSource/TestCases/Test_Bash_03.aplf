@@ -29,7 +29,7 @@
  status←B.Status folder
  →PassesIf 1 1≡+/¨'file1.txt' 'file2.txt'⍷¨⊂∊status
  r←folder B.Commit'Firlefanz'
- →PassesIf 2=⍴r
+ →PassesIf 2=≢r
  →PassesIf'dev'≡1⊃r
  →PassesIf 0=B.IsDirty folder
  status←B.StatusShort folder

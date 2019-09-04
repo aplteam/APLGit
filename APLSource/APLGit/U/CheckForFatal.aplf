@@ -1,0 +1,10 @@
+ r←{errNo}CheckForFatal msg
+⍝ `msg` was returned by the Git bash. Checks whether the string "fatal:" is part of that message.\\
+⍝ Returns `'' ⍬` if not and `<errMsg> erroNo` otherwise. `errNo` defaults to 11.\\
+⍝ Use this for an expression like: `⎕SIGNAL / CheckForFatal msg
+ r←''⍬
+ errNo←{0<⎕NC ⍵:⍎⍵ ⋄ 11}'errNo'
+ :If 'fatal:'{⎕ML←3 ⋄ ⍺≡(⍴⍺)↑∊⍵}msg
+     r←({1=≡⍵:⍵ ⋄ 1⊃,⍵}msg)errNo
+ :EndIf
+⍝Done
