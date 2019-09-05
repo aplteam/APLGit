@@ -30,8 +30,9 @@
  :Repeat
      ⍞←question
      answer←⍞
-     :If (≢answer)=¯1+≢question     ⍝ Did the user...
-     :OrIf 0=≢answer                ⍝ ...just press <enter>?
+     :If (≢answer)=¯1+≢question                 ⍝ Did the...
+     :OrIf 0=≢answer                            ⍝ ...user just...
+     :OrIf answer≡{⍵↓⍨-+/∧\' '=⌽⍵}⎕PW↓question  ⍝ ...press <enter>?
          :If 0≠≢default
              yesOrNo←default
              isOkay←1

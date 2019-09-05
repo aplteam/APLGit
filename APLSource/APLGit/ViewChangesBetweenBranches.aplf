@@ -83,13 +83,15 @@
              :Else
                  buff2←folder U.RunGitCommand'show ',hash2,':',thisFile
                  :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}buff2
-                     :If ∨/'exists on disk, but not in'⍷∊buff2
+                     :If ∨/'does not exist'⍷∊buff2
                          buff2←''
                      :Else
                          buff2←⊂'*** ',1⊃,buff2
                      :EndIf
                  :EndIf
              :EndIf
+             buff1←header{⍺{⍺,⍵}⍣(0<≢⍵)⊣⍵}buff1
+             buff2←header{⍺{⍺,⍵}⍣(0<≢⍵)⊣⍵}buff2
          :Else
              name←thisFile
              header←↓U.Box(('⌹',[1]'⌹',,[0.5]name),[1]'⌹'),'⌹'
@@ -97,8 +99,8 @@
              buff2←⊂'*** File ',((0<≢extension)/'type '),'ignored for comparison: ',name{0=≢⍵:⍺ ⋄ ⍵}extension
          :EndIf
          :If buff1≢buff2
-             'append'A.WriteUtf8File tfn1(header,buff1)
-             'append'A.WriteUtf8File tfn2(header,buff2)
+             'append'A.WriteUtf8File tfn1 buff1
+             'append'A.WriteUtf8File tfn2 buff2
              noofBytes+←⌈/{+/≢¨⍵}¨buff1 buff2
          :EndIf
      :EndFor

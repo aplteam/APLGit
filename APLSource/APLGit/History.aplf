@@ -1,4 +1,8 @@
  History
+⍝ * 0.17.2
+⍝   * Bug fixes
+⍝     * `ViewChangesBetweenBranches` handled missing functions incorrectly.
+⍝     * `YesOrNo` did not deal well whith questions stretching over more than one line.
 ⍝ * 0.17.1
 ⍝   * Checks for the message "fatal:" returned potentially by the GitBash is now done by `U.CheckForFatal`.
 ⍝   * Bug fixes:
