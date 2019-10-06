@@ -1,4 +1,4 @@
- {r}←Compare n;r1;r2;tempfile1;tempfile2;hash1;hash2;body1;body2;row1;row2;bool;parent
+ {r}←Compare n;r1;r2;tempfile1;tempfile2;hash1;hash2;body1;body2;row1;row2;bool;parent;cmd
  r←0
  (r1 r2)←↓⍉n.Grid.Values[;1 2]
  :If (0=+/r1)∨(0=+/r2)
@@ -45,9 +45,12 @@
          'Comparison'##.GUI_Show.Msg'The two versions match'
      :Else
          (tempfile1 tempfile2)←##.F.GetTempFilename2¨2⍴⊂''
-         ##.A.WriteUtf8File tempfile1 body1
-         ##.A.WriteUtf8File tempfile2 body2
-         bool←⎕SE.UCMD'CompareFiles ''',tempfile1,''' ''',tempfile2,''' -ro1=',(⍕row1≠1),' -ro2=',(⍕row2≠1)
+         ##.A.WriteUtf8File tempfile1({' '=1⍴1↑0⍴⊃⍵:⍵ ⋄ ''}body1)
+         ##.A.WriteUtf8File tempfile2({' '=1⍴1↑0⍴⊃⍵:⍵ ⋄ ''}body2)
+         cmd←'CompareFiles ''',tempfile1,''' ''',tempfile2,''''
+         cmd,←' -ro1=',(⍕row1≠1),' -ro2=',(⍕row2≠1)
+         cmd,←' -label1=',hash1,' -label2=',hash2
+         bool←⎕SE.UCMD cmd
          :If 1∊row1,row2
          :AndIf 0<+/bool
          :AndIf 'Save changes'##.GUI_Show.YesOrNo'You''ve changed the workspace version - fix and tell acre?'

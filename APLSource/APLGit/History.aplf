@@ -1,4 +1,12 @@
  History
+⍝ * 0.17.4
+⍝   * Bug fixes in `CompareVersions`:
+⍝     * In case a commit did not contained the objects an error was shown.
+⍝     * The column titles should show the hash rather then the names of the tmep files.
+⍝ * 0.17.3
+⍝   * Bug fixes:
+⍝     `CompareVersions` and `ChangeLog` had a problem because the acre function `Sourcefile` does not return a simple argument anymore.
+⍝   * `U.FileNameToItemName` used an outdated acre API call.
 ⍝ * 0.17.2
 ⍝   * Bug fixes
 ⍝     * `ViewChangesBetweenBranches` handled missing functions incorrectly.
