@@ -49,7 +49,7 @@
          ##.A.WriteUtf8File tempfile2({' '=1⍴1↑0⍴⊃⍵:⍵ ⋄ ''}body2)
          cmd←'CompareFiles ''',tempfile1,''' ''',tempfile2,''''
          cmd,←' -ro1=',(⍕row1≠1),' -ro2=',(⍕row2≠1)
-         cmd,←' -label1=',hash1,' -label2=',hash2
+         cmd,←' -label1=',({0<⎕NC ⍵:⍎⍵ ⋄ 'Workspace'}'hash1'),' -label2=',({0<⎕NC ⍵:⍎⍵ ⋄ 'Workspace version'}'hash2')
          bool←⎕SE.UCMD cmd
          :If 1∊row1,row2
          :AndIf 0<+/bool

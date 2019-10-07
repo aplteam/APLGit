@@ -1,4 +1,6 @@
  History
+⍝ * 0.17.5
+⍝    * Bug fixe in `CompareVersions`: workspace version crashed.
 ⍝ * 0.17.4
 ⍝   * Bug fixes in `CompareVersions`:
 ⍝     * In case a commit did not contained the objects an error was shown.
