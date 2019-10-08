@@ -50,7 +50,7 @@
          extension←A.Lowercase 3⊃⎕NPARTS thisFile
          :If (⊂extension)∊'.aplf' '.aplo' '.apln' '.aplc' '.apli' '.charstring' '.charlist'
          :AndIf 'APLSource/'{⍺≡(⍴⍺)↑⍵}thisFile
-             wsName←1⊃,⎕SE.acre.Itemname thisFile
+             wsName←1⊃,⎕SE.acre.Itemname{~' '∊⍵:⍵ ⋄ {⍵⊃⍨⌊/2,1+{⍵/⍳≢⍵}'-'∊¨⍵}' 'A.Split{⍵/⍨~'  '⍷⍵}⍵}thisFile
              header←↓U.Box(('⌹',[1]'⌹',,[0.5]wsName),[1]'⌹'),'⌹'
              :If branch1≡currentBranch
              :AndIf 0<nc←⎕NC wsName

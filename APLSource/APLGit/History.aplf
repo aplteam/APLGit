@@ -1,4 +1,6 @@
  History
+⍝ * 0.17.6
+⍝   * Bug in `ViewChangesBetweenBranches` fixed.
 ⍝ * 0.17.5
 ⍝    * Bug fixe in `CompareVersions`: workspace version crashed.
 ⍝ * 0.17.4
