@@ -1,4 +1,6 @@
  History
+⍝ * 0.17.7
+⍝   * Bug fix in `ViewChangesBetweenBranches` (regarding variables).
 ⍝ * 0.17.6
 ⍝   * Bug in `ViewChangesBetweenBranches` fixed.
 ⍝ * 0.17.5

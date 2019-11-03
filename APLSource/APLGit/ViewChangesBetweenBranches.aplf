@@ -59,7 +59,7 @@
                  :ElseIf nc∊3 4
                      buff1←⎕NR wsName
                  :Else
-                     buff1←⎕SE.acre.ToAPLAN⍎wsName
+                     buff1←⎕SE.acre.ToAPLAN wsName
                  :EndIf
              :Else
                  buff1←folder U.RunGitCommand'show ',hash1,':',thisFile
@@ -78,7 +78,7 @@
                  :ElseIf nc∊3 4
                      buff2←⎕NR wsName
                  :Else
-                     buff2←(⎕UCS 13)A.Split ⎕SE.acre.ToAPLAN⍎wsName
+                     buff2←(⎕UCS 13)A.Split ⎕SE.acre.ToAPLAN wsName
                  :EndIf
              :Else
                  buff2←folder U.RunGitCommand'show ',hash2,':',thisFile

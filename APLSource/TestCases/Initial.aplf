@@ -5,8 +5,8 @@
 ⍝ 4. Create two acre projects from those two namespaces
 ⍝ 5. Initialize both acre projects as local Git repositories
 
- A←#.APLTreeUtils
- F←#.FilesAndDirs
+ A←##.APLTreeUtils
+ F←##.FilesAndDirs
  B←##.APLGit
  B.U.Init
 
