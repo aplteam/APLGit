@@ -1,9 +1,9 @@
  R←Test_Bash_20(stopFlag batchFlag);⎕TRAP;url_1;url_2
 ⍝ Exercise these functions: `IsDirty`, `Commit`, `AddToGitHub`
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
- R←∆Inactive
+ R←T._Inactive
  :Return
 
 ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
@@ -12,16 +12,16 @@
  url_2←'https://github.com/aplteam/APLGit_2.git'
  B.AddToGitHub
 
- →PassesIf 0=B.IsDirty #.Proj_1
+ →T.PassesIf 0=B.IsDirty #.Proj_1
  #.Proj_1.⎕FX'r←Hello' 'r←''World'''
  ⎕SE.UCMD'acre.SetChanged #.Proj_1.Hello'
- →PassesIf 1=B.IsDirty #.Proj_1
+ →T.PassesIf 1=B.IsDirty #.Proj_1
 
- →PassesIf 0=B.IsDirty #.Proj_2
+ →T.PassesIf 0=B.IsDirty #.Proj_2
  #.Proj_2.⎕FX'r←Hello2' 'r←''Universe'''
  ⎕SE.UCMD'acre.SetChanged #.Proj_2.Hello2'
 
- →PassesIf 1=B.IsDirty #.Proj_2
+ →T.PassesIf 1=B.IsDirty #.Proj_2
  . ⍝ Fetch explicit result and check:
  #.Proj_1 B.Commit'Commit in ',(⊃⎕SI),' for Proj_1'
  #.Proj_2 B.Commit'Commit in ',(⊃⎕SI),' for Proj_2'
@@ -29,5 +29,5 @@
  #.Proj_1 B.AddToGitHub url_1
  #.Proj_2 B.AddToGitHub url_2
 
- R←∆OK
+ R←T._OK
 ⍝Done

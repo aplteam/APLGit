@@ -2,9 +2,9 @@
 ⍝ Check whether all functions in APLGit are covered by test functions.
 ⍝ If there are any that are not then they are reported to the session.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
- list←##.APLTreeUtils.dlb¨(L'')[;1]
+ list←##.APLTreeUtils.dlb¨(T.ListTestFunctions'')[;1]
  bodies←⎕NR¨list
  ⍝ In this case the function names are preceded bei "B." or "S." followed by an uppercase letter followed by letters:
  pattern←'\b[BS]\.[A-Z][A-Za-z.]*'
@@ -13,13 +13,13 @@
  covered←2↓¨∪⊃,/hits{⍵∘{⍵[3]↑⍵[2]↓(1+⍵[1])⊃⍺}¨⍺}¨1↓¨bodies
  uncovered←B.Public~covered,⊂'Init'
  :If 0=≢uncovered
-     R←∆OK
+     R←T._OK
  :Else
      ⎕←'Functions not covered by any test cases:'
      ⎕←'----------------------------------------'
      ⎕←' ',⍪uncovered
-     →FailsIf 1
+     →T.FailsIf 1
  :EndIf
 
- R←∆OK
+ R←T._OK
 ⍝Done

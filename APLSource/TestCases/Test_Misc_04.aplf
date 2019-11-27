@@ -1,17 +1,17 @@
  R←Test_Misc_04(stopFlag batchFlag);⎕TRAP;r
 ⍝ Exercise function `CurrentBranch`
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  r←B.CurrentBranch ∆Folder1
- →PassesIf'master'≡r
+ →T.PassesIf'master'≡r
 
  :Trap 11
      B.CurrentBranch'/does/not/exist'
  :Else
-     →PassesIf'Not an acre project'≡1⊃⎕DMX.DM
+     →T.PassesIf'Not an acre project'≡1⊃⎕DMX.DM
  :EndTrap
 
- R←∆OK
+ R←T._OK
 
 ⍝Done

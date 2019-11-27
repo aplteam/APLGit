@@ -1,4 +1,7 @@
  History
+⍝ * 0.17.8
+⍝   * Bug fix in `FastForwardMergeWithMaster`: when changes were pulled it now suggests to stop in order to run the test cases again.
+⍝   * Now `Tester2` rather than `Tester` is used.
 ⍝ * 0.17.7
 ⍝   * Bug fix in `ViewChangesBetweenBranches` (regarding variables).
 ⍝ * 0.17.6

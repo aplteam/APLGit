@@ -8,13 +8,13 @@
 
  :Else
 
-     R←∆Failed
+     R←T._Failed
      ∆Show'This test will attempt to open four Bash shells, two on #.Proj_1 & two on #.Proj_1.'
      folders←2⊃¨B.EstablishProject¨#.Proj_1 #.Proj_2
      r←B.Bash¨#.Proj_1 #.Proj_2,folders
-     →PassesIf 1 ∆YesOrNo'Can you confirm that?'
+     →T.PassesIf 1 ∆YesOrNo'Can you confirm that?'
 
-     R←∆OK
+     R←T._OK
 
 ∆TidyUp:
 

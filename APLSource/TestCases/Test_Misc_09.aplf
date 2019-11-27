@@ -1,10 +1,10 @@
  R←Test_Misc_09(stopFlag batchFlag);⎕TRAP;log
 ⍝ Exercise `ListFiles`.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  log←∆Folder1 ##.APLGit.Log 10
- →PassesIf 0<≢∆Folder1 ##.APLGit.ListFiles⊃log
+ →T.PassesIf 0<≢∆Folder1 ##.APLGit.ListFiles⊃log
 
- R←∆OK
+ R←T._OK
 ⍝Done

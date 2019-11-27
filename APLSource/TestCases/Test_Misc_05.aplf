@@ -1,19 +1,19 @@
  R←Test_Misc_05(stopFlag batchFlag);⎕TRAP;r;was;filename
 ⍝ Check whether setting the default dir has the desired effect.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  was←##.APLGit.∆DefaultDir
  ##.APLGit.⎕EX'∆DefaultDir'
  r←B.SetDefaultProject ∆Folder1
- →GoToTidyUp r≢F.EnforceSlash ∆Folder1,'/'
+ →T.GoToTidyUp r≢F.EnforceSlash ∆Folder1,'/'
  filename←∆Folder1,'/file4.txt'
  A.WriteUtf8File filename('r←Hello2' 'r←''Milkyway''')
  r←B.StatusShort''
  F.DeleteFile filename filename
- →GoToTidyUp(,⊂'?? file4.txt')≢,r
+ →T.GoToTidyUp(,⊂'?? file4.txt')≢,r
 
- R←∆OK
+ R←T._OK
 
 ∆TidyUp:
  ##.APLGit.∆DefaultDir←was

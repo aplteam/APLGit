@@ -6,7 +6,6 @@
 ⍝ 2. Merge `currentBranch` with the master
 ⍝ 3. Push the master
 ⍝ 4. Delete the branch in question\\
-⍝ Use this in case `FastForwardMergeWithMaster` does not work; see there why that might be the case.\\
 ⍝ Call `Squash` beforehand in order to clean up the commit history.\\
 ⍝ Pulls the master first (the user will be prompted) and pushes after the merge.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
@@ -48,7 +47,9 @@
      :EndIf
      {}⎕SE.UCMD'acre.Close ',space
      #.⎕EX space
-     ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acre.Projects ⍬)[;2])/∆DefaultDir
+     :If 0<⎕NC'∆DefaultDir'
+         ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acre.Projects ⍬)[;2])/∆DefaultDir
+     :EndIf
      ⎕CS'#'
      ⎕←'Project closed, space "',space,'" deleted and branch "',currentBranch,'" deleted'
  :EndIf

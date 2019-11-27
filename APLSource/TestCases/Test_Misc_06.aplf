@@ -1,11 +1,11 @@
  R←Test_Misc_06(stopFlag batchFlag);⎕TRAP;buff;expected
 ⍝ Exercise `Status`.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  buff←##.APLGit.Status'#.Proj_2'
  expected←'On branch master' 'nothing to commit, working tree clean'
- →PassesIf expected≡,buff
+ →T.PassesIf expected≡,buff
 
- R←∆OK
+ R←T._OK
 ⍝Done

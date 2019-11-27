@@ -1,25 +1,25 @@
  R←Test_Misc_01(stopFlag batchFlag);⎕TRAP;proj_1;proj_2;U;r;was;G
 ⍝ Check whether `EstablishProject` works as expected (except '?' as argument).
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  G←##.APLGit
  U←##.APLGit.U
  was←{0=U.##.⎕NC'∆DefaultDir':⍬ ⋄ U.##.∆DefaultDir}⍬
  U.##.⎕EX'∆DefaultDir'
- →GoToTidyUp 0≠≢G.SetDefaultProject''                         ⍝ None defined yet
+ →T.GoToTidyUp 0≠≢G.SetDefaultProject''                         ⍝ None defined yet
  r←G.SetDefaultProject #.Proj_1
- →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓r)
- →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓B.∆DefaultDir)
+ →T.GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓r)
+ →T.GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓B.∆DefaultDir)
  r←G.EstablishProject''
- →GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓2⊃r)
+ →T.GoToTidyUp≢/F.EnforceSlash¨∆Folder1(¯1↓2⊃r)
  G.SetDefaultProject''
  r←{⍵↓⍨-(¯1↑⍵)∊'/\'}G.SetDefaultProject ∆Folder1
- →GoToTidyUp≢/F.EnforceSlash¨∆Folder1 r
+ →T.GoToTidyUp≢/F.EnforceSlash¨∆Folder1 r
  r←{⍵↓⍨-(¯1↑⍵)∊'/\'}G.EstablishProject ∆Folder2
- →GoToTidyUp≢/F.EnforceSlash¨∆Folder2(¯1↓2⊃r)
+ →T.GoToTidyUp≢/F.EnforceSlash¨∆Folder2(¯1↓2⊃r)
 
- R←∆OK
+ R←T._OK
 
 ∆TidyUp:
  :Trap 0 ⋄ {}B.G.SetDefaultProject was ⋄ :EndTrap

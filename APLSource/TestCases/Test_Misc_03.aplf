@@ -1,11 +1,11 @@
  R←Test_Misc_03(stopFlag batchFlag);⎕TRAP;r
 ⍝ Exercise functions `GitProjects`
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  r←B.GitProjects''
- →PassesIf(≢⎕SE.acre.Projects ⍬)=≢r
+ →T.PassesIf(≢⎕SE.acre.Projects ⍬)=≢r
 
- R←∆OK
+ R←T._OK
 
 ⍝Done

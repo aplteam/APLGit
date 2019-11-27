@@ -30,11 +30,16 @@
      ('Branch "',currentBranch,'" is dirty!')⎕SIGNAL 11/⍨IsDirty folder
      :If 1 U.YesOrNo'Would you like to pull the master?'
          buff←PullMaster folder
-     :AndIf 0<'CONFLICT'{+/⍺∧.=⍨(≢⍺)↑[2]⍵}↑,buff
-         {}⎕SE.UCMD'acre.Close ',space
-         ⎕←'Because of the conflict the project is now closed.'
-         ⎕←'Re-open in a clean environment and then solve the merge conflicts.'
-         :Return
+         :If 0<'CONFLICT'{+/⍺∧.=⍨(≢⍺)↑[2]⍵}↑,buff
+             {}⎕SE.UCMD'acre.Close ',space
+             ⎕←'Because of the conflict the project is now closed.'
+             ⎕←'Re-open in a clean environment and then solve the merge conflicts.'
+             :Return
+         :ElseIf 0=∨/'Already up to date'⍷∊buff
+         :AndIf 0=0 U.YesOrNo'Changes have been pulled; you should probably run the test cases agein. Continue anyway?'
+             ⎕←'Fastforward cancelled...'
+             :Return
+         :EndIf
      :EndIf
      ⎕←'Now checking out master...'
      ⎕←⊃folder U.RunGitCommand'checkout master'
