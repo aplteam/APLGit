@@ -5,6 +5,8 @@
      c←'git -C "',folder,'" ',⍵,' 2>&1'    ⍝ 2>&1 redirects errors to screen, otherwise we don't see them
      f←{'UTF-8'⎕UCS ⎕UCS ⍵}
      buff←⎕CMD c
-     ∨/'''git'' is not recognized as an internal or external command'⍷∊buff:'"Git" not recognized as a command?!'⎕SIGNAL 11
+     ∨/'''git'' is not recognized as an internal or external command'⍷∊buff:(⍵,'not recognized as a command?!')⎕SIGNAL 11
+     ∨/'is not a git command'⍷∊buff:(⍵,' not recognized as a command?!')⎕SIGNAL 11
+     ∨/'fatal:'⍷∊buff:(∊buff)⎕SIGNAL 11
      f¨buff
  }
