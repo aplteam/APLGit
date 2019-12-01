@@ -1,4 +1,4 @@
- r←{x}LogDetails noOf;project;folder;buff;cmd
+ r←{x}LogDetails noOf;project;folder;buff;cmd;rc;more
 ⍝ Returns a details history for the given project.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
 ⍝ See also `LogForBranch`, `LogShort` and `Log`'.\\
@@ -14,6 +14,8 @@
      :Else
          cmd←'log -',(⍕|noOf),' --name-status'
      :EndIf
-     r←↑folder U.RunGitCommand cmd
+     (rc more buff)←folder U.RunGitCommand2 cmd
+     U.Assert 0=rc
+     r←↑buff
  :EndIf
 ⍝Done

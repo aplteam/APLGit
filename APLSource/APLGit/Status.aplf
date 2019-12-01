@@ -1,4 +1,4 @@
- r←Status y;folder;project
+ r←Status y;folder;project;rc;more;buff
 ⍝ Reports all uncommited/untracked files.\\
 ⍝ This function returns a full report, meaning that `r` is never empty, even if there are no pending changes.
 ⍝ See also `StatusShort`.\\
@@ -6,8 +6,7 @@
  project←EstablishProject y
  'No project folder or space specified/found'⎕SIGNAL 6/⍨0=≢project
  folder←2⊃project
- :If 0<≢r←folder U.RunGitCommand'status'
-     ⎕SIGNAL/U.CheckForFatal r
-     r←⍪r
- :EndIf
+ (rc more buff)←folder U.RunGitCommand2'status'
+ U.Assert 0=rc
+ r←⍪⍣(0<≢buff)⊣buff
 ⍝Done

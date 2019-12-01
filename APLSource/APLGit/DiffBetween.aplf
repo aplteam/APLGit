@@ -1,4 +1,4 @@
- r←{x}DiffBetween y;buff;folder;project;d1;d2
+ r←{x}DiffBetween y;buff;folder;project;d1;d2;rc;more
 ⍝ Lists all file differences between `y`.\\
 ⍝ * In case `y` is empty it defaults to "master" and "dev".
 ⍝ * If it is not empty it must be a two-element vector.\\
@@ -13,6 +13,7 @@
  :Else
      (d1 d2)←y
  :EndIf
- buff←folder U.RunGitCommand'diff --name-status ',d1,'..',d2
+ (rc more buff)←folder U.RunGitCommand2'diff --name-status ',d1,'..',d2
+ U.Assert 0=rc
  r←↑{i←⍵⍳' ' ⋄ ((i-1)↑⍵)(A.dlb i↓⍵)}¨buff
 ⍝Done

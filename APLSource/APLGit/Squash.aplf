@@ -1,4 +1,4 @@
- {r}←{x}Squash msg;project;folder;currentBranch;commonAncestor
+ {r}←{x}Squash msg;project;folder;currentBranch;commonAncestor;buff;rc;more
 ⍝ Squashes **all commits** of the current branch into a single one.\\
 ⍝ You will be shown a list of all commits that are going to be squashed and prompted for your okay.\\
 ⍝ Returns the number of commits that were squashed as a shy result.\\
@@ -33,9 +33,15 @@
          :EndIf
      :EndIf
      'Sqash requires a meaningful message'⎕SIGNAL 11/⍨(0=≢msg)∨(,'.')≡∪msg~' '
-     commonAncestor←⊃folder U.RunGitCommand'merge-base master ',currentBranch
-     {0=≢⍵: ⋄ ⎕←⍵}⊃folder U.RunGitCommand'reset --soft ',commonAncestor
+     (rc more buff)←folder U.RunGitCommand2'merge-base master ',currentBranch
+     U.Assert 0=rc
+     commonAncestor←⊃buff
+     (rc more buff)←folder U.RunGitCommand2'reset --soft ',commonAncestor
+     U.Assert 0=rc
+     ⎕←buff
      msg←U.MassageMsg msg
-     {0=≢⍵: ⋄ ⎕←⍵}⊃folder U.RunGitCommand'commit -m "',msg,'"'
+     (rc more buff)←folder U.RunGitCommand2'commit -m "',msg,'"'
+     U.Assert 0=rc
+     ⎕←buff
  :EndIf
 ⍝Done

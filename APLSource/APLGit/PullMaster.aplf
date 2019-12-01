@@ -1,4 +1,4 @@
- {r}←{suppressOutput}PullMaster y;project;folder;buff
+ {r}←{suppressOutput}PullMaster y;project;folder;buff;rc;more
 ⍝ Get latest changes in "master" from remote repository and merge it with "origin/master".\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  r←''
@@ -7,11 +7,12 @@
  folder←2⊃project
  suppressOutput←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'suppressOutput'
  suppressOutput∨←∆TestFlag
- buff←folder U.RunGitCommand'fetch origin'
+ (rc more buff)←folder U.RunGitCommand2'fetch origin'
+ U.Assert 0=rc
  suppressOutput U.Show buff
  r,←buff
- buff←folder U.RunGitCommand'merge origin/master'
- ⎕SIGNAL/U.CheckForFatal buff
+ (rc more buff)←folder U.RunGitCommand2'merge origin/master'
+ U.Assert 0=rc
  suppressOutput U.Show buff
  r,←buff
  r←⍪r

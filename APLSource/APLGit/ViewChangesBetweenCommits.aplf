@@ -1,4 +1,4 @@
- {r}←{x}ViewChangesBetweenCommits y;project;folder;b;list;noofBytes;thisFile;modifiedOrAdded;name;header;extension;buff1;buff2;captions;parms
+ {r}←{x}ViewChangesBetweenCommits y;project;folder;b;list;noofBytes;thisFile;modifiedOrAdded;name;header;extension;buff1;buff2;captions;parms;rc;more
 ⍝ Allows the inspection of all changes between x[1] and x[2] (`hash1` and `hash2`). `x` might be empty or not
 ⍝ specified at all, in which case the user gets a list of all commits, with the option to select two of them.
 ⍝ For the actual comparison the user command `]CompareFiles` is used.\\
@@ -34,13 +34,21 @@
      header←↓U.Box(('⌹',[1]'⌹',,[0.5]name),[1]'⌹'),'⌹'
      extension←A.Lowercase 3⊃⎕NPARTS thisFile
      :If (⊂extension)∊'.html' '.css' '.txt' '.config' '.ini' '.aplf' '.aplo' '.apln' '.aplc' '.apli' '.charstring' '.charlist'
-         buff1←folder U.RunGitCommand'show ',parms.hash1,':',thisFile
-         :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}buff1
-             buff1←⊂'*** ',1⊃,buff1
+         (rc more buff1)←folder U.RunGitCommand2'show ',parms.hash1,':',thisFile
+         :If 0≠rc
+             :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}more
+                 buff1←⊂'*** ',1⊃,buff1
+             :Else
+                 ∘∘∘ ⍝ Huh?!
+             :EndIf
          :EndIf
-         buff2←folder U.RunGitCommand'show ',parms.hash2,':',thisFile
-         :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}buff2
-             buff2←⊂'*** ',1⊃,buff2
+         (rc more buff2)←folder U.RunGitCommand2'show ',parms.hash2,':',thisFile
+         :If 0≠rc
+             :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}more
+                 buff2←⊂'*** ',1⊃,buff2
+             :Else
+                 ∘∘∘ ⍝Huh?!
+             :EndIf
          :EndIf
      :Else
          buff1←⊂'*** File type ignored for comparison: ',extension

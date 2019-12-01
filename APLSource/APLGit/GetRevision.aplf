@@ -1,4 +1,4 @@
- r←{x}GetRevision(filename hash);project;folder;space;cmd
+ r←{x}GetRevision(filename hash);project;folder;space;cmd;qdmx;rc;more
 ⍝ Takes a filename (!) and returns the content from `hash`.\\
 ⍝ The result is either ¯1 (unknown) or the code of that object.\\
 ⍝ If something goes wrong an error is thrown.\\
@@ -8,10 +8,6 @@
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  (space folder)←2↑project
  cmd←'cat-file blob ',hash,':',filename
- r←folder U.RunGitCommand cmd
- :If ∨/'fatal: Not a valid object name'⍷∊r
-     r←¯1
- :Else
-     ⎕SIGNAL/U.CheckForFatal r
- :EndIf
+ (rc more r)←folder U.RunGitCommand2 cmd
+ U.Assert 0=rc
 ⍝Done

@@ -1,4 +1,4 @@
- r←{x}RefLog branchName;project;folder;currentBranch;buff
+ r←{x}RefLog branchName;project;folder;currentBranch;buff;rc;more
 ⍝ Execute "reflog" on `branchName` might be empty, then you get a list with **all** actions.
 ⍝ For what `x` can actually be see `EstablishProject`.\\
  r←⍬
@@ -6,5 +6,7 @@
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  folder←2⊃project
- r←↑folder U.RunGitCommand'reflog ',branchName
+ (rc more r)←folder U.RunGitCommand2'reflog ',branchName
+ U.Assert 0=rc
+ r←↑r
 ⍝Doe

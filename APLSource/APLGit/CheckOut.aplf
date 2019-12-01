@@ -1,4 +1,4 @@
- {r}←{x}CheckOut branchName;project;folder;space;allBranches;ind;buff;isOpenacreProject
+ {r}←{x}CheckOut branchName;project;folder;space;allBranches;ind;buff;isOpenacreProject;rc;more
 ⍝ Close the acre project, overwrites the working directory with `branchName` and then
 ⍝ re-opens the acre project.\\
 ⍝ Note that branch names are case insensitive.\\
@@ -32,7 +32,8 @@
                  {}⎕SE.UCMD'acre.Close ',space
              :EndIf
              ⎕←'Checking out "',branchName,'"...'
-             buff←folder U.RunGitCommand'checkout ',branchName
+             (rc more buff)←folder U.RunGitCommand2'checkout ',branchName
+             U.Assert 0=rc
              r←∆TestFlag U.Show buff
              :If isOpenacreProject
                  #.⎕EX space

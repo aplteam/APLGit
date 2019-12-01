@@ -1,15 +1,10 @@
- R←Test_Misc_11(stopFlag batchFlag);⎕TRAP;qdmx
+ R←Test_Misc_11(stopFlag batchFlag);⎕TRAP;buff
 ⍝ Exercise `U.RunGitCommand`: does it signal an unkown Git command?
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
- :Trap 11
-     ##.FilesAndDirs.PWD ##.APLGit.U.RunGitCommand'firlefanzcommand'
-     →T.FailsIf 1
- :Else
-     qdmx←⎕DMX
-     →T.PassesIf∨/'firlefanzcommand not recognized as a command?!'⍷∊qdmx.DM
- :EndTrap
+ buff←##.FilesAndDirs.PWD ##.APLGit.U.RunGitCommand'firlefanzcommand'
+ →T.PassesIf∨/'''firlefanzcommand'' is not a git command.'⍷∊buff
 
  R←T._OK
 ⍝Done

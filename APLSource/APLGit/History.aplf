@@ -1,4 +1,8 @@
  History
+⍝ * 0.18.0
+⍝   * 0.17.9 was a mistake: `U.RunGitCommand` _cannot_ be changed without major hiccups, therefore the changed was rolled back.
+⍝   * New function `U.RunGitCommand2` introduced which provides a return code and a messafe in addition to the data.
+⍝   * All calles to `U.RunGitCommand` replaced by calls to `U.RunGitCommand2`.
 ⍝ * 0.17.9
 ⍝   * Bug fix: `U.RunGitCommand` did not recognize any fatal errors.
 ⍝ * 0.17.8

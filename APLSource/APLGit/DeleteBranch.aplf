@@ -1,4 +1,4 @@
- {r}←{x}DeleteBranch branchName;folder;project
+ {r}←{x}DeleteBranch branchName;folder;project;rc;more
 ⍝ Deletes branch `branchName`.\\
 ⍝ Note that branch names are case insensitive.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
@@ -8,6 +8,6 @@
  folder←2⊃project
  'You must specify a branch name'⎕SIGNAL 6/⍨0=≢branchName
  'The current branch cannot be deleted'⎕SIGNAL 11/⍨branchName≡CurrentBranch folder
- r←folder U.RunGitCommand'branch -D ',branchName
- (⊃r)⎕SIGNAL 11/⍨∨/∨/¨'error' 'fatal'⍷¨⊂∊r
+ (rc more r)←folder U.RunGitCommand2'branch -D ',branchName
+ U.Assert 0=rc
 ⍝Done

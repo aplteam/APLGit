@@ -114,13 +114,19 @@ Because commits in Git are cheap everything you can achive with stashing can als
 but without the drawbacks of Git Stash. For that reason Git Stash was not impemented.
 
 
-### `U.RunGitCommand` and `Bash`
+### `U.RunGitCommand[2]` and `Bash`
 
-If you are in need for doing something that is not supported by APLGit then you can use ` U.RunGitCommand ` which allows
-you to do literally anything you want. However, use with care: you must know what you are doing.  
+If you are in need for doing something that is not supported by APLGit then you can use `U.RunGitCommand` and
+`U.RunGitCommand2` which both allow you to do literally anything you want. However, use with care: you must know 
+what you are doing.  
+
+Note that `U.RunGitCommand` is only checking for the GitBash being installed and the command provided being recognized.
+All other errors (fatal, wrong argument, ...) are passed through as result. You can use `U.CheckForFatal` for checking
+the result. If you want a return code and separate data from Git messages (recommended) use `U.RunGitCommand2`.
   
 The same holds true when you start a Git Bash in the current directory with `APLGit.Bash` of course.
     
 ----
 
 This project lives on <https://github.com/aplteam/APLGit>. It was created by Kai Jaeger in 2019.
+

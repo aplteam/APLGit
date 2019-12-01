@@ -1,4 +1,4 @@
- {r}←{suppressOutput}ListBranches y;project;folder
+ {r}←{suppressOutput}ListBranches y;project;folder;rc;more
 ⍝ Returns a vector of vectors with branch names (the current branch starts with `* `) or `''`.
 ⍝ `suppressOutput` is optional and defaults to 0. That means the result is printed to the session.\\
 ⍝ If you are calling the function from code you are probably not interested in this; in this case set
@@ -10,7 +10,8 @@
  'Not an acre project'⎕SIGNAL 6/⍨0=≢project
  folder←2⊃project
  :If IsGitProject folder
-     r←folder U.RunGitCommand'branch --list -a'
+     (rc more r)←folder U.RunGitCommand2'branch --list -a'
+     U.Assert 0=rc
      r←{⍵/⍨0<⊃∘⍴¨⍵}⍣(0≠≢r)⊣r
      suppressOutput U.Show'--- Project: ',(1⊃project),' (',folder,')'
      suppressOutput U.Show r

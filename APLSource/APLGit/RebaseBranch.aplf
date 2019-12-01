@@ -1,4 +1,4 @@
- {success}←RebaseBranch y;project;folder;buff   ⍝TODO⍝  ⍝TODO⍝
+ {success}←RebaseBranch y;project;folder;buff;rc;more   ⍝TODO⍝  ⍝TODO⍝
 ⍝ Attempts to rebase the current branch.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
 ⍝ Returns 1 in case of successful merge, otherwise 0.\\
@@ -6,8 +6,11 @@
      folder←2⊃project
      'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
      folder Squash''
-     ⎕←⊃folder U.RunGitCommand'fetch origin master:master'
-     buff←folder U.RunGitCommand'rebase master'
+     (rc more buff)←folder U.RunGitCommand2'fetch origin master:master'
+     U.Assert 0=rc
+     ⎕←⊃buff
+     (rc more buff)←folder U.RunGitCommand2'rebase master'
+     U.Assert 0=rc
      ⎕←⊃folder∘U.ProcessFileLine¨buff
      ⎕SE.UCMD'acre.Refresh ',folder
      :If IsDirty folder

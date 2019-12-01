@@ -1,4 +1,4 @@
- {r}←{noPrompt}FastForwardMergeWithMaster y;project;folder;currentBranch;gitMsg;space;buff
+ {r}←{noPrompt}FastForwardMergeWithMaster y;project;folder;currentBranch;gitMsg;space;buff;rc;more
 ⍝ This function is usually executed in case work on a branch is finished and the branch can be deleted.
 ⍝ Like `MergeWithMaster`, `FastForwardMergeWithMaster` performs several steps:
 ⍝ 1. Pulls the master (if user agrees)
@@ -42,9 +42,12 @@
          :EndIf
      :EndIf
      ⎕←'Now checking out master...'
-     ⎕←⊃folder U.RunGitCommand'checkout master'
-     ⎕←gitMsg←↑folder U.RunGitCommand'merge ',currentBranch
-     ⎕SIGNAL/U.CheckForFatal gitMsg
+     (rc more buff)←folder U.RunGitCommand2'checkout master'
+     U.Assert 0=rc
+     ⎕←⊃buff
+     (rc more buff)←folder U.RunGitCommand2'merge ',currentBranch
+     U.Assert 0=rc
+     ⎕←↑buff
      ⎕←⊃folder DeleteBranch currentBranch
      :If noPrompt
      :OrIf 1 U.YesOrNo'Would you like to push the master?'

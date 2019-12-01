@@ -1,0 +1,11 @@
+ R←Test_Misc_12(stopFlag batchFlag);⎕TRAP;data;rc;more
+⍝ Exercise `U.RunGitCommand2`: does it signal an unkown project (path)?
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←T._Failed
+
+ (rc more data)←'Totally/unknown/for/sure'##.APLGit.U.RunGitCommand2'fetch origin'
+ →T.FailsIf rc=0
+ →T.PassesIf∨/'fatal: cannot change to'⍷more
+
+ R←T._OK
+⍝Done

@@ -1,4 +1,4 @@
- {r}←{x}CreateBranch branchName;project;folder
+ {r}←{x}CreateBranch branchName;project;folder;rc;more;buff
 ⍝ Creates a new branch and then checks out "master" into this new branch.\\
 ⍝ Note that branch names are case insensitive.\\
 ⍝ Overwrites the working directory, so it forces you to either commit or stage first by throwing
@@ -16,7 +16,9 @@
      :EndIf
      ((' '=branchName)/branchName)←'-'
      'Branch already exists'⎕SIGNAL 11/⍨(⊂branchName)∊2↓¨1 ListBranches folder
-     r←∆TestFlag U.Show↑folder U.RunGitCommand'checkout -b ',branchName,' master'
-     ∆TestFlag U.Show acre.RefreshProject folder
+     (rc more buff)←folder U.RunGitCommand2'checkout -b ',branchName,' master'
+     U.Assert 0=rc
+     ∆TestFlag U.Show buff
+     acre.RefreshProject folder
  :EndIf
 ⍝Done

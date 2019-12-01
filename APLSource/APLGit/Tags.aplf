@@ -1,4 +1,4 @@
- r←{detailed}Tags y;project;folder
+ r←{detailed}Tags y;project;folder;rc;more
 ⍝ Returns a vector if text vectors with the tag assigned to any commit.\\
 ⍝ In case the optional left argument is 1 (default is 0) instead a matrix
 ⍝ with 0 to many rows and three columns is returned:
@@ -10,7 +10,8 @@
  detailed←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'detailed'
  :If 0≠≢project←EstablishProject y
      folder←2⊃project
-     r←folder U.RunGitCommand'tag'
+     (rc more r)←folder U.RunGitCommand2'tag'
+     U.Assert 0=rc
      :If detailed
          r←r,[1.5]U.FormatVersion¨r
          r,←U.FormatVersion¨r[;2]

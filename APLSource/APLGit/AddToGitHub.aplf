@@ -1,4 +1,4 @@
- {r}←{x}AddToGitHub gitHubUrl;project;folder;buff;userid
+ {r}←{x}AddToGitHub gitHubUrl;project;folder;buff;userid;rc;more
 ⍝ Use this to add a new local repo to GitHub. You need a URL from GitHub for this,
 ⍝ so first add it there before calling this function.\\
 ⍝ Alternatively specify an empty right argument: in that case the function works out
@@ -22,11 +22,17 @@
      :Until 0≠≢userid
      gitHubUrl←'https://github.com/',userid,'/',(2⊃⎕NPARTS F.PWD),'.git'
  :EndIf
- r,←⊂buff←folder U.RunGitCommand'remote add origin ',gitHubUrl
+ (rc more buff)←folder U.RunGitCommand2'remote add origin ',gitHubUrl
+ U.Assert rc=0
+ r,←⊂buff
  ∆TestFlag U.Show buff
- r,←⊂buff←folder U.RunGitCommand'remote -v'
+ (rc more buff)←folder U.RunGitCommand'remote -v'
+ U.Assert rc=0
+ r,←⊂buff
  ∆TestFlag U.Show buff
- r,←⊂buff←folder U.RunGitCommand'push -u origin master'
+ (rc more buff)←folder U.RunGitCommand'push -u origin master'
+ U.Assert rc=0
+ r,←⊂buff
  ∆TestFlag U.Show buff
  r←⍪r
 ⍝Done

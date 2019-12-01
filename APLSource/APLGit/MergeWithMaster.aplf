@@ -1,4 +1,4 @@
- {r}←{noPrompt}MergeWithMaster y;project;folder;currentBranch;gitMsg;space;buff
+ {r}←{noPrompt}MergeWithMaster y;project;folder;currentBranch;gitMsg;space;buff;rc;more
 ⍝ This function is usually executed only in case `FastForwardMergeWithMaster` failes. See there why
 ⍝ that might fail.\\
 ⍝ Like `FastForwardMergeWithMaster`, `MergeWithMaster` performs several steps:
@@ -33,10 +33,15 @@
          :Return
      :EndIf
      ⎕←'Now checking out master...'
-     ⎕←⊃folder U.RunGitCommand'checkout master'
-     ⎕←gitMsg←↑folder U.RunGitCommand'merge ',currentBranch
-     ⎕SIGNAL/U.CheckForFatal gitMsg
-     ⎕←⊃folder DeleteBranch currentBranch
+     (rc more buff)←folder U.RunGitCommand2'checkout master'
+     U.Assert 0=rc
+     ⎕←⊃buff
+     (rc more buff)←folder U.RunGitCommand2'merge ',currentBranch
+     U.Assert 0=rc
+     ⎕←↑buff
+     (rc more buff)←folder DeleteBranch currentBranch
+     U.Assert 0=rc
+     ⎕←⊃buff
      :If noPrompt
      :OrIf 1 U.YesOrNo'Would you like to push the master?'
          :If 0=≢∊gitMsg←1 Push folder

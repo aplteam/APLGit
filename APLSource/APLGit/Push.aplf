@@ -1,4 +1,4 @@
- r←{noPrompt}Push y;project;branchName;folder
+ r←{noPrompt}Push y;project;branchName;folder;rc;more
 ⍝ Pushes all committed changes to GitHub.\\
 ⍝ Do **not** use this function for the very first commit of a newly created repository.
 ⍝ The user will be prompted unless the (optional) left argument is 1.\\
@@ -16,6 +16,8 @@
          ∆TestFlag U.Show'No action taken'
          :Return
      :EndIf
-     r←∆TestFlag U.Show folder U.RunGitCommand'push origin ',branchName
+     (rc more r)←folder U.RunGitCommand2'push origin ',branchName
+     U.Assert 0=rc
+     ∆TestFlag U.Show r
  :EndIf
 ⍝Done

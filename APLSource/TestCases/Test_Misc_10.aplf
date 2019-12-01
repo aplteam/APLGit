@@ -1,15 +1,10 @@
- R←Test_Misc_10(stopFlag batchFlag);⎕TRAP;qdmx
+ R←Test_Misc_10(stopFlag batchFlag);⎕TRAP;buff
 ⍝ Exercise `U.RunGitCommand`: does it signal an unkown project (path)?
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
- :Trap 11
-     'Totally/unknown/for/sure'##.APLGit.U.RunGitCommand'fetch origin'
-     →T.FailsIf 1
- :Else
-     qdmx←⎕DMX
-     →T.PassesIf∨/'fatal:'⍷∊qdmx.DM
- :EndTrap
+ buff←'Totally/unknown/for/sure'##.APLGit.U.RunGitCommand'fetch origin'
+ →T.PassesIf∨/'fatal:'⍷∊buff
 
  R←T._OK
 ⍝Done
