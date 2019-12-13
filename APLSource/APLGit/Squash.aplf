@@ -6,6 +6,7 @@
 ⍝ about to get squashed is printed to the session, and even then you are prompted for a message.
 ⍝ Only when you still do not provide a meaningful message will the function throws an error.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
+⍝ Returns the number of commits squashed.
  r←0
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  project←EstablishProject x
@@ -42,6 +43,6 @@
      msg←U.MassageMsg msg
      (rc more buff)←folder U.RunGitCommand2'commit -m "',msg,'"'
      U.Assert 0=rc
-     ⎕←buff
+     ⎕←⍪buff
  :EndIf
 ⍝Done

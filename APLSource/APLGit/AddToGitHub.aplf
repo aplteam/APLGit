@@ -26,11 +26,11 @@
  U.Assert rc=0
  r,←⊂buff
  ∆TestFlag U.Show buff
- (rc more buff)←folder U.RunGitCommand'remote -v'
+ (rc more buff)←folder U.RunGitCommand2'remote -v'
  U.Assert rc=0
  r,←⊂buff
  ∆TestFlag U.Show buff
- (rc more buff)←folder U.RunGitCommand'push -u origin master'
+ (rc more buff)←folder U.RunGitCommand2'push -u origin master'
  U.Assert rc=0
  r,←⊂buff
  ∆TestFlag U.Show buff

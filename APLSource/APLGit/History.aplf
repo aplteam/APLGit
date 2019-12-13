@@ -1,4 +1,6 @@
  History
+⍝ * 0.13.1
+⍝   * `Squash` printed a nested vector to the session rather than a matrix.
 ⍝ * 0.18.0
 ⍝   * 0.17.9 was a mistake: `U.RunGitCommand` _cannot_ be changed without major hiccups, therefore the changed was rolled back.
 ⍝   * New function `U.RunGitCommand2` introduced which provides a return code and a messafe in addition to the data.
