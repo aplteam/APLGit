@@ -17,7 +17,7 @@
          :Return
      :EndIf
      (rc more r)←folder U.RunGitCommand2'push origin ',branchName
-     U.Assert 0=rc
+     more U.Assert 0=rc
      ∆TestFlag U.Show r
  :EndIf
 ⍝Done

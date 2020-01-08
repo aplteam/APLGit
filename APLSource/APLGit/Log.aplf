@@ -1,4 +1,4 @@
- r←{x}Log noOf;project;folder;buff;cmd
+ r←{x}Log noOf;project;folder;buff;cmd;msg;rc
 ⍝ Returns a matrix with four columns and zero to many rows:\\
 ⍝ 1. Hash of the commit
 ⍝ 2. User ID
@@ -18,8 +18,8 @@
      :Else
          cmd←'log -',(⍕|noOf),' --pretty=format:"',U.GetLogFormat,'"'
      :EndIf
-     buff←folder U.RunGitCommand cmd
-     ⎕SIGNAL/U.CheckForFatal buff
+     (rc msg buff)←folder U.RunGitCommand2 cmd
+     msg U.Assert 0=rc
      :If 0=≢buff
          r←0 4⍴''
      :Else

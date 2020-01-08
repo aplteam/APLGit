@@ -1,4 +1,4 @@
- r←{x}Commit msg;nm;m;folder;project;buff⍝
+ r←{x}Commit msg;nm;m;folder;project;buff;rc⍝
 ⍝ Commits all changes.\\
 ⍝ If the current branch is "master" then `msg` **_must not_** be empty and should carry a meaningful message.
 ⍝ Otherwise `msg` may be empty but will become three dots (`...`).\\
@@ -17,11 +17,11 @@
      nm←'master'≢CurrentBranch folder
      'You must provide a menaningful message in the "master" branch'⎕SIGNAL 11/⍨(0=nm)∧0=≢msg
      m←msg,(nm∧0=≢msg)/'...'
-     buff←folder U.RunGitCommand'add --all'
-     ⎕SIGNAL/U.CheckForFatal buff
+     (rc msg buff)←folder U.RunGitCommand2'add --all'
+     msg U.Assert 0=rc
      m←U.MassageMsg m
-     buff←folder U.RunGitCommand'commit -m "',m,'"'
-     ⎕SIGNAL/U.CheckForFatal buff
+     (rc msg buff)←folder U.RunGitCommand2'commit -m "',m,'"'
+     msg U.Assert 0=rc
      r←' 'A.Split{1↓¯1↓⍵/⍨{⍵∨≠\⍵}⍵∊'[]'}⊃,/buff
  :EndIf
 ⍝Done

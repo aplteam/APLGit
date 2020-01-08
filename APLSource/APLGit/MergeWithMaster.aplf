@@ -50,7 +50,7 @@
              ⎕←↑gitMsg
          :EndIf
      :EndIf
-     {}⎕SE.UCMD'acre.Close ',space
+     {}⎕SE.acre.Close space
      #.⎕EX space
      :If 0<⎕NC'∆DefaultDir'
          ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acre.Projects ⍬)[;2])/∆DefaultDir

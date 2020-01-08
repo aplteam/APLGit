@@ -1,11 +1,14 @@
- {r}←{x}CheckOut branchName;project;folder;space;allBranches;ind;buff;isOpenacreProject;rc;more
-⍝ Close the acre project, overwrites the working directory with `branchName` and then
+ {r}←{x}Reset option
+⍝ Executes a Git "Reset" command with `option` which might be one of:
+⍝ * Empty
+
 ⍝ re-opens the acre project.\\
 ⍝ Note that branch names are case insensitive.\\
 ⍝ Throws an error in case the working directory is dirty.\\
 ⍝ For what `x` can actually be see `EstablishProject`.\\
 ⍝ Returns 0 for okay and 1 otherwise.
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
+ ∘∘∘ ⍝TODO⍝ Public
  '"branchName" must not be empty'⎕SIGNAL 11/⍨0=≢branchName
  :If 0≠≢project←EstablishProject x
      (space folder)←project[1 2]
