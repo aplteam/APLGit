@@ -1,23 +1,18 @@
- (rc msg data)←{folder}RunGitCommand2 command;cmd;transform;buff
+ (rc msg data)←{folder}RunGitCommand2 command;cmd;transform;tempFilename
 ⍝ `command` must be a Git command.\\
-⍝ * `rc` is 0 in case the command was executed successfully, otherwise 1
-⍝ * `msg` is '' is `rc is 0 but may carry a Git message otherwise
-⍝ * `data` is the data returned by Git except when `rc` is 1 when `data` is ⍬
+⍝ * `rc` is 0 in case the command was executed successfully, otherwise 1.
+⍝ * `msg` is '' if `rc is 0 but may carry an error message otherwise.
+⍝ * `data` is the data returned by Git.
 ⍝ See also `RunGitCommand`.
- rc←1 ⋄ msg←'' ⋄ data←⍬
+ rc←0
  folder←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'folder'
- cmd←'git -C "',folder,'" ',command,' 2>&1'    ⍝ 2>&1 redirects errors to screen, otherwise we don't see them
+ tempFilename←##.F.GetTempFilename2'APLGit'
+ cmd←'git -C "',folder,'" ',command,' 2>"',tempFilename,'"'    ⍝ Redirects errors to a temp file
  transform←{'UTF-8'⎕UCS ⎕UCS ⍵}
- buff←⎕CMD cmd
- :If ∨/'''git'' is not recognized as an internal or external command'⍷∊buff
-     msg←'GitBash is apparently not available/installed'
- :ElseIf ∨/'is not a git command'⍷∊buff
-     msg←'Not a recognized Git command'
- :ElseIf ∨/'fatal:'⍷∊buff
- :OrIf 'error:'{⍺≡(≢⍺)↑⍵}⊃buff
-     msg←1↓⊃,/(⎕UCS 10),¨buff
- :Else
-     data←transform¨buff
-     rc←0
+ data←transform¨⎕CMD cmd
+ :If 0<≢msg←{22::'' ⋄ ##.A.ReadUtf8File ⍵}tempFilename
+     msg←1↓⊃,/(⎕UCS 13),¨{⍵/⍨0<≢¨⍵}msg
+     rc←1
  :EndIf
+ ##.F.DeleteFile tempFilename
 ⍝Done

@@ -1,6 +1,7 @@
  {r}←{suppressOutput}Fetch y;folder;project;buff;qdmx;rc;more
-⍝ Fetch latest changes from GitHub
+⍝ Fetch latest changes from GitHub.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
+⍝ Returns the diff or ⍬ in case no open acre project could be found.
  r←⍬
  :If 0≠≢project←EstablishProject y
      folder←2⊃project
@@ -8,18 +9,25 @@
      suppressOutput∨←∆TestFlag
      :Trap 11
          (rc more buff)←folder U.RunGitCommand2'fetch origin'
-         U.Assert 0=rc
+         more U.Assert 0=rc
      :Else
          qdmx←⎕DMX
-         :If ∨/'fatal: ''origin'' does not appear to be a git repository'⍷∊qdmx.DM
+         :If ∨/'unable to access ''http'⍷more
+             'Cannot reach GitHub'⎕SIGNAL 11
+         :ElseIf ∨/'fatal: ''origin'' does not appear to be a git repository'⍷∊qdmx.DM
+         :OrIf ∨/'remote: Repository not found.'⍷more
              'Apparently not on GitHub'⎕SIGNAL 11
          :Else
-             ∘∘∘ ⍝ Huh?!
+             ⎕←'Please note: accessing GitHub failed!'
+             ⎕←'You might want to investigate:'
+             ⎕←more
+             ⎕←qdmx.DM
+             ⎕SIGNAL 11
          :EndIf
      :EndTrap
      suppressOutput U.Show buff
      (rc more r)←folder U.RunGitCommand2'diff --name-status master origin/master'
-     U.Assert 0=rc
+     more U.Assert 0=rc
      suppressOutput U.Show r
  :EndIf
 ⍝Done

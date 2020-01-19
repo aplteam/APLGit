@@ -1,11 +1,12 @@
- R←Test_Misc_13(stopFlag batchFlag);⎕TRAP;rc;more;data
+ R←Test_Misc_13(stopFlag batchFlag);⎕TRAP;rc;more;data;expected
 ⍝ Exercise `U.RunGitCommand2`: does it signal an unkown Git command?
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  (rc more data)←##.FilesAndDirs.PWD ##.APLGit.U.RunGitCommand2'firlefanzcommand'
  →T.FailsIf rc=0
- →T.PassesIf∨/'Not a recognized Git command'⍷∊more
+ expected←'Not a recognized Git command' '''firlefanzcommand'' is not a git command.'
+ →T.PassesIf∨/expected{∨/⍺⍷∊⍵}¨⊂more
 
  R←T._OK
 ⍝Done

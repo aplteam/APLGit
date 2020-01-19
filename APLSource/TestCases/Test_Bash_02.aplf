@@ -3,9 +3,7 @@
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
- :Trap 11
-     {}#.Proj_1 B.DeleteBranch'dev'  ⍝ Just in case
- :EndTrap
+ {}#.Proj_1 B.DeleteBranch'dev'  ⍝ Just in case
  #.Proj_1 B.CreateBranch'dev'
  →T.PassesIf'dev'≡B.CurrentBranch #.Proj_1
  #.Proj_1 B.CreateBranch'to_be_deleted'
@@ -18,15 +16,15 @@
      DM←⎕DMX.DM
      →T.PassesIf∨/'The current branch cannot be deleted'⍷∊DM
  :EndTrap
- r←#.Proj_1 B.CheckOut'dev'
+ r←#.Proj_1 B.CheckOutBranch'dev'
  →T.PassesIf 0=r
  r←#.Proj_1 B.DeleteBranch'to_be_deleted'
- →T.PassesIf'Deleted branch to_be_deleted'{⍺≡(⍴⍺)⍴⍵}⊃r
+ →T.PassesIf r
  →T.PassesIf 2=≢B.ListBranches #.Proj_1
- r←#.Proj_1 B.CheckOut'master'
+ r←#.Proj_1 B.CheckOutBranch'master'
  →T.PassesIf 0=r
  r←#.Proj_1 B.DeleteBranch'dev'
- →T.PassesIf∨/'Deleted branch dev'⍷∊r
+ →T.PassesIf r
 
  R←T._OK
 ⍝Done

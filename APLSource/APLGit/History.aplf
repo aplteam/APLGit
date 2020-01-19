@@ -1,5 +1,13 @@
  History
-⍝ * 0.13.1
+⍝ * 0.19.0
+⍝   * Method `RemoveUnstagedChanges` added.
+⍝   * Handling of Git errors improved.
+⍝   * acre is now called via its API rather than via ⎕SE.UCMD.
+⍝   * The (deprecated) function `U.RunGitCommand` is not used anywhere any more.
+⍝   * Bug fixes:
+⍝     * `Fetch` did not check for GitHub being available.
+⍝     * `Push` did not provide as much information as it could have.
+⍝ * 0.18.1
 ⍝   * `Squash` printed a nested vector to the session rather than a matrix.
 ⍝ * 0.18.0
 ⍝   * 0.17.9 was a mistake: `U.RunGitCommand` _cannot_ be changed without major hiccups, therefore the changed was rolled back.

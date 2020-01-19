@@ -12,7 +12,7 @@
      (rc more buff)←folder U.RunGitCommand2'rebase master'
      U.Assert 0=rc
      ⎕←⊃folder∘U.ProcessFileLine¨buff
-     ⎕SE.UCMD'acre.Refresh ',folder
+     ⎕SE.acre.Refresh folder
      :If IsDirty folder
          ⎕←'Merge manually, then run RebaseContinue'
          success←0
