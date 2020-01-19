@@ -1,4 +1,9 @@
  History
+⍝ * 0.19.1
+⍝   * Bug fixes:
+⍝     * `FastForwardMergeWithMaster` did not deal well with GitHub messages provided via error stream
+⍝        but being just messages.
+⍝     * `ViewChangesBetweenBranches` did not process variables in the workspace well.
 ⍝ * 0.19.0
 ⍝   * Method `RemoveUnstagedChanges` added.
 ⍝   * Handling of Git errors improved.

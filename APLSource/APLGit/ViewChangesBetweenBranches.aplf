@@ -59,7 +59,9 @@
                  :ElseIf nc∊3 4
                      buff1←⎕NR wsName
                  :Else
-                     buff1←⎕SE.acre.ToAPLAN wsName
+                     :If ~(⎕DR buff1←⍎wsName)∊80 326
+                         buff1←(⎕UCS 13)A.Split ⎕SE.acre.ToAPLAN wsName
+                     :EndIf
                  :EndIf
              :Else
                  (rc more buff1)←folder U.RunGitCommand2'show ',hash1,':',thisFile
@@ -79,7 +81,9 @@
                  :ElseIf nc∊3 4
                      buff2←⎕NR wsName
                  :Else
-                     buff2←(⎕UCS 13)A.Split ⎕SE.acre.ToAPLAN wsName
+                     :If ~(⎕DR buff2←⍎wsName)∊80 326
+                         buff2←(⎕UCS 13)A.Split ⎕SE.acre.ToAPLAN wsName
+                     :EndIf
                  :EndIf
              :Else
                  (rc more buff2)←folder U.RunGitCommand2'show ',hash2,':',thisFile

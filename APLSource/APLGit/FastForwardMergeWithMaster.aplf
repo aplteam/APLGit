@@ -43,10 +43,10 @@
      :EndIf
      ⎕←'Now checking out master...'
      (rc more buff)←folder U.RunGitCommand2'checkout master'
-     U.Assert 0=rc
+     more U.Assert 0=rc
      ⎕←⊃buff
      (rc more buff)←folder U.RunGitCommand2'merge ',currentBranch
-     U.Assert 0=rc
+     more U.Assert 0=rc
      ⎕←↑buff
      ⎕←⊃folder DeleteBranch currentBranch
      :If noPrompt
