@@ -1,7 +1,6 @@
- {r}←{x}Reset option
+ {r}←{x}Reset option;space;project;folder;isOpenacreProject;allBranches;branchName;ind;buff;more;rc
 ⍝ Executes a Git "Reset" command with `option` which might be one of:
 ⍝ * Empty
-
 ⍝ re-opens the acre project.\\
 ⍝ Note that branch names are case insensitive.\\
 ⍝ Throws an error in case the working directory is dirty.\\
@@ -32,7 +31,7 @@
              :EndIf
              :If isOpenacreProject
                  ⎕←'*** Closing acre project ',space,'...'
-                 {}⎕SE.UCMD'acre.Close ',space
+                 ⎕SE.acre.CreateProject space
              :EndIf
              ⎕←'Checking out "',branchName,'"...'
              (rc more buff)←folder U.RunGitCommand2'checkout ',branchName
@@ -41,7 +40,7 @@
              :If isOpenacreProject
                  #.⎕EX space
                  ⎕←'*** Opening acre project ',space,'...'
-                 ⎕←⎕SE.UCMD'acre.OpenProject ',folder
+                 ⎕←⎕SE.acre.OpenProject folder
              :EndIf
          :EndIf
      :EndIf

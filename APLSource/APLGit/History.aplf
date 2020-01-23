@@ -1,4 +1,9 @@
  History
+⍝ * 0.20.0
+⍝   * Now acre's `CloseProject` is called rather than the old `acre.Close` method.
+⍝   * Functions `Push` and `FastForwardMergeWithMaster` crashed after the change of how Git "errors" are handled. The problem is
+⍝     caused by APLGit's attempt to detect problems by checking whether the error stream is empty, but the Git Bash occasionally
+⍝     streams ordinary messages to that, indicating a problem when there is none.
 ⍝ * 0.19.1
 ⍝   * Bug fixes:
 ⍝     * `FastForwardMergeWithMaster` did not deal well with GitHub messages provided via error stream

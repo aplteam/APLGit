@@ -1,8 +1,8 @@
  Cleanup;openProjects
  B.∆TestFlag←0
- openProjects←⎕SE.UCMD'acre.Projects'
+ openProjects←⎕SE.acre.Projects''
  openProjects←('#.Proj_'∘{⍺≡(≢⍺)↑⍵}¨openProjects[;1])⌿openProjects
- {}{⎕SE.UCMD'acre.Close ',⍵}¨openProjects
+ {}⎕SE.acre.CloseProject¨openProjects
  :If 0<⎕NC'∆Folder1'
      F.RmDir¨∆Folder1 ∆Folder2
  :EndIf

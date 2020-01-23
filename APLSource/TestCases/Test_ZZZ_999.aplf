@@ -30,8 +30,8 @@
      width←18
      (version2 date)←rf.Version[⎕IO+1 2]
      width2←⌈/≢¨version version2
-     ⎕←(width↑'Version'),': ',(width2↑version),' from ',date
-     ⎕←(width↑'publish.config'),': ',(width2↑version2),' from ',date2
+     ⎕←(width↑'Version'),': ',(width2↑version2),' from ',date
+     ⎕←(width↑'publish.config'),': ',(width2↑version),' from ',date2
  :EndIf
 
  →T.FailsIf f1∨f2

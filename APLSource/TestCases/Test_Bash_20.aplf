@@ -14,12 +14,12 @@
 
  →T.PassesIf 0=B.IsDirty #.Proj_1
  #.Proj_1.⎕FX'r←Hello' 'r←''World'''
- ⎕SE.UCMD'acre.SetChanged #.Proj_1.Hello'
+ ⎕SE.acre.SetChanged'#.Proj_1.Hello'
  →T.PassesIf 1=B.IsDirty #.Proj_1
 
  →T.PassesIf 0=B.IsDirty #.Proj_2
  #.Proj_2.⎕FX'r←Hello2' 'r←''Universe'''
- ⎕SE.UCMD'acre.SetChanged #.Proj_2.Hello2'
+ ⎕SE.acre.SetChanged'#.Proj_2.Hello2'
 
  →T.PassesIf 1=B.IsDirty #.Proj_2
  . ⍝ Fetch explicit result and check:

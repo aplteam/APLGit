@@ -27,7 +27,7 @@
      :If 1 U.YesOrNo'Would you like to pull the master?'
          buff←PullMaster folder
      :AndIf 0<'CONFLICT'{+/⍺∧.=⍨(≢⍺)↑[2]⍵}↑,buff
-         {}⎕SE.UCMD'acre.Close ',space
+         {}⎕SE.acre.CloseProject space
          ⎕←'Because of the conflict the project is now closed.'
          ⎕←'Re-open in a clean environment and then solve the merge conflicts.'
          :Return
@@ -50,7 +50,7 @@
              ⎕←↑gitMsg
          :EndIf
      :EndIf
-     {}⎕SE.acre.Close space
+     {}⎕SE.acre.CloseProject space
      #.⎕EX space
      :If 0<⎕NC'∆DefaultDir'
          ∆DefaultDir←((⊂∆DefaultDir)∊(⎕SE.acre.Projects ⍬)[;2])/∆DefaultDir

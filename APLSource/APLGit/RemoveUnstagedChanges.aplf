@@ -17,7 +17,7 @@
          :OrIf 1 U.YesOrNo'This will close the acre project before resetting and then re-open it; continue?'
              :If isOpenacreProject
                  ⎕←'*** Closing acre project ',space,'...'
-                 {}⎕SE.acre.Close space
+                 {}⎕SE.acre.CloseProject space
              :EndIf
              (rc more buff)←folder U.RunGitCommand2'Reset --hard HEAD'
              U.Assert 0=rc

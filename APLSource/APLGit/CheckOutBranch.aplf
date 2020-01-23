@@ -29,7 +29,7 @@
              :EndIf
              :If isOpenacreProject
                  ⎕←'*** Closing acre project ',space,'...'
-                 {}⎕SE.acre.Close space
+                 {}⎕SE.acre.CloseProject space
              :EndIf
              ⎕←'Checking out "',branchName,'"...'
              (rc more buff)←folder U.RunGitCommand2'checkout ',branchName

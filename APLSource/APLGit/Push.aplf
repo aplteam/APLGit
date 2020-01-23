@@ -17,7 +17,9 @@
          :Return
      :EndIf
      (rc more r)←folder U.RunGitCommand2'push origin ',branchName
-     more U.Assert 0=rc
+     :If 0=≢('To https://github.com/[^/]+','/',({⍵↑⍨1+-'.'⍳⍨⌽⍵}1⊃project),'.git')⎕S 0⊣more
+         more U.Assert 0=rc
+     :EndIf
      ∆TestFlag U.Show r
  :EndIf
 ⍝Done

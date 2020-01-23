@@ -61,7 +61,7 @@
              :Else
                  parent.⎕FX({⍵/⍳⍴,⍵}bool)⊃body1 body2
              :EndIf
-             {}⎕SE.UCMD'acre.SetChanged ',n.∆Name
+             {}⎕SE.acre.SetChanged n.∆Name
          :EndIf
          ##.F.DeleteFile tempfile1 tempfile2
      :EndIf

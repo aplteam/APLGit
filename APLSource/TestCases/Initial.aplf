@@ -1,4 +1,4 @@
- Initial
+ Initial;result
 ⍝ 1. Create the needed references
 ⍝ 2. Set global `∆TestFlag` to 1
 ⍝ 3. Create two namespaces with (very little) content
@@ -23,12 +23,14 @@
  'Proj_1'#.⎕NS''
  #.Proj_1.(⎕IO ⎕ML)←1
  #.Proj_1.⎕FX↑'r←WhoAmI' 'r←''Proj_1'''
- {}⎕SE.UCMD'acre.CreateProject "',∆Folder1,'" #.Proj_1'
+ result←⎕SE.acre.CreateProject ∆Folder1 #.Proj_1
+ {⍵:.'something is wromg!'}'#.Proj_1'≢result
 
  'Proj_2'#.⎕NS''
  #.Proj_2.(⎕IO ⎕ML)←1
  #.Proj_2.⎕FX↑'r←WhoAmI' 'r←''Proj_2'''
- {}⎕SE.UCMD'acre.CreateProject "',∆Folder2,'" #.Proj_2'
+ result←⎕SE.acre.CreateProject ∆Folder2'#.Proj_2'
+ {⍵:.'something is wromg!'}'#.Proj_2'≢result
 
  {}B.Initialize ∆Folder1
  {}B.Initialize ∆Folder2

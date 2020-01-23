@@ -1,4 +1,4 @@
- R←Test_Misc_02(stopFlag batchFlag);⎕TRAP;path;r
+ R←Test_Misc_02(stopFlag batchFlag);⎕TRAP;path;r;result
 ⍝ Exercise functions `IsGitProject` and `Initialize'
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
@@ -7,10 +7,10 @@
  'TEMP'#.⎕NS''
  #.TEMP.(⎕IO ⎕ML)←1
  #.TEMP.⎕FX↑'r←Hello' 'r←''World'''
- path←F.GetTempFilename2''
- F.DeleteFile path
- path←¯4↓path
- {}⎕SE.UCMD'acre.CreateProject "',path,'" #.TEMP'
+ path←F.GetTempSubDir'APLGit_',⊃⎕SI
+ F.RmDir path
+ result←⎕SE.acre.CreateProject path #.TEMP
+ {⍵:.'Something went wromg'}0=≢result
 
  →T.GoToTidyUp 0≠B.IsGitProject path
  r←B.Initialize path
