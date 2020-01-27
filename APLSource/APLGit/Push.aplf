@@ -17,7 +17,7 @@
          :Return
      :EndIf
      (rc more r)←folder U.RunGitCommand2'push origin ',branchName
-     :If 0=≢('To https://github.com/[^/]+','/',({⍵↑⍨1+-'.'⍳⍨⌽⍵}1⊃project),'.git')⎕S 0⊣more
+     :If 0=≢('^To https://github.com/')⎕S 0⊣more  ⍝ Strangely GitHub reports something starting with this on the error stream...
          more U.Assert 0=rc
      :EndIf
      ∆TestFlag U.Show r

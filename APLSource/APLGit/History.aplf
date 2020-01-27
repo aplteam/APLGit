@@ -1,4 +1,6 @@
  History
+⍝ * 0.20.1
+⍝   * Bug fix: `Push` assumed that the URI would always end with `.git` but sometimes is did not!
 ⍝ * 0.20.0
 ⍝   * Now acre's `CloseProject` is called rather than the old `acre.Close` method.
 ⍝   * Functions `Push` and `FastForwardMergeWithMaster` crashed after the change of how Git "errors" are handled. The problem is
