@@ -45,7 +45,7 @@
                      ⎕←'*** There is more than one project open.'
                      ⎕←'    The default project is:'
                      ⎕←'    ',folder
-                     :If 0=1 U.YesOrNo'Is that okay? (Answer "n" for a selection)'
+                     :If 0=0 U.YesOrNo'Is that okay? (Answer "n" for a selection)'
                          :If 0=≢ind←U.Select list[;1]
                              project←''
                              :Return

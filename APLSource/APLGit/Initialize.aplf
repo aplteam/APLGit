@@ -7,6 +7,11 @@
  project←EstablishProject y
  'Not an acre project'⎕SIGNAL 6/⍨0=≢project
  folder←2⊃project
+ :If F.IsDir folder,U.NameOfHistoryFolder
+     msg←'There is a folder ',U.NameOfHistoryFolder,'/ - do you want to delete it before the Git commit?'
+ :AndIf 1 U.YesOrNo msg
+     F.RmDir folder,U.NameOfHistoryFolder
+ :EndIf
  (rc more buff)←folder U.RunGitCommand2'init'
  U.Assert 0=rc
  ∆TestFlag U.Show buff

@@ -1,0 +1,182 @@
+* 0.22
+  * `Initialize` now checks whether there is a folder `change_histury/`. If there is the user is asked whether
+    she wants to delete the folder.
+  * `Push` now checks whether there is a folder `change_histury/`. If there is the user is asked whether
+    she wants to delete the folder. If she confirms, the folder is removed and then a Commit performed. Then
+    the Push function carries on.
+  * Push now checks whether there are uncommitted changes. If there are an error is generated.
+  * `Commit` now checks whether the is a folder change_history'/. If there is the user is asked whether
+    she wants to delete the folder. If she confirms, the folder is removed. Then Commit carries on.
+  * `FastForwardMergeWithMaster` now checks whether there are commits waiting to be squashed.
+  * Bug fixes:
+    * `LogForBranch` does not print to the session anymore.
+    * `GetRevision` should have swapped any `:` in the filename against `|` but dir not.
+    * `GetRevision` did not pass additional error message.
+    * `ViewChangesBetweenCommits' crashed when no commits were selected (problem originated in `U.SelectTwo`).
+* 0.21.0
+  * `Sqash` as well as `Commit` when on branch "master" now ask the user what to do with it if there is a folder
+    `changhe history\\` to be found.
+  * `Push` now refuses to do anything if a folder `change_history` is found: the folder should almost certainly
+    be deleted before pushing.
+  * `Commit` checks whether change_history\\ does exist and if so, asks the user for removing it before carrying on.
+  * `EstablishProject` now defaults to "No" when asking whether the current (default) project is the right one in
+    case there are multiple projects open.
+  * Bug fixes:
+    * `AddToGitHub` did not analyze the result of a push command.
+    * `U.SelectTwo` polished
+  * ...
+* 0.20.1
+  * Bug fix: `Push` assumed that the URI would always end with `.git` but sometimes is does not!
+* 0.20.0
+  * Now acre's `CloseProject` is called rather than the old `acre.Close` method.
+  * Functions `Push` and `FastForwardMergeWithMaster` crashed after the change of how Git "errors" are handled. The problem is
+    caused by APLGit's attempt to detect problems by checking whether the error stream is empty, but the Git Bash occasionally
+    streams ordinary messages to that, indicating a problem when there is none.
+* 0.19.1
+  * Bug fixes:
+    * `FastForwardMergeWithMaster` did not deal well with GitHub messages provided via error stream
+       but being just messages.
+    * `ViewChangesBetweenBranches` did not process variables in the workspace well.
+* 0.19.0
+  * Method `RemoveUnstagedChanges` added.
+  * Handling of Git errors improved.
+  * acre is now called via its API rather than via ⎕SE.UCMD.
+  * The (deprecated) function `U.RunGitCommand` is not used anywhere any more.
+  * Bug fixes:
+    * `Fetch` did not check for GitHub being available.
+    * `Push` did not provide as much information as it could have.
+* 0.18.1
+  * `Squash` printed a nested vector to the session rather than a matrix.
+* 0.18.0
+  * 0.17.9 was a mistake: `U.RunGitCommand` _cannot_ be changed without major hiccups, therefore the changed was rolled back.
+  * New function `U.RunGitCommand2` introduced which provides a return code and a messafe in addition to the data.
+  * All calles to `U.RunGitCommand` replaced by calls to `U.RunGitCommand2`.
+* 0.17.9
+  * Bug fix: `U.RunGitCommand` did not recognize any fatal errors.
+* 0.17.8
+  * Bug fix in `FastForwardMergeWithMaster`: when changes were pulled it now suggests to stop in order to run the test cases again.
+  * Now `Tester2` rather than `Tester` is used.
+* 0.17.7
+  * Bug fix in `ViewChangesBetweenBranches` (regarding variables).
+* 0.17.6
+  * Bug in `ViewChangesBetweenBranches` fixed.
+* 0.17.5
+   * Bug fixe in `CompareVersions`: workspace version crashed.
+* 0.17.4
+  * Bug fixes in `CompareVersions`:
+    * In case a commit did not contained the objects an error was shown.
+    * The column titles should show the hash rather then the names of the tmep files.
+* 0.17.3
+  * Bug fixes:
+    `CompareVersions` and `ChangeLog` had a problem because the acre function `Sourcefile` does not return a simple argument anymore.
+  * `U.FileNameToItemName` used an outdated acre API call.
+* 0.17.2
+  * Bug fixes
+    * `ViewChangesBetweenBranches` handled missing functions incorrectly.
+    * `YesOrNo` did not deal well whith questions stretching over more than one line.
+* 0.17.1
+  * Checks for the message "fatal:" returned potentially by the GitBash is now done by `U.CheckForFatal`.
+  * Bug fixes:
+    * `EstablishProject` die not return an empty vector when a path was specified that did not point to an acre project.
+    * `Commit` did not analyze the result, therefore missing any "fatal" messages.
+* 0.17.0
+  * New acre API incorporated.
+  * `CheckOut` now complains when executed from within a project space.
+* 0.16.1
+* Pane captions in `ViewChangesBetweenCommits` fixed.
+* 0.16.0
+   * Message in `Squash` polished.
+   * `CheckOut` now accepts <enter> as "yes".
+   * Bug fix in EstablishProject`: a path was only accecpted when there was at least one open acre project.
+* 0.15.0
+  * `GoToGitHub` enhanced.
+* 0.14.4
+  * Bug fixes:
+    * In `Log` and `LogShort`.
+    * `Squash`
+    * `U.YesOrNo`
+    * `GUI_CompareVersions.OnQuit`
+* 0.14.3
+  * Name of the workspace is from now on fixed to "project.dws".
+* 0.14.2
+  * `EstablishProject` returned potentially a wrong result when the default project was accepted.
+* 0.14.1
+  * VALUE ERROR in `FastForwardMergeWithMaster` fixed (∆DefaultDir).
+* 0.14.0
+  * `EstablishProject` now accepts <enter> as "Yes!" for default project prompts.
+  * `U.SetDefaultDir` deleted.
+  * `SetDefaultProject` introduced.
+  * Documentation improved.
+* 0.13.1
+  `Commit` improved.
+* 0.13.0
+  * Method `CleanUpWorkDir` added.
+* 0.12.1
+  * `ViewChangesBetweenBranches` did not process variables like `ADOC_Doc` (vector of text vectors) correctly.
+* 0.12.0
+  * `ViewChangesBetweenBranches` now takes the current branch when this makes sense.
+* 0.11.0
+  * `Squash` did not pass `folder` on to all commands after the first one.
+* 0.10.0
+  * `MergeWithMaster` now acts more sensible when not called from #,
+* 0.9.0
+  * New method `ListFiles` added.
+  * `CompareVersions` improved.
+* 0.8.5
+  * `GoToGitHub` now accepts an optional left argument `user_id` which defaults to `aplteam`.
+* 0.8.4
+  * `CompareVersions` should check whether the object (still) exists in the WS and act accordingly.
+     For the time being that means refusing because Git's "Log" command does not work on anything that's not a file in HEAD.\\\\
+     Also, it now tries to find the object in question in the calling namespace in case it is not a fully qualified name.
+* 0.8.3
+  * `CompareVersions` did not realize when two versions were identical.
+  * `CompareVersions` did not complain about an empty or otherwise invalid right argument.
+* 0.8.2
+  * Handling of quotes and double quotes in messages improved.
+  * $ is not causing havov in messages any more.
+* 0.8.1
+  * Bug fix in `U.RunGitCommand`: now realizes when the "Git" command it not available.
+* 0.8.0
+  * Many functions got renamed.
+  * Test cases amended and added.
+* 0.7.0
+  *
+  * Bug fixes:
+    * `DeleteBranch` did not check whether the operation was successful.
+    * `ListBranches` should have a shy result but did not.
+  * Bug fix in `FastForwardMergeWithMaster`
+* 0.6.6
+  * Bug fix in `FastForwardMergeWithMaster`
+* 0.6.5
+  * Method `CleanUpWorkDir` added
+* 0.6.4
+  * Bug fix in `FastForwardMergeWithMaster`
+  * `Squash_Old` deleted
+* 0.6.3
+  * Bug Fixes
+* 0.6.2
+  * Bug fixes to `CheckOut`
+* 0.6.2
+  * Bug fixed in `Push`
+* 0.6.1
+  * Two bugs fixed in `ViewChangesBetweenBranches`
+* 0.6.0
+  * `ChangeLog` can now handle filenames.
+  * `Initialize` now accepts an optional left argument (message).
+  * `AddToGitHub` now accepts an empty URL. It works out the project name and prompts
+    the user for the GitHub user ID.
+* 0.5.1
+  * Bug fix in `LogForBranch`: did not (always) work when the branch was "master".
+* 0.5.0
+  * `LogForBranch` now works for "master" as well.
+  * `Method` enhanced.
+  * Many more minor improvements
+* 0.4.0
+  * Polished
+* 0.3.0
+  * `Init` moved into `U`.
+* 0.2.0
+  * `EstablishProject` now returns a useful result for a non-acre folder.
+* 0.1.0
+  * First release used for real work!
+

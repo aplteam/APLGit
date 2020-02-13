@@ -31,7 +31,9 @@
  r,←⊂buff
  ∆TestFlag U.Show buff
  (rc more buff)←folder U.RunGitCommand2'push -u origin master'
- U.Assert rc=0
+ :If 'Branch ''master'' set up to track remote branch ''master'' from ''origin''.'≢∊buff
+     U.Assert rc=0
+ :EndIf
  r,←⊂buff
  ∆TestFlag U.Show buff
  r←⍪r

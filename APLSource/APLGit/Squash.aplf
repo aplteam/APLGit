@@ -18,31 +18,46 @@
  r←≢⎕←folder LogForBranch currentBranch
  :If 0=r
      ⎕←'There is nothing to squash'
- :ElseIf 1 U.YesOrNo'These commits are going to be squashed; you okay with this?'
-     :If 0=≢msg
-         ⍞←'Provide a meaningful commit message in the editor:'
-         ⎕SE.⎕SHADOW'TEMP'
-         'TEMP'⎕SE.⎕NS''
-         ⎕SE.TEMP.CommitMsg←''
-         ⎕SE.TEMP.⎕ED'CommitMsg'
-         msg←⎕SE.TEMP.CommitMsg
-         msg←(~(⎕UCS 13 13)⍷msg)/msg
-         msg←(-(⎕UCS 13)=¯1↑msg)↓msg
-         :If (⎕UCS 13)∊msg
-             ((msg=⎕UCS 13)/msg)←⊂' ⋄ '
-             msg←{⎕ML←3 ⋄ ∊⍵}msg
+ :Else
+     :If F.IsDir folder,U.NameOfHistoryFolder
+         :If 1 U.YesOrNo'There is a folder ',U.NameOfHistoryFolder,' in ',folder,'; remove this folder?'
+             F.RmDir folder,U.NameOfHistoryFolder
+             ⎕DL 0.2
+             :If F.IsDir folder,U.NameOfHistoryFolder
+                 11 ⎕SIGNAL⍨'Cannot continue because of ',U.NameOfHistoryFolder,'\ in ',folder
+             :Else
+                 folder Commit U.NameOfHistoryFolder,' removed'
+             :EndIf
+         :Else
+             11 ⎕SIGNAL⍨'Cannot continue because of ',U.NameOfHistoryFolder,'\ in ',folder
          :EndIf
      :EndIf
-     'Sqash requires a meaningful message'⎕SIGNAL 11/⍨(0=≢msg)∨(,'.')≡∪msg~' '
-     (rc more buff)←folder U.RunGitCommand2'merge-base master ',currentBranch
-     U.Assert 0=rc
-     commonAncestor←⊃buff
-     (rc more buff)←folder U.RunGitCommand2'reset --soft ',commonAncestor
-     U.Assert 0=rc
-     ⎕←buff
-     msg←U.MassageMsg msg
-     (rc more buff)←folder U.RunGitCommand2'commit -m "',msg,'"'
-     U.Assert 0=rc
-     ⎕←⍪buff
+     :If 1 U.YesOrNo'These commits are going to be squashed; you okay with this?'
+         :If 0=≢msg
+             ⍞←'Provide a meaningful commit message in the editor:'
+             ⎕SE.⎕SHADOW'TEMP'
+             'TEMP'⎕SE.⎕NS''
+             ⎕SE.TEMP.CommitMsg←''
+             ⎕SE.TEMP.⎕ED'CommitMsg'
+             msg←⎕SE.TEMP.CommitMsg
+             msg←(~(⎕UCS 13 13)⍷msg)/msg
+             msg←(-(⎕UCS 13)=¯1↑msg)↓msg
+             :If (⎕UCS 13)∊msg
+                 ((msg=⎕UCS 13)/msg)←⊂' ⋄ '
+                 msg←{⎕ML←3 ⋄ ∊⍵}msg
+             :EndIf
+         :EndIf
+         'Sqash requires a meaningful message'⎕SIGNAL 11/⍨(0=≢msg)∨(,'.')≡∪msg~' '
+         (rc more buff)←folder U.RunGitCommand2'merge-base master ',currentBranch
+         U.Assert 0=rc
+         commonAncestor←⊃buff
+         (rc more buff)←folder U.RunGitCommand2'reset --soft ',commonAncestor
+         U.Assert 0=rc
+         ⎕←buff
+         msg←U.MassageMsg msg
+         (rc more buff)←folder U.RunGitCommand2'commit -m "',msg,'"'
+         U.Assert 0=rc
+         ⎕←⍪buff
+     :EndIf
  :EndIf
 ⍝Done

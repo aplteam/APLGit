@@ -23,6 +23,9 @@
      'No open acre projects'⎕SIGNAL 6/⍨0=≢project
      (space folder)←project[1 2]
      currentBranch←CurrentBranch folder
+     :If 0<≢folder LogForBranch currentBranch
+         'There are commits waiting to be squashed'⎕SIGNAL 11
+     :EndIf
      :If 1<≢⎕SE.acre.Projects ⍬
          ⎕←{(⎕PW-1)↑'--- ',⍵,' ',⎕PW⍴'-'}'Project <',(1⊃project),'> with branch "',currentBranch,'"'
      :EndIf

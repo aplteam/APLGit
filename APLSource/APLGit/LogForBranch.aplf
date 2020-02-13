@@ -1,4 +1,4 @@
- r←{x}LogForBranch y;project;folder;buff;noOf;branchName;cmd;rc;more
+ r←{x}LogForBranch y;project;folder;noOf;branchName;cmd;rc;more
 ⍝ Returns Log information for a specific branch.\\
 ⍝ Returns a matrix with four columns:
 ⍝ 1. Commit hash
@@ -47,13 +47,10 @@
              cmd←'log -',(⍕|noOf),' master..',branchName,' --pretty=format:"',U.GetLogFormat,'"'
          :EndIf
      :EndIf
-     (rc more buff)←folder U.RunGitCommand2 cmd
-     U.Assert 0=rc
-     :If 0=≢buff
-         r←''
-         ⎕←'Nothing to show!'
-     :Else
-         r←↑U.FormatLog buff
+     (rc more r)←folder U.RunGitCommand2 cmd
+     more U.Assert 0=rc
+     :If 0<≢r
+         r←↑U.FormatLog r
      :EndIf
  :EndIf
 ⍝Done

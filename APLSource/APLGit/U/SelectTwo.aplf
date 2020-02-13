@@ -1,12 +1,13 @@
  index←{caption}SelectTwo options;flag;answer;question
-⍝ Presents `options` as a numbered list and allows the user to select either exactly two of them.\\
+⍝ Presents `options` as a numbered list and allows the user to select exactly two of them, or to quit.\\
 ⍝ See also `Select`.\\
-⍝ `options` must not have more than 999 items.
-⍝ If the user aborts `index1 is `⍬`.
+⍝ `options` must not have more than 999 items.aa
+⍝ If the user aborts `index` is `⍬`, otherwise it is a two-element integer vector.
  caption←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'caption'
  'Invalid right argument; must be a vector of text vectors.'⎕SIGNAL 11/⍨2≠≡options
  'Right argument has more than 999 items'⎕SIGNAL 11/⍨999<≢options
  flag←0
+ index←⍬
  :Repeat
      ⎕←(⎕PW-1)⍴'-'
      :If 0<≢caption

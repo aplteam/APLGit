@@ -7,7 +7,9 @@
  project←EstablishProject x
  'Not an acre project'⎕SIGNAL 11/⍨0=≢project
  (space folder)←2↑project
- cmd←'cat-file blob ',hash,':',filename
+ filename{⍺↓⍨(≢⍵)×⍵≡(≢⍵)↑⍺}←⊃1 ⎕NPARTS''   ⍝ Without that the user is asked how to open the file at the time of writing; kai 2020-02-07
+ ((filename=':')/filename)←'|'
+ cmd←'cat-file blob ',hash,':',(filename~'"')
  (rc more r)←folder U.RunGitCommand2 cmd
- U.Assert 0=rc
+ more U.Assert 0=rc
 ⍝Done
