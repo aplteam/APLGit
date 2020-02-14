@@ -1,3 +1,5 @@
+* 0.22.1
+  * Fix for a bug introduced with 0.22.0 into `FastForwardMergeWithMaster`
 * 0.22
   * `Initialize` now checks whether there is a folder `change_histury/`. If there is the user is asked whether
     she wants to delete the folder.
