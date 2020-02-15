@@ -1,9 +1,10 @@
  project←{noWarning}EstablishProject y;list;bool;folder;ind
 ⍝ In case `y` is empty:
 ⍝ * The global `##.∆DefaultDir` rules.
-⍝ * If `##.∆DefaultDir` does not exist or is itself empty the  current directory rules if only
-⍝   a single acre project is open.\\
-⍝   If there are several acre projects open then the user will be prompted.
+⍝ * If `##.∆DefaultDir` does not exist or is itself empty then the result depends on whether there
+⍝   is at least one acre project open:
+⍝   * In case of a single open acre project its project path is taken
+⍝   * If there are several acre projects open then the user will be prompted for the correct one\\
 ⍝ If `y` is not empty it must be either a "?" (see next para) or a fully qualified space name or
 ⍝ a folder.\\
 ⍝ If `y` is "?" the user is presented a list with all currently opened acre projects managed by Git.\\
@@ -23,9 +24,9 @@
      :If 0=≢list←⎕SE.acre.Projects''
          y←⍕y
          :If '#'≠1⍴y
-             y,←(~(¯1↑y)∊'/\')/'/'
-             :If F.IsDir y
-                 project←''(F.EnforceSlash y)''
+             :If 0<≢y
+             :AndIf F.IsDir y
+                 project←''(F.EnforceSlash{⍵,(~(¯1↑⍵)∊'/\')/'/'}y)''
              :EndIf
          :EndIf
      :Else
