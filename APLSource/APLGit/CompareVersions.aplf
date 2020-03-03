@@ -14,7 +14,7 @@
      name←(⊃⎕NSI),'.',name
  :EndIf
  :If 0=≢x
-     (space folder)←(GitProjects ⍬){⍺[⍺[;1]⍳⊂⍵;]}{⍵/⍨2>+\'.'=⍵}name
+     (space folder)←name{⍵[⍺{1⍳⍨⍵∊(≢¨⍵)↑¨⊂⍺}⍵[;1];]}⎕SE.acre.Projects''
  :Else
      project←EstablishProject x
      'Not an acre project'⎕SIGNAL 11/⍨0=≢project

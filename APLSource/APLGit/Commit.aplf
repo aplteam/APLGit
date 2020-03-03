@@ -1,4 +1,4 @@
- r←{x}Commit msg;nm;m;folder;project;buff;rc⍝
+ r←{x}Commit msg;nm;m;folder;project;buff;rc;counter;⎕TRAP⍝
 ⍝ Commits all changes.\\
 ⍝ If the current branch is "master" then `msg` **_must not_** be empty and should carry a meaningful message.
 ⍝ Otherwise `msg` may be empty but will become three dots (`...`).\\
@@ -17,13 +17,18 @@
      nm←'master'≢CurrentBranch folder
      :If ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
          :If 1 U.YesOrNo'Remove ',U.NameOfHistoryFolder,'\? Without removing it Commit cannot continue!'
-             rc←##.FilesAndDirs.RmDir folder,U.NameOfHistoryFolder
-             ⎕DL 0.2
-             :If ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
-                 ⎕TRAP←0 'S'
-                 ∘∘∘ ⍝ This needs to be investigated
-                 11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' still exists, Commit cannot continue'
-             :EndIf
+             counter←0
+             :Repeat
+                 rc←##.FilesAndDirs.RmDir folder,U.NameOfHistoryFolder
+                 :If ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
+                     ⎕DL 0.1
+                     :If 10<counter←counter+1
+                         11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' still exists, Commit cannot continue'
+                     :EndIf
+                 :Else
+                     :Leave
+                 :EndIf
+             :Until 0
          :Else
              11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' exists, Commit cannot continue'
          :EndIf

@@ -1,4 +1,8 @@
-* 0.22.1
+* 0.22.3
+  * `CheckOutBranch` cannot be executed any longer from within a namespace.
+  * `Commit` improved regarding the check of whether a folder was successfuly removed or not.
+  * `EstablishProject` generalized.
+* 0.22.2
   * Fix `EstablishProject`: did not act well on empty argumeent when there is no acre project open.
 * 0.22.1
   * Fix for a bug introduced with 0.22.0 into `FastForwardMergeWithMaster`

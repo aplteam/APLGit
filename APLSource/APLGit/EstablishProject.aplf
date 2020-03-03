@@ -64,7 +64,11 @@
          :Else
              y←⍕y
              :If '#'=1⍴y
-                 project←,(list[;1]≡¨⊂{⍵/⍨2>+\'.'=⍵}y)⌿list
+                 :If (⊂y)∊list[;1]
+                     project←,(list[;1]≡¨⊂y)⌿list
+                 :Else
+                     project←,(list[;1]≡¨⊂{⍵/⍨2>+\'.'=⍵}y)⌿list
+                 :EndIf
              :Else
                  y,←(~(¯1↑y)∊'/\')/'/'
                  :If 0=≢project←,((U.WinLowercase¨list[;2])≡¨⊂U.WinLowercase F.EnforceSlash y)⌿list

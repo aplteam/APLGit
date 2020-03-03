@@ -6,7 +6,7 @@
  project←B.EstablishProject #.Proj_1
  folder←2⊃project
  :Trap 6
-     {}folder B.CheckOutBranch'dev'
+     {}folder #.{⍺ ⍵.CheckOutBranch'dev'}B
      →T.FailsIf 1
  :Else
      →T.PassesIf'Branch does not exist'≡⊃⎕DMX.DM
@@ -48,7 +48,7 @@
      DM←⎕DMX.DM
      →T.PassesIf∨/'The current branch cannot be deleted'⍷∊DM
  :EndTrap
- r←folder B.CheckOutBranch'master'
+ r←folder #.{⍺ ⍵.CheckOutBranch'master'}B
  →T.PassesIf 0=r
  r←folder B.DeleteBranch'dev'
  →T.PassesIf r

@@ -33,7 +33,7 @@
              body2←n.∆Folder ##.GetRevision n.∆Filename hash2
          :Else
              'Failure to get revision'##.GUI_Show.ErrMsg('Getting the revision for "',hash2,'" failed!')'Details:'(1⊃⎕DM)
-             ##.F.DeleteFile tempfile1 tempfile2
+             {0=⎕NC ⍵:shy←⍬ ⋄ 1:shy←##.F.DeleteFile⍎⍵}¨'tempfile1' 'tempfile2'
              :Return
          :EndTrap
          :If ¯1≡body2

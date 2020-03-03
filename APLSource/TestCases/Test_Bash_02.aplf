@@ -16,12 +16,12 @@
      DM←⎕DMX.DM
      →T.PassesIf∨/'The current branch cannot be deleted'⍷∊DM
  :EndTrap
- r←#.Proj_1 B.CheckOutBranch'dev'
+ r←#.Proj_1 #.{⍺ ⍵.CheckOutBranch'dev'}B
  →T.PassesIf 0=r
  r←#.Proj_1 B.DeleteBranch'to_be_deleted'
  →T.PassesIf r
  →T.PassesIf 2=≢B.ListBranches #.Proj_1
- r←#.Proj_1 B.CheckOutBranch'master'
+ r←#.Proj_1 #.{⍺ ⍵.CheckOutBranch'master'}B
  →T.PassesIf 0=r
  r←#.Proj_1 B.DeleteBranch'dev'
  →T.PassesIf r
