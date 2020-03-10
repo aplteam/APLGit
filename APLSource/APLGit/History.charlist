@@ -1,3 +1,7 @@
+* 0.22.4
+  * Bug fixes in `Initialize`:
+    1. Wrote the wrong message to a commit
+    2. Warning messages regarding LF/CR were wrongly treated as errors
 * 0.22.3
   * `CheckOutBranch` cannot be executed any longer from within a namespace.
   * `Commit` improved regarding the check of whether a folder was successfuly removed or not.

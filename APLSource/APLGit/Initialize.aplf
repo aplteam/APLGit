@@ -1,4 +1,4 @@
- {r}←{msg}Initialize y;project;folder;rc;more;buff
+ {r}←{msg}Initialize y;project;folder;rc;more;buff;msg2
 ⍝ Makes `y` a Git Repository and commits what's there as "Initial commit".\\
 ⍝ After this use GitHub to create a new repository, then get the URL and
 ⍝ run `AddToGitHub` with the URL as right argument.\\
@@ -8,8 +8,8 @@
  'Not an acre project'⎕SIGNAL 6/⍨0=≢project
  folder←2⊃project
  :If F.IsDir folder,U.NameOfHistoryFolder
-     msg←'There is a folder ',U.NameOfHistoryFolder,'/ - do you want to delete it before the Git commit?'
- :AndIf 1 U.YesOrNo msg
+     msg2←'There is a folder ',U.NameOfHistoryFolder,'/ - do you want to delete it before the Git commit?'
+ :AndIf 1 U.YesOrNo msg2
      F.RmDir folder,U.NameOfHistoryFolder
  :EndIf
  (rc more buff)←folder U.RunGitCommand2'init'
@@ -17,7 +17,10 @@
  ∆TestFlag U.Show buff
  A.WriteUtf8File(folder,'.gitattributes')U.GetGitAttributes
  (rc more buff)←folder U.RunGitCommand2'add .'
- U.Assert 0=rc
+ :If 0≠rc
+ :AndIf ~∧/⊃∨/more∘{(⊂⍵)≡¨(≢⍵)↑¨⍺}¨'warning: LF will be replaced by CRLF' 'The file will have its original line endings'
+     msg U.Assert 0
+ :EndIf
  ∆TestFlag U.Show buff
  msg←U.MassageMsg msg
  (rc more buff)←folder U.RunGitCommand2'commit -m "',msg,'"'
