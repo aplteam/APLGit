@@ -25,11 +25,15 @@
      currentBranch←CurrentBranch folder
      :Select ≢folder LogForBranch currentBranch
      :Case 0
-         'Nothing to fastwward'⎕SIGNAL 11
+         'Nothing to fast-forward'⎕SIGNAL 11
      :Case 1
      ⍝ That's okay
      :Else
-         'There are commits waiting to be squashed'⎕SIGNAL 11
+         ⎕←'*********************************************'
+         ⎕←'There are commits waiting to be squashed'
+         ⎕←'If you''ve tried a fast-forward but it failed'
+         ⎕←'then consider trying a MergeWithMaster now'
+         ⎕SIGNAL 11
      :EndSelect
      :If 1<≢⎕SE.acre.Projects ⍬
          ⎕←{(⎕PW-1)↑'--- ',⍵,' ',⎕PW⍴'-'}'Project <',(1⊃project),'> with branch "',currentBranch,'"'
