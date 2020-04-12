@@ -19,7 +19,7 @@
                  ⎕←'*** Closing acre project ',space,'...'
                  {}⎕SE.acre.CloseProject space
              :EndIf
-             (rc more buff)←folder U.RunGitCommand2'Reset --hard HEAD'
+             (rc more buff)←folder U.RunGitCommand2'reset --hard HEAD'
              U.Assert 0=rc
              r←∆TestFlag U.Show buff
              :If isOpenacreProject
