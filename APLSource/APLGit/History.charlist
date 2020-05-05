@@ -1,3 +1,5 @@
+* 0.22.7
+  * `YesOrNo` with defaults now works under 18.0 as well.
 * 0.22.6
   * `RemoveUnstagedChanges` crashed becausd it used "Reset" rather than "reset"...
 * 0.22.5
