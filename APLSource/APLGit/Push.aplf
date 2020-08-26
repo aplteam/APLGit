@@ -1,4 +1,4 @@
- r←{noPrompt}Push y;project;branchName;folder;rc;more;msg
+ r←{noPrompt}Push y;project;folder;branchName;more;rc
 ⍝ Pushes all committed changes to GitHub.\\
 ⍝ Do **not** use this function for the very first commit of a newly created repository.
 ⍝ The user will be prompted unless the (optional) left argument is 1.\\
@@ -12,15 +12,8 @@
      folder←2⊃project
      'There are uncommited changes - you cannot Push!'⎕SIGNAL 11/⍨0≠≢StatusShort folder
      branchName←CurrentBranch folder
-     :If ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
-         msg←folder,U.NameOfHistoryFolder,'/ exists; delete before push?'
-         :If 1 U.YesOrNo msg
-             F.RmDir folder,U.NameOfHistoryFolder
-             {}folder Commit U.NameOfHistoryFolder,' deleted'
-             ⎕←U.NameOfHistoryFolder,' deleted and then commited'
-         :Else
-             11 ⎕SIGNAL⍨'You cannot Push with a folder ',U.NameOfHistoryFolder
-         :EndIf
+     :If 0=1 U.CheckForHistoryFolder folder
+         11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' exists, Push cannot continue'
      :EndIf
      :If 0=noPrompt
      :AndIf 0=U.YesOrNo'You are on branch <',branchName,'> in ',folder,' - carry on with "Push"?'

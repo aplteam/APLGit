@@ -1,4 +1,4 @@
- r←{x}Commit msg;nm;m;folder;project;buff;rc;counter;⎕TRAP⍝
+ r←{x}Commit msg;nm;m;folder;project;buff;rc;⎕TRAP⍝
 ⍝ Commits all changes.\\
 ⍝ If the current branch is "master" then `msg` **_must not_** be empty and should carry a meaningful message.
 ⍝ Otherwise `msg` may be empty but will become three dots (`...`).\\
@@ -16,28 +16,9 @@
      'There are no pending changes / untracked files'⎕SIGNAL 11/⍨0=≢StatusShort folder
      nm←'master'≢CurrentBranch folder
      :If ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
-         :If 1 U.YesOrNo'Remove ',U.NameOfHistoryFolder,'\? Without removing it Commit cannot continue!'
-             counter←0
-             :Repeat
-                 rc←##.FilesAndDirs.RmDir folder,U.NameOfHistoryFolder
-                 :If ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
-                     ⎕DL 0.1
-                     :If 10<counter←counter+1
-                         11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' still exists, Commit cannot continue'
-                     :EndIf
-                 :Else
-                     :Leave
-                 :EndIf
-             :Until 0
-         :Else
-             11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' exists, Commit cannot continue'
-         :EndIf
-     :ElseIf ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
-         ⎕←'*** ',folder,U.NameOfHistoryFolder,' exists!'
-         :If 1 U.YesOrNo'Would you like to remove ',U.NameOfHistoryFolder,'\?'
-             rc←##.FilesAndDirs.RmDir folder,U.NameOfHistoryFolder
-             ⎕DL 0.2
-         :EndIf
+     :AndIf 0 U.YesOrNo'Remove ',U.NameOfHistoryFolder,'\?'
+         rc←##.FilesAndDirs.RmDir folder,U.NameOfHistoryFolder
+         U.Assert 0=1⊃rc
      :EndIf
      'You must provide a menaningful message in the "master" branch'⎕SIGNAL 11/⍨(0=nm)∧0=≢msg
      m←msg,(nm∧0=≢msg)/'...'

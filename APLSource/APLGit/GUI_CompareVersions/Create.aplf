@@ -16,7 +16,7 @@
  n.Quit←⍎'Quit'n.File.⎕WC'MenuItem'('Quit',TAB,'Alt+F4')
  n.Quit.onSelect←'OnQuit'
  n.Edit←⍎'Edit'n.MB.⎕WC'Menu'('Caption' 'Edit')
- n.Compare←⍎'Compare'n.Edit.⎕WC'MenuItem'('Compare',TAB,'F12')('Accelerator'(123 0))
+ n.Compare←⍎'Compare'n.Edit.⎕WC'MenuItem'('Compare',TAB,'=')('Accelerator'(187 0))
  n.Compare.onSelect←'OnCompare'
 
  ∆←⊂'Grid'
@@ -37,6 +37,7 @@
  ⎕NQ n.Grid'SetColSize' 0 50
  n.Grid.onCellUp←'OnCellUp'
  n.Grid.onGridKeyPress←'OnKeyPressInGrid'
+ n.Grid.onContextMenu←'OnContextInGrid'
 
  n.∆Form.n←n
  n.∆Name←name

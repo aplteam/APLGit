@@ -47,7 +47,8 @@
              :If {(1=≢⍵)∧'fatal: '{⍺≡(⍴⍺)↑⊃,⍵}⍵}more
                  buff2←⊂'*** ',1⊃,buff2
              :Else
-                 ∘∘∘ ⍝Huh?!
+                 buff2←⊂'*** ',name
+                 buff2,←''('>>> ',more)
              :EndIf
          :EndIf
      :Else

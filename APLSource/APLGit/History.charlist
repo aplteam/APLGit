@@ -1,3 +1,12 @@
+* 0.23.0
+  * Both `Commit` and `Squash` offer to remove a directory `change_history` if there is one in the project
+    path, but they do not require this.
+  * `Merge` as well as `FastForwardMergeWithMaster` require any directory `change_history` to be removed
+    before they take any action.
+  * `Squash` now collects all messages that are not just three dots and puts them into the message variable.
+    If it's still empty it collects the latest `History` information, in case that is a variable and exists.
+  * Bug fix: Sqash attempted to commit changes after deleting the directory `change_history` but because it
+    is supposed to be mentioned in .gitignore there aren't any changes to commit, therefore an error was thrown.
 * 0.22.7
   * `YesOrNo` with defaults now works under 18.0 as well.
 * 0.22.6
@@ -184,18 +193,3 @@
   * `Initialize` now accepts an optional left argument (message).
   * `AddToGitHub` now accepts an empty URL. It works out the project name and prompts
     the user for the GitHub user ID.
-* 0.5.1
-  * Bug fix in `LogForBranch`: did not (always) work when the branch was "master".
-* 0.5.0
-  * `LogForBranch` now works for "master" as well.
-  * `Method` enhanced.
-  * Many more minor improvements
-* 0.4.0
-  * Polished
-* 0.3.0
-  * `Init` moved into `U`.
-* 0.2.0
-  * `EstablishProject` now returns a useful result for a non-acre folder.
-* 0.1.0
-  * First release used for real work!
-

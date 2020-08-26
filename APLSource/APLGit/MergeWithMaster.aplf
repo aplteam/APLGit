@@ -1,6 +1,6 @@
  {r}←{noPrompt}MergeWithMaster y;project;folder;currentBranch;gitMsg;space;buff;rc;more
-⍝ This function is usually executed only in case `FastForwardMergeWithMaster` failes. See there why
-⍝ that might fail.\\
+⍝ This function is usually executed only in case `FastForwardMergeWithMaster` failed.
+⍝. See there why that might fail.\\
 ⍝ Like `FastForwardMergeWithMaster`, `MergeWithMaster` performs several steps:
 ⍝ 1. Pulls the master (if user agrees)
 ⍝ 2. Merge `currentBranch` with the master
@@ -19,6 +19,9 @@
      'No open acre projects'⎕SIGNAL 6/⍨0=≢project
      (space folder)←project[1 2]
      currentBranch←CurrentBranch folder
+     :If 0=U.CheckForHistoryFolder folder
+         11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' exists, MergeWithMaster cannot continue'
+     :EndIf
      :If 1<≢⎕SE.acre.Projects ⍬
          ⎕←{(⎕PW-1)↑'--- ',⍵,' ',⎕PW⍴'-'}'Project <',(1⊃project),'> with branch "',currentBranch,'"'
      :EndIf

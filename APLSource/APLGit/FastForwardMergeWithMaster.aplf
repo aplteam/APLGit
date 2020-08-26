@@ -11,7 +11,6 @@
 ⍝ Performs a fast-forward merge, meaning that it will only work if the branch stems from the master.
 ⍝ If that's not the case (for example because you have fetched other people's work and therefore
 ⍝ changed your master branch) then use `MergeWithMaster` instead.
-⍝ Call `Squash` beforehand in order to clean up the commit history.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
  noPrompt←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'noPrompt'
  project←EstablishProject y
@@ -22,6 +21,9 @@
  :Else
      'No open acre projects'⎕SIGNAL 6/⍨0=≢project
      (space folder)←project[1 2]
+     :If 0=1 U.CheckForHistoryFolder folder
+         11 ⎕SIGNAL⍨folder,U.NameOfHistoryFolder,' exists, FastForwardMergeWithMaster cannot continue'
+     :EndIf
      currentBranch←CurrentBranch folder
      :Select ≢folder LogForBranch currentBranch
      :Case 0
