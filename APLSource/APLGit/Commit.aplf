@@ -23,6 +23,10 @@
      'You must provide a menaningful message in the "master" branch'⎕SIGNAL 11/⍨(0=nm)∧0=≢msg
      m←msg,(nm∧0=≢msg)/'...'
      (rc msg buff)←folder U.RunGitCommand2'add --all'
+     :If 0≠rc
+     :AndIf ∧/'warning: LF will be replaced by CRLF'⍷msg
+         rc←0
+     :EndIf
      msg U.Assert 0=rc
      m←U.MassageMsg m
      (rc msg buff)←folder U.RunGitCommand2'commit -m "',m,'"'

@@ -1,3 +1,5 @@
+* 0.23.1
+  * Fix in "Commit": warning regarding LF conversions are now ignored.
 * 0.23.0
   * Both `Commit` and `Squash` offer to remove a directory `change_history` if there is one in the project
     path, but they do not require this.
