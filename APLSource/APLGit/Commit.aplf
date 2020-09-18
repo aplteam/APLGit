@@ -24,8 +24,17 @@
      m←msg,(nm∧0=≢msg)/'...'
      (rc msg buff)←folder U.RunGitCommand2'add --all'
      :If 0≠rc
-     :AndIf ∧/'warning: LF will be replaced by CRLF'⍷msg
+     :AndIf ∨/'warning: LF will be replaced by CRLF'⍷msg
          rc←0
+     :EndIf
+     :If 0≠rc
+         msg←(⎕UCS 13)(≠⊆⊢)msg
+         msg⌿⍨←{~⊃∨/∨/¨'warning: LF will be replaced by CRLF' 'The file will have its original line endings in your working directory'⍷¨⊂⍵}¨msg
+         :If 0=≢msg
+             rc←0
+         :Else
+             msg←1↓,(⎕UCS 13),msg
+         :EndIf
      :EndIf
      msg U.Assert 0=rc
      m←U.MassageMsg m

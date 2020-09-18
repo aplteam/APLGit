@@ -16,15 +16,15 @@
  →T.PassesIf 0=≢r
  →T.PassesIf'HotFix_512'≡B.CurrentBranch folder
  →T.PassesIf 0=B.IsDirty folder
- A.WriteUtf8File(folder,'file1.txt')'Hello world in HotFix_512'
+ (⊂'Hello world in HotFix_512')⎕NPUT folder,'file1.txt'
  →T.PassesIf 1=B.IsDirty folder
  r←folder B.Commit''
  r←folder B.CreateBranch'dev'
  →T.PassesIf 0=≢r
  →T.PassesIf'dev'≡B.CurrentBranch folder
  →T.PassesIf 0=B.IsDirty folder
- A.WriteUtf8File(folder,'file1.txt')'Hello universe in "dev"'
- A.WriteUtf8File(folder,'file2.txt')'The answer is 42 in "dev"!'
+ (⊂'Hello universe in "dev"')⎕NPUT folder,'file1.txt'
+ (⊂'The answer is 42 in "dev"!')⎕NPUT folder,'file2.txt'
  →T.PassesIf 1=B.IsDirty folder
  status←B.Status folder
  →T.PassesIf 1 1≡+/¨'file1.txt' 'file2.txt'⍷¨⊂∊status

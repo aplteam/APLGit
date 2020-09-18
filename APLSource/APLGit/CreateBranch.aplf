@@ -17,8 +17,8 @@
      ((' '=branchName)/branchName)←'-'
      'Branch already exists'⎕SIGNAL 11/⍨(⊂branchName)∊2↓¨1 ListBranches folder
      (rc more buff)←folder U.RunGitCommand2'checkout -b ',branchName,' master'
-     :If 0=+/'Switched to a new branch'⍷more
-         more U.Assert 0=rc
+     :If 0=+/'Switched to a new branch'⍷∊more
+         (∊more)U.Assert 0=rc
      :EndIf
      ∆TestFlag U.Show buff
      acre.RefreshProject folder

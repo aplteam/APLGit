@@ -1,4 +1,4 @@
- (success rc result)←ExecBatch parms;batFilename;tempFilename;en;more;parms;i;flag
+ (success rc result)←ExecBatch parms;batFilename;tempFilename;en;more;parms;i;flag;cmd
 ⍝ This method executes a command and returns its standard output on `result`.\\
 ⍝ ** Don't** use this for programs that interact with a user! For example, don't use
 ⍝ this to fire up an APL session! This cannot work because standard output is redirected.\\
@@ -12,6 +12,7 @@
 ⍝ \\
 ⍝ * `success` is a Boolean with 1 indicating success.
 ⍝ * `rc` is a return code. 42 stands for "okay".
+ ∘∘∘  ⍝TODO⍝ Not ready: what is `cmd`?!
  :Access Public Shared
  :If 'Win'≡A.GetOperatingSystem ⍬
      tempFilename←F.GetTempFilename''
@@ -19,7 +20,7 @@
 ⍝     parms.lpParms,←' >',tempFilename
      parms.file,←' >',tempFilename
      F.DeleteFile tempFilename
-     A.WriteUtf8File batFilename cmd
+     (⊂cmd)⎕NPUT batFilename
      (success rc more)←##.OS.WinExecute parms
      :If success
          i←flag←0
@@ -27,7 +28,7 @@
              i+←1
              ⎕DL 0.01
              :If F.IsFile tempFilename
-                 result←A.ReadUtf8File tempFilename
+                 result←⊃⎕NGET tempFilename
                  flag←(100<i)∨0<⍴result
              :EndIf
          :Until flag

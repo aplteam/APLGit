@@ -15,7 +15,7 @@
  (rc more buff)←folder U.RunGitCommand2'init'
  U.Assert 0=rc
  ∆TestFlag U.Show buff
- A.WriteUtf8File(folder,'.gitattributes')U.GetGitAttributes
+ (⊂U.GetGitAttributes)⎕NPUT folder,'.gitattributes'
  (rc more buff)←folder U.RunGitCommand2'add .'
  :If 0≠rc
      more2←(⎕UCS 13)(≠⊆⊢)more

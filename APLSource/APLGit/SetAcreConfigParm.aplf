@@ -6,10 +6,10 @@
  →(0=≢project←EstablishProject x)/0
  folder←2⊃project
  filename←folder,'acre.config'
- aplan←A.ReadUtf8File filename
+ aplan←⊃⎕NGET filename
  ns←⎕SE.acre.FromAPLAN aplan
  (names values)←{⊂,⍣(0 1∊⍨≡⍵)⊣⍵}¨names values
  names ns.{⍎⍺,'←⍵'}¨values
  aplan←⎕SE.acre.ToAPLAN ns
- A.WriteUtf8File filename aplan
+ (⊂aplan)⎕NPUT filename
 ⍝Done

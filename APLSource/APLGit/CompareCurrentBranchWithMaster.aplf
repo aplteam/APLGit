@@ -24,7 +24,7 @@
  list←'recursive'F.ListFiles folder,'APLSource/'
  (tfn1 tfn2)←'txt'∘F.GetTempFilename2¨2⍴⊂''
  :For thisObj :In list
-     body1←A.ReadUtf8File thisObj
+     body1←⊃⎕NGET thisObj
      thisFile←'APLSource'{⍵↓⍨¯1+1⍳⍨⍺⍷⍵}thisObj
      extension←A.Lowercase 3⊃⎕NPARTS thisFile
      :If (⊂extension)∊'.aplf' '.aplo' '.apln' '.aplc' '.apli' '.charstring' '.charlist'
@@ -45,8 +45,8 @@
          buff2←⊂'*** File ',((0<≢extension)/'type '),'ignored for comparison: ',name{0=≢⍵:⍺ ⋄ ⍵}extension
      :EndIf
      :If body1≢body2
-         'append'A.WriteUtf8File tfn1 body1
-         'append'A.WriteUtf8File tfn2 body2
+         (⊂body1)⎕NPUT tfn1 2
+         (⊂body2)⎕NPUT tfn2 2
          noofBytes+←⌈/{+/≢¨⍵}¨body1 body2
      :EndIf
  :EndFor

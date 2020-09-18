@@ -1,4 +1,4 @@
- R←Test_ZZZ_999(stopFlag batchFlag);v;n;d;xml;rf;f1;f2;⎕TRAP;width;first;version;version2rf;datae2rf;version2;width2;date;date2
+ R←Test_ZZZ_999(stopFlag batchFlag);v;n;d;xml;rf;f1;f2;⎕TRAP
 ⍝ Check the "Version" function and publish.config.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
@@ -7,6 +7,7 @@
 
 ⍝ First we check whether "Version" returns a valid result:
  (n v d)←rf.Version
+ d←{⍵/⍨3>+\'-'=⍵}d      ⍝ Remove trailing stuff like "-beta"
  v←{⍵/⍨3>+\'.'=⍵}v      ⍝ Remove build ID
  f1←~5≤⍴v
  f1∨←2≠'.'+.=v
@@ -17,21 +18,15 @@
  f1∨←~∧/⎕D∊⍨d~'-'
 
 ⍝ publish.config must be in line with what "Version" returns of course:
- xml←⎕XML'flat'##.APLTreeUtils.ReadUtf8File'publish.config'
- f2←v≢version←(2+⎕IO)⊃xml[xml[;1+⎕IO]⍳⊂'version';]
- f2∨←d≢date2←(2+⎕IO)⊃xml[xml[;1+⎕IO]⍳⊂'date';]
- first←{⎕ML←3 ⋄ ↑⍵}
+ xml←⎕XML⊃⎕NGET'publish.config'
+ f2←v≢(2+⎕IO)⊃xml[xml[;1+⎕IO]⍳⊂'version';]
+ f2∨←d≢(2+⎕IO)⊃xml[xml[;1+⎕IO]⍳⊂'date';]
 
  :If f1
      ⎕←'Result of the "Version" function is invalid.'
  :EndIf
  :If f2
-     ⎕←'The contents of "publish.config" is not in line with "Version":'
-     width←18
-     (version2 date)←rf.Version[⎕IO+1 2]
-     width2←⌈/≢¨version version2
-     ⎕←(width↑'Version'),': ',(width2↑version2),' from ',date
-     ⎕←(width↑'publish.config'),': ',(width2↑version),' from ',date2
+     ⎕←'The contents of "publish.config" is not in line with "Version".'
  :EndIf
 
  →T.FailsIf f1∨f2

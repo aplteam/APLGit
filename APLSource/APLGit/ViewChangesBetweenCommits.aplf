@@ -55,8 +55,8 @@
          buff1←⊂'*** File type ignored for comparison: ',extension
          buff2←⊂'*** File type ignored for comparison: ',extension
      :EndIf
-     'append'A.WriteUtf8File parms.tfn1(header,buff1)
-     'append'A.WriteUtf8File parms.tfn2(header,buff2)
+     (⊂header,buff1)⎕NPUT parms.tfn1 2
+     (⊂header,buff2)⎕NPUT parms.tfn2 2
      noofBytes+←+/≢¨buff1
  :EndFor
  :If 0<noofBytes
