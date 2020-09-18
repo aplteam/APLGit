@@ -10,8 +10,12 @@
  cmd←'git -C "',folder,'" ',command,' 2>"',tempFilename,'"'    ⍝ Redirects errors to a temp file
  transform←{'UTF-8'⎕UCS ⎕UCS ⍵}
  data←transform¨⎕CMD cmd
- :If 0<≢msg←{22::'' ⋄ ⊃⎕NGET ⍵}tempFilename
+ :If 0<≢msg←{22::'' ⋄ ⊃⎕NGET ⍵ 1}tempFilename
      rc←1
+     :If 2=|≡msg
+     :AndIf 1=≢msg
+         msg←∊msg
+     :EndIf
  :EndIf
  ##.F.DeleteFile tempFilename
 ⍝Done
