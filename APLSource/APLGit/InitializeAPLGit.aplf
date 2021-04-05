@@ -8,5 +8,5 @@
      U.A←A←##.APLTreeUtils2
      U.F←F←##.FilesAndDirs
  :EndIf
- ##.∆TestFlag←0
+ ∆TestFlag←0
 ⍝Done

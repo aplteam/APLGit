@@ -1,3 +1,5 @@
+* 0.24.1 ⋄ 2021-04-05
+* Bug fix in `InitializeAPLGit` fixed.
 * 0.24.0 ⋄ 2021-04-05
   * APLGit now uses Tatin packages
   * Plenty of minor improvements

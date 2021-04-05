@@ -1,0 +1,18 @@
+ {r}←Initialize;⎕TRAP;parent;l
+⍝ Use this to initialize a Tatin package that has dependencies in packages/ and packages-dev/
+ ⎕TRAP←0 'S'
+ r←⍬
+ :If 0=≢⎕SE.acre.Projects''
+     {}⎕SE.UCMD'cd ',AcreConfig.ProjectFolder
+ :EndIf
+ parent←⍕⎕THIS
+ :If ⎕NEXISTS'./packages/'parent
+ :AndIf 0<≢l←⎕SE.Tatin.LoadDependencies(AcreConfig.ProjectFolder,'/packages/')parent
+     ⎕←'Loaded into ',parent,': ',⊃{⍺,',',⍵}/⍕¨l
+ :EndIf
+ parent,←'.TestCases'
+ :If ⎕NEXISTS'./packages_dev/'parent
+ :AndIf 0<≢l←⎕SE.Tatin.LoadDependencies(AcreConfig.ProjectFolder,'/packages_dev/')parent
+     ⎕←'Loaded into ',parent,': ',⊃{⍺,',',⍵}/⍕¨l
+ :EndIf
+⍝Done
