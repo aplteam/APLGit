@@ -24,6 +24,7 @@
  r,←⊂'GoToGitHub'
  r,←⊂'Graph'
  r,←⊂'Initialize'
+ r,←⊂'InitializeAPLGit'
  r,←⊂'IsDirty'
  r,←⊂'IsGitProject'
  r,←⊂'ListBranches'

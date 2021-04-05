@@ -9,13 +9,11 @@
 ⍝ Call `Squash` beforehand in order to clean up the commit history.\\
 ⍝ Pulls the master first (the user will be prompted) and pushes after the merge.\\
 ⍝ For what `y` can actually be see `EstablishProject`.\\
+ r←⍬
  noPrompt←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'noPrompt'
  project←EstablishProject y
- :If (,'#')≢,⊃⎕NSI
-     ⎕←'This function must be called from #'
-     ⎕←'Please enter the following command before executing the function again:'
-     ⎕←'      )CS'
- :Else
+ :If (,'#')≡,⊃⎕NSI
+ :OrIf (,'#')≡,⊃1↓⎕NSI  ⍝ When called via the API
      'No open acre projects'⎕SIGNAL 6/⍨0=≢project
      (space folder)←project[1 2]
      currentBranch←CurrentBranch folder
@@ -37,14 +35,18 @@
      :EndIf
      ⎕←'Now checking out master...'
      (rc more buff)←folder U.RunGitCommand2'checkout master'
-     U.Assert 0=rc
+     :If 'Switched to branch ''master'''≢more
+         U.Assert 0=rc
+     :EndIf
      ⎕←⊃buff
      (rc more buff)←folder U.RunGitCommand2'merge ',currentBranch
      U.Assert 0=rc
      ⎕←↑buff
      (rc more buff)←folder DeleteBranch currentBranch
-     U.Assert 0=rc
-     ⎕←⊃buff
+     :If 1 1 1≢rc more buff  ⍝ Strangely that now means "OK"
+         U.Assert 0=rc
+         ⎕←⊃buff
+     :EndIf
      :If noPrompt
      :OrIf 1 U.YesOrNo'Would you like to push the master?'
          :If 0=≢∊gitMsg←1 Push folder
@@ -60,5 +62,9 @@
      :EndIf
      ⎕CS'#'
      ⎕←'Project closed, space "',space,'" deleted and branch "',currentBranch,'" deleted'
+ :Else
+     ⎕←'This function must be called from #'
+     ⎕←'Please enter the following command before executing the function again:'
+     ⎕←'      )CS'
  :EndIf
 ⍝Done

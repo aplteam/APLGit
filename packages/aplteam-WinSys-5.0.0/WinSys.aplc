@@ -8,31 +8,23 @@
 ⍝ Homepage: <http://aplwiki.com/WinSys>\\
 ⍝ Kai Jaeger ⋄ APL Team Ltd.
 
-    :Include APLTreeUtils
-
     ⎕IO←0
-    ⎕ML←3
+    ⎕ML←1
 
     ∇ r←Version
       :Access Public shared
-      r←({⍵↑⍨-'.'⍳⍨⌽⍵}⍕⎕THIS)'4.0.0.11' '2020-05-11'
+      r←'WinSys' '5.0.0.14' '2020-09-20'
     ∇
 
     ∇ History
       :Access Public shared
-      ⍝ * 4.0.0
-      ⍝   * BREAKING CHANGE: deprecated methods removed
-      ⍝   * New method `GetFileVersionInfo` added.
-      ⍝   * Outdated ".C32" removed from all `⎕NA` calls.
-      ⍝ * 3.0.0
-      ⍝   * BREAKING CHANGE: file extension is now .aplc rather than .dyalog
+      ⍝ * 5.0.0
+      ⍝   * Requires Dyalog 18.0 or better now
+      ⍝   * Internal changes:
+      ⍝     * Uses `⎕ML←1` now
+      ⍝     * Does not `:Include APLTreeUtils` anymore
       ⍝\\
       ⍝ For information regarding older versions see <https://github.com/aplteam/WinSys/releases>
-     
-      ⍝ Note that a couple of functions are deprecated now. Search for `⍝Deprecated⍝`. \\
-      ⍝ These functions are not mantained any more and will be removed from `WinSys`
-      ⍝ in a future release. See the `OS` class which offers platform-independent
-      ⍝ alternatives for these functions.
     ∇
 
     :Field Public Shared ReadOnly SM_CXSCREEN←0                 ⍝ Screen size
@@ -163,14 +155,14 @@
           'Info'⎕NA'U4 version∣GetFileVersionInfo* <0T U4 U4 P'
           'Valu'⎕NA'U4 version∣VerQueryValue* P <0T >U4 >U4'
           'copy'⎕NA'P msvcrt∣memcpy >U4[] P U4'
-          :If ×size←↑Size filename 0                        ⍝ Size of info.
+          :If ×size←⊃Size filename 0                        ⍝ Size of info.
           :AndIf ×hndl←Aloc 0 size                          ⍝ Alloc memory.
               :If ×addr←Lock hndl                           ⍝ Lock memory.
                   :If ×Info filename 0 size addr            ⍝ Version info.
                       (ok buff size)←Valu addr'\' 0 0       ⍝ Version value.
                       :If ok
                           (retn buff)←copy(size÷4)buff size ⍝ Copy info.
-                          version←3↑,⍉(2/2*16)⊤⊃2↓buff      ⍝ Encode version.
+                          version←3↑,⍉(2/2*16)⊤↑2↓buff      ⍝ Encode version.
                       :Else
                           ('Call to "VerQueryValue" failed, rc=',⍕ok)⎕SIGNAL 11
                       :EndIf
@@ -204,6 +196,8 @@
     ⍝ | r[2] | Capacity of disk in KB
     ⍝ | r[3] | How many KB are available in total
     ⍝ In case of an error `r ←→ (¯1 ¯1 ¯1)`
+    ⍝ `drive` may be something like `C` or `C:`
+      drive←2↑drive,':'
       'GetDiskFreeSpaceEx'⎕NA'I KERNEL32|GetDiskFreeSpaceEx* <0T >U[2] >U[2] >U[2]'
       (rc freeForCaller capacity freeInTotal)←GetDiskFreeSpaceEx drive 2 2 2
       :If 0≠rc
@@ -221,7 +215,7 @@
       '∆GetComputerName'⎕NA'P KERNEL32|GetComputerName* >0T =P'
       multiByte←1+80=⎕DR' '           ⍝ Unicode version? (used to double the buffer size)
       (rc buffer size)←∆GetComputerName multiByte×2⍴32
-      R←(0=↑rc)⊃buffer''
+      R←(0=⊃rc)⊃buffer''
     ∇
 
     ∇ r←GetDefaultBrowser;regKey1;progID;regKey2;wsh
@@ -299,32 +293,30 @@
       :EndIf
     ∇
 
-    ∇ R←GetAllDrives;Values;Drives;∆GetLogicalDriveStrings;⎕IO;⎕ML
+    ∇ R←GetAllDrives;Values;Drives;∆GetLogicalDriveStrings
     ⍝ Returns a vector of text vectors with the names of all drives, for example:  "C:\"
       :Access Public Shared
-      ⎕IO←1 ⋄ ⎕ML←3
       '∆GetLogicalDriveStrings'⎕NA'U4 KERNEL32|GetLogicalDriveStrings* U4 >T[]'
       Values←∆GetLogicalDriveStrings 255 255
-      Drives←⊂(↑Values)↑(⎕IO+1)⊃Values
-      R←((~(⎕UCS 0)=∊Drives)⊂∊Drives)
+      Drives←⊂(⊃Values)↑(⎕IO+1)⊃Values
+      R←{⎕ML←3 ⋄ ((~(⎕UCS 0)=∊⍵)⊂∊⍵)}Drives
     ∇
 
-    ∇ R←GetDriveAndType;AllDrives;Txt;Types;∆GetDriveType;⎕IO;⎕ML
+    ∇ R←GetDriveAndType;AllDrives;Txt;Types;∆GetDriveType
      ⍝ Returns a matrix with the names and the types of all drives.\\
      ⍝ The number of rows is defined by the number of drives found.\\
      ⍝ "Types" may be something like "Fixed", "CD-ROM", "Removable", "Remote".
       :Access Public Shared
-      ⎕IO←1 ⋄ ⎕ML←3
       '∆GetDriveType'⎕NA'U4 KERNEL32|GetDriveType* <0T'
       Types←∆GetDriveType∘⊂¨AllDrives←GetAllDrives
       Txt←'Invalid Path' 'Removable' 'Fixed' 'Remote' 'CD-ROM' 'Ram-Disk'
-      R←AllDrives,Types,[1.5](Txt,⊂'Unknown')[(0,⍨⍳⍴Txt)⍳Types]
+      R←AllDrives,Types,[0.5](Txt,⊂'Unknown')[¯1+(0,⍨⍳⍴Txt)⍳Types]
     ∇
 
     ∇ R←List_SM
       :Access Public Shared
     ⍝ Lists all fields with names that start with "SM\_"
-      R←⊃⎕NL-2
+      R←↑⎕NL-2
       R←(R[;⍳3]∧.='SM_')⌿R
       R←(↓R)~¨' '
     ∇
@@ -337,7 +329,7 @@
       FORMAT_MESSAGE_FROM_SYSTEM←4096
       LangID←0
       'FormatMsg'⎕NA'I KERNEL32|FormatMessage* I4 I4 I4 I4 >T[] I4 I4'
-      :If 0>mid←↑mid
+      :If 0>mid←⊃mid
       :AndIf ¯16777216≤mid
           mid←-mid
       :EndIf
@@ -355,7 +347,7 @@
                   :EndIf
                   r←⊃↑/FormatMsg(FORMAT_MESSAGE_FROM_HMODULE+FORMAT_MESSAGE_IGNORE_INSERTS)hModule mid LangID size size 0
                   {}FreeLibrary hModule
-                  :If ×↑⍴r
+                  :If ×≢r
                       :Leave
                   :EndIf
               :EndIf
@@ -458,15 +450,10 @@
      
     ∇
 
-    ∇ R←GetLastError;∆GetLastError;⎕ML;⎕IO
+    ∇ R←GetLastError;∆GetLastError
       :Access Public Shared
-      ⎕IO←1 ⋄ ⎕ML←3
       '∆GetLastError'⎕NA'I4 kernel32|GetLastError'
       R←∆GetLastError
-    ∇
-
-    ∇ r←Is64Bit
-      r←'-64'≡¯3↑⎕IO⊃'#'⎕WG'APLVersion'
     ∇
 
 :EndClass

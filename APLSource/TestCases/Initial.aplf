@@ -5,10 +5,10 @@
 ⍝ 4. Create two acre projects from those two namespaces
 ⍝ 5. Initialize both acre projects as local Git repositories
 
- A←##.APLTreeUtils2
- F←##.FilesAndDirs
+ A←APLTreeUtils2
+ F←FilesAndDirs
  B←##.APLGit
- B.U.Init
+ ##.APLGit.InitializeAPLGit
 
  B.∆TestFlag←1
 
@@ -24,13 +24,13 @@
  #.Proj_1.(⎕IO ⎕ML)←1
  #.Proj_1.⎕FX↑'r←WhoAmI' 'r←''Proj_1'''
  result←⎕SE.acre.CreateProject ∆Folder1 #.Proj_1
- {⍵:.'something is wromg!'}'#.Proj_1'≢result
+ {⍵:.'something is wrong!'}'#.Proj_1'≢result
 
  'Proj_2'#.⎕NS''
  #.Proj_2.(⎕IO ⎕ML)←1
  #.Proj_2.⎕FX↑'r←WhoAmI' 'r←''Proj_2'''
  result←⎕SE.acre.CreateProject ∆Folder2'#.Proj_2'
- {⍵:.'something is wromg!'}'#.Proj_2'≢result
+ {⍵:.'something is wrong!'}'#.Proj_2'≢result
 
  {}B.Initialize ∆Folder1
  {}B.Initialize ∆Folder2

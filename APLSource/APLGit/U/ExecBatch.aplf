@@ -21,7 +21,7 @@
      parms.file,←' >',tempFilename
      F.DeleteFile tempFilename
      (⊂cmd)⎕NPUT batFilename
-     (success rc more)←##.OS.WinExecute parms
+     (success rc more)←OS.WinExecute parms
      :If success
          i←flag←0
          :Repeat

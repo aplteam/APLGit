@@ -8,7 +8,13 @@
  suppressOutput←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'suppressOutput'
  suppressOutput∨←∆TestFlag
  (rc more buff)←folder U.RunGitCommand2'fetch origin'
- U.Assert 0=rc
+ :If 1=rc
+     :If ~{(∨/'From'⍷⍵)∧∨/'[new tag]'⍷⍵}∊more
+         ('Error: ',∊more)U.Assert 0
+     :EndIf
+ :Else
+     ('Error: ',∊more)U.Assert 0=rc
+ :EndIf
  suppressOutput U.Show buff
  r,←buff
  (rc more buff)←folder U.RunGitCommand2'merge origin/master'

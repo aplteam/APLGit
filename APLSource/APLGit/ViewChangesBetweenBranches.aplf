@@ -64,7 +64,7 @@
                      :EndIf
                  :EndIf
              :Else
-                 (rc more buff1)←folder U.RunGitCommand2'show ',hash1,':',thisFile
+                 (rc more buff1)←folder U.RunGitCommand3'show ',hash1,':',thisFile
                  :If 0≠rc
                      :If ∨/'does not exist'⍷∊more
                      :OrIf ∨/'exists on disk, but not'⍷∊more
@@ -86,7 +86,7 @@
                      :EndIf
                  :EndIf
              :Else
-                 (rc more buff2)←folder U.RunGitCommand2'show ',hash2,':',thisFile
+                 (rc more buff2)←folder U.RunGitCommand3'show ',hash2,':',thisFile
                  :If 0≠rc
                      :If ∨/'does not exist'⍷∊more
                      :OrIf ∨/'exists on disk, but not'⍷∊more

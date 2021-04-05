@@ -45,8 +45,8 @@
          'Comparison'##.GUI_Show.Msg'The two versions match'
      :Else
          (tempfile1 tempfile2)←##.F.GetTempFilename2¨2⍴⊂''
-         (⊂{' '=1⍴1↑0⍴⊃⍵:⍵ ⋄ ''}body1)⎕NPUT tempfile1
-         (⊂{' '=1⍴1↑0⍴⊃⍵:⍵ ⋄ ''}body2)⎕NPUT tempfile2
+         (⊂{' '=1⍴1↑0⍴⊃⍵:⍵ ⋄ ''}body1)⎕NPUT tempfile1 1
+         (⊂{' '=1⍴1↑0⍴⊃⍵:⍵ ⋄ ''}body2)⎕NPUT tempfile2 1
          cmd←'CompareFiles ''',tempfile1,''' ''',tempfile2,''''
          cmd,←' -ro1=',(⍕row1≠1),' -ro2=',(⍕row2≠1)
          cmd,←' -label1=',({0<⎕NC ⍵:⍎⍵ ⋄ 'Workspace'}'hash1'),' -label2=',({0<⎕NC ⍵:⍎⍵ ⋄ 'Workspace version'}'hash2')

@@ -1,3 +1,16 @@
+* 0.24.0 ⋄ 2021-04-05
+  * APLGit now uses Tatin packages
+  * Plenty of minor improvements
+* 0.23.4
+  * `PullMaster` now analyzes the result from GitHub. Neccesary because they changed the return code.
+  * Method `U.RunGitCommand3` introduced.
+  * Both `ViewChangesBetweenBranches` and `ViewChangesBetweenCommits` rmeove any non-UTF8- characters from what
+    is returned by GitHub.
+  * MergeWithMaster takes new (changed) messaged from Git into account
+  * Bug fixes:
+    * `Commit` mishandled sometimes error messages
+    * Naming problems due to move to `APLTreeUtils2``
+    * `Fetch` was buggy: When accessing GitHub crash a VALUE ERROR occured.
 * 0.23.3 
   * Bug in `RunGitCommand2` fixed
 * 0.23.2 

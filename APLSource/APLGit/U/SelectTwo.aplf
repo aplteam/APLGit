@@ -21,7 +21,7 @@
          :AndIf answer∊'qQ'
              :Return
          :EndIf
-         :If 2=≢answer←∪' 'A.Split A.dmb answer
+         :If 2=≢answer←∪' 'A.Split A.DMB answer
          :AndIf 2=≢answer←{⊃⊃(//)⎕VFI ⍵}¨answer
          :AndIf ∧/answer∊⍳≢options
              index←answer

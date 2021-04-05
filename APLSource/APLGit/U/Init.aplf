@@ -1,6 +1,0 @@
- {r}←Init
- r←⍬
- A←##.A←##.##.APLTreeUtils2
- F←##.F←##.##.FilesAndDirs
- ##.∆TestFlag←0
-⍝Done

@@ -15,9 +15,9 @@
      folder←2⊃project
      'There are no pending changes / untracked files'⎕SIGNAL 11/⍨0=≢StatusShort folder
      nm←'master'≢CurrentBranch folder
-     :If ##.FilesAndDirs.IsDir folder,U.NameOfHistoryFolder
+     :If F.IsDir folder,U.NameOfHistoryFolder
      :AndIf 0 U.YesOrNo'Remove ',U.NameOfHistoryFolder,'\?'
-         rc←##.FilesAndDirs.RmDir folder,U.NameOfHistoryFolder
+         rc←F.RmDir folder,U.NameOfHistoryFolder
          U.Assert 0=1⊃rc
      :EndIf
      'You must provide a menaningful message in the "master" branch'⎕SIGNAL 11/⍨(0=nm)∧0=≢msg
@@ -28,12 +28,14 @@
          rc←0
      :EndIf
      :If 0≠rc
-         msg←(⎕UCS 13)(≠⊆⊢)msg
+         :If 2>|≡msg
+             msg←(⎕UCS 13)(≠⊆⊢)msg
+         :EndIf
          msg⌿⍨←{~⊃∨/∨/¨'warning: LF will be replaced by CRLF' 'The file will have its original line endings in your working directory'⍷¨⊂⍵}¨msg
          :If 0=≢msg
              rc←0
          :Else
-             msg←1↓,(⎕UCS 13),msg
+             msg←1↓⊃,/(⎕UCS 13),¨msg
          :EndIf
      :EndIf
      msg U.Assert 0=rc
