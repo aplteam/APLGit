@@ -20,6 +20,7 @@
  r,←⊂'Fetch'
  r,←⊂'GetPathFromProject'
  r,←⊂'GetProjectFromPath'
+ r,←⊂'GetRevision'
  r,←⊂'GitProjects'
  r,←⊂'GoToGitHub'
  r,←⊂'Graph'
