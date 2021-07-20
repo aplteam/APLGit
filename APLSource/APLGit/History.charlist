@@ -1,3 +1,10 @@
+* 0.24.4 ⋄ 2021-07-20
+  * `GetRevision` should have been a public function but was not
+* 0.24.3 ⋄ 2021-05-24
+  * Bug fixes: 
+    * Determining where a function of APLGit was called from did not handle API calls correctly.
+      Was introduced with 0.24.0.
+    * Log crashed in case no project could be established.
 * 0.24.2 ⋄ 2021-04-05
   * Bug fix: `GetRevision` was not a public method
 * 0.24.1 ⋄ 2021-04-05

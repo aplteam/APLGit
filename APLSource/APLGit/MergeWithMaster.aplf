@@ -12,8 +12,7 @@
  r←⍬
  noPrompt←{0<⎕NC ⍵:⍎⍵ ⋄ 0}'noPrompt'
  project←EstablishProject y
- :If (,'#')≡,⊃⎕NSI
- :OrIf (,'#')≡,⊃1↓⎕NSI  ⍝ When called via the API
+ :If (,'#')≡,⊃U.RemoveCallsFromAPI ⎕NSI
      'No open acre projects'⎕SIGNAL 6/⍨0=≢project
      (space folder)←project[1 2]
      currentBranch←CurrentBranch folder

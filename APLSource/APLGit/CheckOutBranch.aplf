@@ -7,11 +7,7 @@
 ⍝ Returns 0 for okay and 1 otherwise.
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  '"branchName" must not be empty'⎕SIGNAL 11/⍨0=≢branchName
- :If (,'#')≢,⊃⎕NSI
-     ⎕←'This function must be called from #'
-     ⎕←'Please enter the following command before executing the function again:'
-     ⎕←'      )CS'
- :Else
+ :If (,'#')≡,⊃U.RemoveCallsFromAPI ⎕NSI
      :If 0≠≢project←EstablishProject x
          (space folder)←project[1 2]
          :If (⊂space)∊⎕NSI
@@ -52,6 +48,10 @@
      :Else
          ⎕←'No projects found'
      :EndIf
+ :Else
+     ⎕←'This function must be called from #'
+     ⎕←'Please enter the following command before executing the function again:'
+     ⎕←'      )CS'
  :EndIf
  r←0
 ⍝Done

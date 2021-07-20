@@ -11,7 +11,9 @@
  x←{0<⎕NC ⍵:⍎⍵ ⋄ ''}'x'
  'Invalid right argument'⎕SIGNAL 11/⍨1≠≡,noOf
  'Invalid right argument'⎕SIGNAL 11/⍨~(⎕DR noOf)∊83 163 323
- :If 0≠≢project←EstablishProject x
+ :If 0=≢project←EstablishProject x
+     'Unable to establish a project'U.Assert 0
+ :Else
      folder←2⊃project
      :If 0=noOf
          cmd←'log --pretty=format:"',U.GetLogFormat,'"'
