@@ -16,7 +16,7 @@
      'There are no pending changes / untracked files'⎕SIGNAL 11/⍨0=≢StatusShort folder
      nm←'master'≢CurrentBranch folder
      :If F.IsDir folder,U.NameOfHistoryFolder
-     :AndIf 0 U.YesOrNo'Remove ',U.NameOfHistoryFolder,'\?'
+     :AndIf U.YesOrNo'Remove ',U.NameOfHistoryFolder,'\?'
          rc←F.RmDir folder,U.NameOfHistoryFolder
          U.Assert 0=1⊃rc
      :EndIf

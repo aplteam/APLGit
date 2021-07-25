@@ -1,3 +1,6 @@
+* 0.24.5 ⋄ 2021-07-25
+  * `Squash` had issues regarding the change_directy folder
+  * `Commit` has no default anymore when asking the user for permission to delete change_directory
 * 0.24.4 ⋄ 2021-07-20
   * `GetRevision` should have been a public function but was not
 * 0.24.3 ⋄ 2021-05-24

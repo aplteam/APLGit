@@ -15,15 +15,18 @@
  currentBranch←CurrentBranch folder
  'No squashing the master'⎕SIGNAL 11/⍨currentBranch≡'master'
  'There are uncommitted changes'⎕SIGNAL 11/⍨IsDirty folder
- r←≢⎕←commits←folder LogForBranch currentBranch
+ r←≢commits←folder LogForBranch currentBranch
  :If 0=r
      ⎕←'There is nothing to squash'
  :Else
      :If F.IsDir folder,U.NameOfHistoryFolder
-         :If 0 U.YesOrNo'There is a folder ',U.NameOfHistoryFolder,' in ',folder,'; remove this folder?'
+         :If 1 U.YesOrNo'There is a folder ',U.NameOfHistoryFolder,' in ',folder,'; remove this folder?'
              F.RmDir folder,U.NameOfHistoryFolder
+         :AndIf IsDirty folder
+             'There are uncommitted changes (consider adding ./change_direcotry to .gitignore)'⎕SIGNAL 11/⍨IsDirty folder
          :EndIf
      :EndIf
+     ⎕←commits
      :If 1 U.YesOrNo'These commits are going to be squashed; you okay with this?'
          :If 0=≢msg
              ⍞←'Provide a meaningful commit message in the editor:'
