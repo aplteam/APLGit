@@ -1,6 +1,8 @@
 # APLGit
 
 
+`==>` **_This project is now deprecated - see https://github.com/aplteam/git instead_**
+
 ## Overview
 
 `APLGit` comes with a wide range of functions supporting the APL programmer when dealing with both acre and Git.
