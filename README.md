@@ -1,7 +1,11 @@
 # APLGit
 
 
-`==>` **_This project is now deprecated - see https://github.com/aplteam/git instead_**
+_This project is **deprecated**_
+
+See https://github.com/aplteam/git instead
+
+-----
 
 ## Overview
 
