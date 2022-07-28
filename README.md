@@ -3,7 +3,7 @@
 
 _This project is **deprecated**_
 
-See https://github.com/aplteam/git instead
+See https://github.com/aplteam/APLGit2 instead
 
 -----
 
